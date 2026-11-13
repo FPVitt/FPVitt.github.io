@@ -21,6 +21,10 @@
 .home h2.plain{margin-top:2.2rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .proj{display:grid;grid-template-columns:1.05fr .95fr;gap:1rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-xl);overflow:hidden;transition:border-color .15s}
 .proj:hover{border-color:var(--acc)}
+.proj{position:relative;cursor:pointer}
+.proj .actions .btn:not(.ghost)::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
+.proj .actions .btn.ghost{position:relative;z-index:2}
+.proj .actions .btn:not(.ghost):focus-visible::after{outline:2px solid var(--acc-ink);outline-offset:2px}
 .proj-txt{padding:2rem 1.2rem 2rem 2rem}
 .proj-k{margin:0 0 .5rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink);font-weight:700}
 .proj h3{text-transform:none;color:var(--fg);display:flex;align-items:center;gap:.45rem;margin:0 0 .6rem;font:900 2.1rem/1 var(--font-brand);letter-spacing:-.02em}
