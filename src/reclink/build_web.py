@@ -562,15 +562,41 @@ h1{font-size:2.4rem;margin:0 0 1rem}
 
 
 def build_home():
-    """Landing page of the whole site (https://fpvitt.github.io/): one card per project."""
+    """Landing page of the whole site (https://fpvitt.github.io/): one featured card per project."""
     projects = [
-        dict(href="RecLink/", icon="rec", title="RecLink",
-             desc="A tiny ESP32 board that links your Betaflight flight controller to your GoPro or DJI Osmo: record control, OSD status and GPS clock sync. Guides, 3D board and firmware installer."),
+        dict(href="RecLink/", title="RecLink", img="RecLink/assets/board/board-iso.webp",
+             desc="A tiny ESP32 board that links your Betaflight flight controller to your GoPro or DJI Osmo: record control from your radio, camera status on the OSD and GPS clock sync. Guides, a 3D board explorer and the firmware installer.",
+             tags=("Betaflight", "GoPro", "DJI Osmo", "ESP32-C3"), src="https://github.com/FPVitt/RecLink"),
     ]
-    cards = "".join(
-        f'<article class="card"><span class="ico">{MARK_ICO if p["icon"] == "rec" else ""}</span><h2>{p["title"]}</h2><p>{p["desc"]}</p>'
-        f'<div class="actions"><a class="btn" href="{p["href"]}">Open</a></div></article>' for p in projects)
+    cards = ""
+    for p in projects:
+        tags = "".join(f"<li>{t}</li>" for t in p["tags"])
+        cards += (f'<article class="proj"><div class="proj-txt"><p class="proj-k">Project</p><h3>{MARK}{p["title"]}</h3><p>{p["desc"]}</p><ul class="tags">{tags}</ul>'
+                  f'<div class="actions"><a class="btn" href="{p["href"]}">Open the guides &rarr;</a>'
+                  f'<a class="btn ghost" href="{p["src"]}" target="_blank" rel="noopener">{GH_SVG}Source code</a></div></div>'
+                  f'<a class="proj-img" href="{p["href"]}" tabindex="-1" aria-hidden="true"><img src="{p["img"]}" alt="" width="1000" height="739" loading="eager"></a></article>')
     desc = "FPVitt: FPV and drone projects, guides and tools."
+    css = """
+.home .hero{padding:3.2rem 0 1.6rem;position:relative}
+.home .hero h1{font-size:clamp(3.4rem,10vw,6rem);margin:0 0 .5rem}
+.home .hero .sub{font-size:1.3rem;color:var(--mut);margin:0 0 1.3rem;max-width:34rem}
+.home .hero::before{content:"";position:absolute;inset:-4rem -40vw auto -40vw;height:22rem;z-index:-1;pointer-events:none;
+  background:radial-gradient(50% 100% at 25% 0,color-mix(in srgb,var(--acc) 20%,transparent),transparent 70%)}
+.home h2.plain{margin-top:2.2rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.proj{display:grid;grid-template-columns:1.05fr .95fr;gap:1rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-xl);overflow:hidden;transition:border-color .15s}
+.proj:hover{border-color:var(--acc)}
+.proj-txt{padding:2rem 1.2rem 2rem 2rem}
+.proj-k{margin:0 0 .5rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink);font-weight:700}
+.proj h3{text-transform:none;color:var(--fg);display:flex;align-items:center;gap:.45rem;margin:0 0 .6rem;font:900 2.1rem/1 var(--font-brand);letter-spacing:-.02em}
+.proj h3 .mark{height:.7em;width:auto;color:var(--acc-ink)}
+.proj p{color:var(--mut);margin:0 0 1rem}
+.tags{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1.3rem;padding:0}
+.tags li{border:1px solid var(--line);border-radius:var(--radius-md);padding:.1rem .65rem;font-size:.82rem;color:var(--mut)}
+.proj .actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.proj-img{display:block;align-self:stretch;background:radial-gradient(70% 70% at 50% 50%,color-mix(in srgb,var(--acc) 18%,transparent),transparent 75%)}
+.proj-img img{display:block;width:100%;height:100%;object-fit:contain;padding:1.2rem}
+@media (max-width:760px){.proj{grid-template-columns:1fr}.proj-txt{padding:1.4rem}.proj-img{order:-1}.proj-img img{max-height:240px}}
+"""
     page_html = f'''<!doctype html>
 <html lang="en" data-theme="auto">
 <head>
@@ -585,16 +611,18 @@ def build_home():
 <link rel="icon" type="image/svg+xml" href="RecLink/assets/favicon.svg">
 <script>try{{var t=localStorage.getItem('rl-theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 <link rel="stylesheet" href="RecLink/assets/site.css">
+<style>{css}</style>
 </head>
-<body data-doc="home">
+<body data-doc="home" class="home">
 <header class="topbar"><div class="bar"><a class="brand" href="./"><span>FPVitt</span></a>
 <div class="tools"><a class="icon gh-btn" href="https://github.com/FPVitt" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">{GH_SVG}</a>
 <button class="icon theme-btn" type="button" title="Switch light / dark theme" aria-label="Switch light / dark theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></div>
 </div></header>
 <div class="layout"><main id="main" class="content">
-<div class="hero"><h1>FPVitt</h1><p class="sub">FPV and drone projects, guides and tools.</p></div>
+<div class="hero"><h1>FPVitt</h1><p class="sub">FPV and drone projects, guides and tools.</p>
+<p><a class="btn ghost" href="https://github.com/FPVitt" target="_blank" rel="noopener">{GH_SVG}View on GitHub</a></p></div>
 <h2 class="plain">Projects</h2>
-<div class="cards">{cards}</div>
+{cards}
 </main></div>
 <footer class="site-foot"><div><span>FPVitt</span><a href="https://github.com/FPVitt">GitHub</a></div></footer>
 <script src="RecLink/assets/site.js" defer></script>
