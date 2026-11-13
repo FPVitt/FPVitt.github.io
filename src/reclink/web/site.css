@@ -301,3 +301,4 @@ body[data-doc="board"] .layout{max-width:none;padding:0}
 
 .logo-h1{display:flex;align-items:center;gap:.28em}
 .logo-h1 .mark{height:.72em;width:auto;color:var(--acc-ink);flex:none}
+body[data-doc="board"] .site-foot{display:none}
