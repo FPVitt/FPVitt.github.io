@@ -35,8 +35,8 @@ function start() {
   const names = ['top', 'inner1', 'inner2', 'bottom'];
   const layers = [];                              // {plane, y0}
   const slabs = [];
-  const top = new THREE.Group(), bottomParts = new THREE.Group();
-  scene.add(top, bottomParts);
+  const top = new THREE.Group(), bottomParts = new THREE.Group(), chip = new THREE.Group();
+  scene.add(top, bottomParts, chip);
   const board = new THREE.Group(); scene.add(board);
   const fr4 = new THREE.MeshStandardMaterial({ color: 0x8c7840, roughness: 0.7, metalness: 0, transparent: true });
 
@@ -68,20 +68,22 @@ function start() {
       g.setIndex(m.i);
       grp.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: m.c, flatShading: true, roughness: 0.45, metalness: 0.25, side: THREE.DoubleSide })));
     });
-    addParts(pj.top, top); addParts(pj.bottom, bottomParts);
+    addParts(pj.top, top); addParts(pj.chip || [], chip); addParts(pj.bottom, bottomParts);
     root.classList.add('ready');
     resize(); frame(true);
   }).catch(() => root.classList.add('nogl'));
 
   // ---- timeline ----
-  const K = [ // p, azimuth, polar, componentsLift, layerSpread, distance, shiftY
-    [0.00, 35, 54, 0, 0, 25, 0],
-    [0.10, 48, 50, 0, 0, 25, 0],
-    [0.28, 62, 48, 1, 0, 27, 0.4],
-    [0.50, 112, 68, 1, 1, 50, 1.6],
-    [0.70, 168, 72, 1, 1, 48, 1.6],
-    [0.86, 212, 114, 0.25, 0.55, 36, 0],
-    [1.00, 240, 134, 0, 0, 23, 0],
+  const K = [ // p, azimuth, polar, partsLift, layerSpread, distance, shiftY, chipLift
+    [0.00, 35, 54, 0, 0, 25, 0, 0],
+    [0.08, 45, 50, 0, 0, 25, 0, 0],
+    [0.20, 58, 48, 0, 0, 31, 2.2, 1],      // the main chip rises on its own
+    [0.32, 66, 50, 0, 0, 31, 2.2, 1],
+    [0.44, 80, 54, 1, 0, 34, 2.0, 1],      // then the other parts
+    [0.60, 112, 68, 1, 1, 50, 1.6, 1],
+    [0.78, 168, 72, 1, 1, 48, 1.6, 1],
+    [0.90, 212, 114, 0.25, 0.55, 36, 0, 0.25],
+    [1.00, 240, 134, 0, 0, 23, 0, 0],
   ];
   const ease = (t) => t * t * (3 - 2 * t);
   function sample(p) {
@@ -89,7 +91,7 @@ function start() {
     const a = K[i], b = K[i + 1], t = ease(Math.min(1, Math.max(0, (p - a[0]) / (b[0] - a[0]))));
     return a.map((v, k) => v + (b[k] - v) * t);
   }
-  const cur = { az: 35, pol: 54, e1: 0, e2: 0, d: 25, sy: 0 };
+  const cur = { az: 35, pol: 54, e1: 0, e2: 0, d: 25, sy: 0, e0: 0 };
   const off = { az: 0, pol: 0 };
   let p = 0, dirty = true, visible = false, raf = 0;
 
@@ -103,7 +105,7 @@ function start() {
     const f = snap ? 1 : 0.14;
     cur.az += (k[1] - cur.az) * f; cur.pol += (k[2] - cur.pol) * f;
     cur.e1 += (k[3] - cur.e1) * f; cur.e2 += (k[4] - cur.e2) * f;
-    cur.d += (k[5] - cur.d) * f; cur.sy += (k[6] - cur.sy) * f;
+    cur.d += (k[5] - cur.d) * f; cur.sy += (k[6] - cur.sy) * f; cur.e0 += (k[7] - cur.e0) * f;
     const spread = 1 + cur.e2 * 13;
     layers.forEach((l) => { l.p.position.y = l.y0 * spread + (l.y0 > 0 ? 0.004 : -0.004); });
     slabs.forEach((s, i) => { s.position.y = ((LY[i] + LY[i + 1]) / 2) * spread; });
@@ -113,6 +115,7 @@ function start() {
     // part meshes already carry their own height above the board surface (y = 0.5 at the top face)
     top.position.y = LY[0] * (spread - 1) + cur.e1 * 3.2;
     bottomParts.position.y = LY[3] * (spread - 1) - cur.e1 * 3.2;
+    chip.position.y = LY[0] * (spread - 1) + cur.e0 * 4.4;
     const az = (cur.az + off.az) * Math.PI / 180;
     // see-through sheets don't write depth, so draw them far-to-near from wherever the camera is
     const fromBelow = cur.pol + off.pol > 90;
@@ -122,7 +125,7 @@ function start() {
     camera.position.set(d * Math.sin(pol) * Math.sin(az), d * Math.cos(pol), d * Math.sin(pol) * Math.cos(az));
     camera.lookAt(0, cur.sy, 0);
     renderer.render(scene, camera);
-    const settled = Math.abs(k[1] - cur.az) + Math.abs(k[2] - cur.pol) + Math.abs(k[3] - cur.e1) + Math.abs(k[4] - cur.e2) + Math.abs(k[5] - cur.d) < 0.02;
+    const settled = Math.abs(k[1] - cur.az) + Math.abs(k[2] - cur.pol) + Math.abs(k[3] - cur.e1) + Math.abs(k[4] - cur.e2) + Math.abs(k[5] - cur.d) + Math.abs(k[7] - cur.e0) < 0.02;
     return !settled;
   }
   function frame(snap) {
@@ -142,7 +145,7 @@ function start() {
     camera.aspect = w / h; camera.updateProjectionMatrix(); kick();
   }
   if (location.search.includes('render')) {   // used to produce the still images on the page
-    window.__rl = (az, pol, e1, e2, d) => { Object.assign(cur, { az, pol, e1, e2, d, sy: 0 }); K.length = 0; K.push([0, az, pol, e1, e2, d, 0], [1, az, pol, e1, e2, d, 0]); kick(); };
+    window.__rl = (az, pol, e1, e2, d, e0 = 0) => { Object.assign(cur, { az, pol, e1, e2, d, sy: 0, e0 }); K.length = 0; K.push([0, az, pol, e1, e2, d, 0, e0], [1, az, pol, e1, e2, d, 0, e0]); kick(); };
   }
   addEventListener('scroll', kick, { passive: true });
   new ResizeObserver(resize).observe(stage);

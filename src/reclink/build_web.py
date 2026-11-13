@@ -261,7 +261,7 @@ def pdf_links(lang, doc, rel):
 def header(lang, doc, rel, alt_href):
     s = S[lang]
     other = "it" if lang == "en" else "en"
-    tabs = ""
+    tabs = f'<a href="{PAGES[(lang, "index")]}"{' aria-current="page"' if doc == "index" else ""}>RecLink</a>'
     for key in ("qs", "guide"):
         cur = ' aria-current="page"' if key == doc else ""
         tabs += f'<a href="{PAGES[(lang, key)]}"{cur}>{s[key]}</a>'
@@ -422,7 +422,8 @@ BOARD = {
         warn="The RecLink board is <b>currently in development</b>. What you see here is the work-in-progress design: dimensions, pad layout and components may still change, and it is not a finished product yet. Until then, any ESP32-C3 or ESP32-S3 dev board works (see the Quick start).",
         h3d="Explore the board", hint="Scroll to take the board apart. Drag to look around.", alt3d="The RecLink board",
         steps=[("The assembled board", "12 × 13 mm, one ESP32-C3 and a handful of tiny parts. Keep scrolling to take it apart."),
-               ("Components", "The ESP32-C3 chip, ceramic antenna, crystal, status LED and about twenty tiny resistors and capacitors."),
+               ("The main chip: ESP32-C3FH4", "32-bit RISC-V core up to 160 MHz, Wi-Fi and Bluetooth 5 LE, and 4 MB of flash inside the package, in a 5 × 5 mm QFN32. It runs the whole firmware: Bluetooth to the camera, UART to the flight controller, Wi-Fi only for the setup portal on the ground."),
+               ("Components", "Around it: the ceramic antenna, crystal, status LED and about twenty tiny resistors and capacitors."),
                ("Top layer", "Solder mask, exposed pads, silkscreen and the first copper layer."),
                ("Inner layers", "Two copper layers hidden inside the board give the routing room it needs on such a small board."),
                ("Bottom layer", "The bottom side carries the four solder pads and the test points."),
@@ -452,7 +453,8 @@ BOARD = {
         warn="La scheda RecLink è <b>attualmente in sviluppo</b>. Quello che vedi qui è il progetto in corso d'opera: dimensioni, disposizione dei pad e componenti possono ancora cambiare, e non è ancora un prodotto finito. Nel frattempo va bene qualsiasi scheda di sviluppo ESP32-C3 o ESP32-S3 (vedi la Guida rapida).",
         h3d="Esplora la scheda", hint="Scorri per smontare la scheda. Trascina per guardarla da altre angolazioni.", alt3d="La scheda RecLink",
         steps=[("La scheda assemblata", "12 × 13 mm, un ESP32-C3 e pochi componenti minuscoli. Continua a scorrere per smontarla."),
-               ("Componenti", "Il chip ESP32-C3, l'antenna ceramica, il quarzo, il LED di stato e una ventina di resistenze e condensatori minuscoli."),
+               ("Il chip principale: ESP32-C3FH4", "Core RISC-V a 32 bit fino a 160 MHz, Wi-Fi e Bluetooth 5 LE, e 4 MB di flash dentro il package, in un QFN32 da 5 × 5 mm. Esegue tutto il firmware: Bluetooth verso la camera, UART verso il flight controller, Wi-Fi solo per il portale di configurazione a terra."),
+               ("Componenti", "Intorno: l'antenna ceramica, il quarzo, il LED di stato e una ventina di resistenze e condensatori minuscoli."),
                ("Strato superiore", "Solder mask, pad scoperti, serigrafia e il primo strato di rame."),
                ("Strati interni", "Due strati di rame nascosti dentro la scheda danno alle piste lo spazio che serve su una scheda così piccola."),
                ("Strato inferiore", "Il lato inferiore porta i quattro pad da saldare e i punti di test."),
@@ -487,7 +489,7 @@ def build_board(lang):
     nxt = "".join(f"<li>{n}</li>" for n in b["next"])
     n_steps = len(b["steps"])
     pts = "".join(f"<li>{html.escape(x)}</li>" for x in b["pts"])
-    steps = "".join(f'<li class="exp-step" data-from="{[0, .12, .30, .50, .70, .88][k]}" data-to="{[.12, .30, .50, .70, .88, 1.01][k]}"><b>{html.escape(t)}</b><span>{html.escape(d)}</span></li>'
+    steps = "".join(f'<li class="exp-step" data-from="{[0, .08, .34, .46, .60, .78, .92][k]}" data-to="{[.08, .34, .46, .60, .78, .92, 1.01][k]}"><b>{html.escape(t)}</b><span>{html.escape(d)}</span></li>'
                     for k, (t, d) in enumerate(b["steps"]))
     main = f"""<section class="exp full" id="exp" aria-label="{b["h3d"]}"><div class="exp-sticky"><canvas id="bc" role="img" aria-label="{b["alt3d"]}"></canvas><img class="exp-poster" src="{A}board-iso.webp" alt="{b["alt3d"]}">
 <div class="exp-head"><h1>{b["title"]}</h1><ul class="pts">{pts}</ul><p class="pill"><b>{b["tag"]}</b> {b["note"]}</p></div>
