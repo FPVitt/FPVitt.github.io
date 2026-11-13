@@ -489,10 +489,11 @@ def build_board(lang):
     nxt = "".join(f"<li>{n}</li>" for n in b["next"])
     n_steps = len(b["steps"])
     pts = "".join(f"<li>{html.escape(x)}</li>" for x in b["pts"])
-    steps = "".join(f'<li class="exp-step" data-from="{[0, .08, .34, .46, .60, .78, .92][k]}" data-to="{[.08, .34, .46, .60, .78, .92, 1.01][k]}"><b>{html.escape(t)}</b><span>{html.escape(d)}</span></li>'
+    steps = "".join(f'<li class="exp-step p-{["bl", "tr", "tr", "bl", "mr", "bl", "br"][k]}" data-t="{["", "chip", "ant,xtal,led", "pad", "in1,in2", "bot", "wires"][k]}" data-from="{[0, .08, .34, .46, .60, .78, .92][k]}" data-to="{[.08, .34, .46, .60, .78, .92, 1.01][k]}"><b>{html.escape(t)}</b><span>{html.escape(d)}</span></li>'
                     for k, (t, d) in enumerate(b["steps"]))
     main = f"""<section class="exp full" id="exp" aria-label="{b["h3d"]}"><div class="exp-sticky"><canvas id="bc" role="img" aria-label="{b["alt3d"]}"></canvas><img class="exp-poster" src="{A}board-iso.webp" alt="{b["alt3d"]}">
 <div class="exp-head"><h1>{b["title"]}</h1><ul class="pts">{pts}</ul><p class="pill"><b>{b["tag"]}</b> {b["note"]}</p></div>
+<svg class="exp-leads" aria-hidden="true"></svg>
 <p class="exp-hint">{b["hint"]}</p>
 <ol class="exp-steps">{steps}</ol><div class="exp-bar" aria-hidden="true"><i></i></div></div></section>
 <script type="module" src="{A}board.js"></script>

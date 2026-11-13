@@ -36,6 +36,8 @@ function start() {
   const layers = [];                              // {plane, y0}
   const slabs = [];
   const top = new THREE.Group(), bottomParts = new THREE.Group(), chip = new THREE.Group();
+  const ant = new THREE.Group(), xtal = new THREE.Group(), led = new THREE.Group();
+  top.add(ant, xtal, led);
   scene.add(top, bottomParts, chip);
   const board = new THREE.Group(); scene.add(board);
   const fr4 = new THREE.MeshStandardMaterial({ color: 0x8c7840, roughness: 0.7, metalness: 0, transparent: true });
@@ -68,10 +70,61 @@ function start() {
       g.setIndex(m.i);
       grp.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: m.c, flatShading: true, roughness: 0.45, metalness: 0.25, side: THREE.DoubleSide })));
     });
-    addParts(pj.top, top); addParts(pj.chip || [], chip); addParts(pj.bottom, bottomParts);
+    addParts(pj.top, top); addParts(pj.ant || [], ant); addParts(pj.xtal || [], xtal); addParts(pj.led || [], led); addParts(pj.chip || [], chip); addParts(pj.bottom, bottomParts);
     root.classList.add('ready');
     resize(); frame(true);
   }).catch(() => root.classList.add('nogl'));
+
+  // ---- callouts: a line from each caption to the part it talks about ----
+  const leads = root.querySelector('.exp-leads');
+  const NS = 'http://www.w3.org/2000/svg';
+  const mkEl = (tag, cls) => { const e = document.createElementNS(NS, tag); if (cls) e.setAttribute('class', cls); return e; };
+  steps.forEach((s) => {
+    const g = mkEl('g'); s._g = g; s._items = [];
+    (s.dataset.t || '').split(',').filter(Boolean).forEach((t) => {
+      const l = mkEl('line'), r = mkEl('circle', 'ring'), d = mkEl('circle', 'dot');
+      r.setAttribute('r', 9); d.setAttribute('r', 3.5); g.append(l, r, d); s._items.push({ t, l, r, d });
+    });
+    if (leads) leads.appendChild(g);
+  });
+  const tv = new THREE.Vector3(), tb = new THREE.Box3();
+  const ly = (i) => layers[i] ? layers[i].p.position.y : 0;
+  function anchor(name) {
+    const top3 = (grp) => { tb.setFromObject(grp); tb.getCenter(tv); tv.y = tb.max.y; return tv; };
+    switch (name) {
+      case 'chip': return top3(chip);
+      case 'ant': return top3(ant);
+      case 'xtal': return top3(xtal);
+      case 'led': return top3(led);
+      case 'pad': return tv.set(-1.5, ly(0), 5.9);
+      case 'in1': return tv.set(4.6, ly(1), -1.5);
+      case 'in2': return tv.set(4.6, ly(2), 1.8);
+      case 'bot': return tv.set(3.0, ly(3), 5.4);
+      case 'wires': return tv.set(0, ly(3), 6.2);
+    }
+    return tv.set(0, 0, 0);
+  }
+  function updateLeaders() {
+    if (!leads || !layers.length) return;
+    const W = stage.clientWidth, H = stage.clientHeight;
+    steps.forEach((s) => {
+      s._g.classList.toggle('on', s.classList.contains('on'));
+      if (!s.classList.contains('on')) return;
+      const x0 = s.offsetLeft, y0 = s.offsetTop, w = s.offsetWidth, h = s.offsetHeight;
+      const cx = x0 + w / 2, cy = y0 + h / 2;
+      s._items.forEach(({ t, l, r, d }) => {
+        const v = anchor(t).clone().project(camera);
+        const x = (v.x + 1) / 2 * W, y = (1 - v.y) / 2 * H;
+        const dx = x - cx, dy = y - cy;
+        const k = Math.min((w / 2) / Math.max(1e-6, Math.abs(dx)), (h / 2) / Math.max(1e-6, Math.abs(dy)));
+        const ok = v.z < 1 && k < 1;
+        [l, r, d].forEach((e) => e.style.display = ok ? '' : 'none');
+        if (!ok) return;
+        l.setAttribute('x1', cx + dx * k); l.setAttribute('y1', cy + dy * k); l.setAttribute('x2', x); l.setAttribute('y2', y);
+        r.setAttribute('cx', x); r.setAttribute('cy', y); d.setAttribute('cx', x); d.setAttribute('cy', y);
+      });
+    });
+  }
 
   // ---- timeline ----
   const K = [ // p, azimuth, polar, partsLift, layerSpread, distance, shiftY, chipLift
@@ -125,14 +178,15 @@ function start() {
     camera.position.set(d * Math.sin(pol) * Math.sin(az), d * Math.cos(pol), d * Math.sin(pol) * Math.cos(az));
     camera.lookAt(0, cur.sy, 0);
     renderer.render(scene, camera);
+    updateLeaders();
     const settled = Math.abs(k[1] - cur.az) + Math.abs(k[2] - cur.pol) + Math.abs(k[3] - cur.e1) + Math.abs(k[4] - cur.e2) + Math.abs(k[5] - cur.d) + Math.abs(k[7] - cur.e0) < 0.02;
     return !settled;
   }
   function frame(snap) {
     raf = 0;
     p = progress();
-    const moving = apply(snap || matchMedia('(prefers-reduced-motion: reduce)').matches);
     steps.forEach((s) => s.classList.toggle('on', p >= +s.dataset.from && p < +s.dataset.to));
+    const moving = apply(snap || matchMedia('(prefers-reduced-motion: reduce)').matches);
     if (bar) bar.style.transform = `scaleX(${p})`;
     root.classList.toggle('started', p > 0.02);
     if ((moving || dirty) && visible) { dirty = false; raf = requestAnimationFrame(() => frame(false)); }
