@@ -346,7 +346,7 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 .rl-sec>h2.sec{font:900 clamp(1.7rem,3.8vw,2.3rem)/1.1 var(--font-brand);letter-spacing:-.015em;margin:0 0 .4rem}
 .sec-s{color:var(--mut);margin:0 0 1.5rem;max-width:42rem}
 .rl-sec h3{text-transform:none;letter-spacing:0;font-size:1.08rem;color:var(--fg);margin:0 0 .35rem}
-.rl-sec p{margin:0}
+:where(.rl-sec) p{margin:0}      /* zero specificity, so .sec-s / .cta-row / .fine margins below still apply */
 .fine{color:var(--mut);font-size:.88rem;margin-top:.9rem!important}
 .ico{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:var(--radius-md);background:color-mix(in srgb,var(--acc) 15%,transparent);color:var(--acc-ink);flex:none}
 .ico svg{width:1.45rem;height:1.45rem}
@@ -478,3 +478,9 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 @keyframes heroswap{0%{opacity:0}6%{opacity:1}30%{opacity:1}36%{opacity:0}100%{opacity:0}}
 @keyframes heroswap0{0%{opacity:1}30%{opacity:1}36%{opacity:0}94%{opacity:0}100%{opacity:1}}
 @media (prefers-reduced-motion:reduce){.hs{animation:none!important;opacity:0}.hs:first-child{opacity:1}}
+
+.rl-sec .sec-s{margin-bottom:1.7rem}
+.rl-sec .cta-row{margin-top:1.6rem}
+.rl-sec h3.mx-h{margin-top:2.2rem!important}
+.cam p+p.proto{margin:.75rem 0 0}      /* wiring line under a board description (camera cards put it above) */
+.rl-sec .cams+.fine{margin-top:1.1rem}
