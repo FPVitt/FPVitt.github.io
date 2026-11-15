@@ -41,12 +41,12 @@ S = {
         lang_name="English", site="RecLink guides", qs="Quick start", guide="User guide",
         toc="On this page", pdf="PDF", portrait="Portrait", landscape="Landscape",
         theme="Switch light / dark theme", menu="Contents", top="Back to top", skip="Skip to content",
-        github="Source on GitHub", fwline=f"Firmware {FW} (pre-release) · Betaflight 2025.12+",
+        github="Source on GitHub", lic="Free software · GPL-3.0", fwline=f"Firmware {FW} (pre-release) · Betaflight 2025.12+",
         pre_tag="Pre-release", pre=f"Firmware {FW} has been bench-tested only and is <b>not flight tested</b>. Do every step with the <b>propellers removed</b>.",
-        home_sub="RecLink is a tiny ESP32 board that links your Betaflight flight controller to your GoPro or DJI Osmo. It starts and stops recording from your radio, shows the camera status in your OSD and syncs the camera clock from GPS, without ever affecting how your quad flies.",
+        home_sub="RecLink links your Betaflight flight controller to your GoPro or DJI Osmo. It runs on its own tiny custom board or on a common ESP32 dev board you may already have. It starts and stops recording from your radio, shows the camera status in your OSD and syncs the camera clock from GPS, without ever affecting how your quad flies.",
         qs_t="Quick start", qs_d="From the box to your first recording in about 15 minutes. Seven short steps, in plain wording.",
         gd_t="User guide", gd_d="Every feature, setting and indicator, explained with diagrams and screenshots of the web configurator. 14 chapters and a reference.",
-        read="Read online", dl="Download PDF", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)"],
+        read="Read online", dl="Download PDF", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)", "ESP32-C3 / S3"],
         lang_label="Language", on_page="On this page", pdf_title="Download this guide as a PDF", gh="View on GitHub", gh_t="Source code", gh_d="Browse the firmware, read the spec, report an issue or download releases.",
         which_h="Which one do I need?", which=["New to RecLink? Start with the <b>Quick start</b>.", "Want every detail, or something is not working? Open the <b>User guide</b>.", "Curious about the hardware? See <b>The board</b> (in development)."],
         desc_qs="RecLink quick start: wire the board, set up Betaflight, pair your GoPro or DJI camera, record from arm or a radio switch.",
@@ -56,12 +56,12 @@ S = {
         lang_name="Italiano", site="Guide RecLink", qs="Guida rapida", guide="Guida utente",
         toc="In questa pagina", pdf="PDF", portrait="Verticale", landscape="Orizzontale",
         theme="Passa al tema chiaro / scuro", menu="Indice", top="Torna su", skip="Vai al contenuto",
-        github="Codice su GitHub", fwline=f"Firmware {FW} (pre-release) · Betaflight 2025.12+",
+        github="Codice su GitHub", lic="Software libero · GPL-3.0", fwline=f"Firmware {FW} (pre-release) · Betaflight 2025.12+",
         pre_tag="Pre-release", pre=f"Il firmware {FW} è stato provato solo a banco e <b>non è stato provato in volo</b>. Esegui ogni passaggio con le <b>eliche rimosse</b>.",
-        home_sub="RecLink è una piccola scheda ESP32 che collega il flight controller Betaflight alla tua GoPro o DJI Osmo. Avvia e ferma la registrazione dalla radio, mostra lo stato della camera nell'OSD e sincronizza l'orologio dal GPS, senza mai influire sul volo del quad.",
+        home_sub="RecLink collega il flight controller Betaflight alla tua GoPro o DJI Osmo. Funziona sulla sua piccola scheda personalizzata oppure su una comune scheda di sviluppo ESP32 che magari hai già. Avvia e ferma la registrazione dalla radio, mostra lo stato della camera nell'OSD e sincronizza l'orologio dal GPS, senza mai influire sul volo del quad.",
         qs_t="Guida rapida", qs_d="Dalla scatola alla prima registrazione in circa 15 minuti. Sette passaggi brevi, in parole semplici.",
         gd_t="Guida utente", gd_d="Ogni funzione, impostazione e indicatore, spiegati con diagrammi e schermate del configuratore web. 14 capitoli e un riferimento.",
-        read="Leggi online", dl="Scarica il PDF", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)"],
+        read="Leggi online", dl="Scarica il PDF", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)", "ESP32-C3 / S3"],
         lang_label="Lingua", on_page="In questa pagina", pdf_title="Scarica questa guida in PDF", gh="Vedi su GitHub", gh_t="Codice sorgente", gh_d="Sfoglia il firmware, leggi le specifiche, segnala un problema o scarica le release.",
         which_h="Quale mi serve?", which=["Sei nuovo con RecLink? Parti dalla <b>Guida rapida</b>.", "Vuoi ogni dettaglio, oppure qualcosa non funziona? Apri la <b>Guida utente</b>.", "Curioso dell'hardware? Guarda <b>La scheda</b> (in sviluppo)."],
         desc_qs="Guida rapida RecLink: cabla la scheda, configura Betaflight, abbina la GoPro o la DJI, registra con l'arm o con un interruttore della radio.",
@@ -387,7 +387,7 @@ def page(lang, doc, title, desc, main_html, rel="../", toc="", alt_href="#"):
 {main_html}
 </main>
 </div>
-<footer class="site-foot"><div><span>{s["fwline"]}</span><a href="{REPO_URL}">{s["github"]}</a><a href="#top" class="to-top">{s["top"]}</a></div></footer>
+<footer class="site-foot"><div><span>{s["fwline"]}</span><a href="{REPO_URL}">{s["github"]}</a><a href="{REPO_URL}/blob/main/LICENSE" target="_blank" rel="noopener">{s["lic"]}</a><a href="#top" class="to-top">{s["top"]}</a></div></footer>
 <script src="{rel}assets/stats.js" defer></script>
 <script src="{rel}assets/site.js" defer></script>
 </body>
@@ -418,7 +418,7 @@ def build_doc(doc, lang):
 
 BOARD = {
     "en": dict(
-        title="The board", eyebrow="RecLink hardware", note="Work in progress: the design may still change.", pts=("Made for cinewhoops", "Just 0.48 g", "Essential board: no unnecessary components"),
+        title="The board", eyebrow="RecLink hardware", note="Work in progress: the design may still change. You do not need it: RecLink also runs on ESP32-C3 and ESP32-S3 dev boards.", pts=("Made for cinewhoops", "Just 0.48 g", "Essential board: no unnecessary components"),
         sub="The custom RecLink PCB: an ESP32-C3 with its own antenna, about the size of a fingernail, with four solder pads to the flight controller.",
         desc="The RecLink board: made for cinewhoops, just 0.48 g, an essential 12 x 13 mm four-layer PCB with an ESP32-C3, chip antenna and four solder pads (GND, 5V, TX, RX). Currently in development.",
         tag="In development",
@@ -449,7 +449,7 @@ BOARD = {
         hnext="Next steps", next=['Wiring step by step: <a href="quick-start.html">Quick start</a>.', 'Put the firmware on the board, or update it over Wi-Fi: <a href="../flash/">Install firmware</a>.'],
         foot="Dimensions and part list are taken from the current design files and may change while the board is in development."),
     "it": dict(
-        title="La scheda", eyebrow="Hardware RecLink", note="Progetto in corso: può ancora cambiare.", pts=("Pensata per i cinewhoop", "Solo 0,48 g", "Scheda essenziale: nessun componente superfluo"),
+        title="La scheda", eyebrow="Hardware RecLink", note="Progetto in corso: può ancora cambiare. Non è obbligatoria: RecLink funziona anche su schede di sviluppo ESP32-C3 ed ESP32-S3.", pts=("Pensata per i cinewhoop", "Solo 0,48 g", "Scheda essenziale: nessun componente superfluo"),
         sub="Il PCB personalizzato RecLink: un ESP32-C3 con la sua antenna, grande quanto un'unghia, con quattro pad da saldare al flight controller.",
         desc="La scheda RecLink: pensata per i cinewhoop, solo 0,48 g, un PCB essenziale a quattro strati di 12 x 13 mm con ESP32-C3, antenna ceramica e quattro pad (GND, 5V, TX, RX). Attualmente in sviluppo.",
         tag="In sviluppo",
@@ -569,8 +569,8 @@ def build_home():
     """Landing page of the whole site (https://fpvitt.github.io/): one featured card per project."""
     projects = [
         dict(href="RecLink/", title="RecLink", img="RecLink/assets/board/board-iso.webp",
-             desc="A tiny ESP32 board that links your Betaflight flight controller to your GoPro or DJI Osmo: record control from your radio, camera status on the OSD and GPS clock sync. Guides, a 3D board explorer and the firmware installer.",
-             tags=("Betaflight", "GoPro", "DJI Osmo", "ESP32-C3"), src="https://github.com/FPVitt/RecLink"),
+             desc="Firmware that links your Betaflight flight controller to your GoPro or DJI Osmo, on a tiny custom board or any common ESP32 dev board: record control from your radio, camera status on the OSD and GPS clock sync. Guides, a 3D board explorer and the firmware installer.",
+             tags=("Betaflight", "GoPro", "DJI Osmo", "ESP32-C3 / S3"), src="https://github.com/FPVitt/RecLink"),
     ]
     cards = ""
     for p in projects:

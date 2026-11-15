@@ -113,8 +113,13 @@ C = {
              ("Flash it", "Install the firmware from your browser over USB."),
              ("Pair the camera", "Open the configurator and pair your GoPro or DJI."),
              ("Set your switches", "Pick when to record, build your zones, lay out the OSD.")],
+        brd_h="Runs on the board you have", brd_s="The same firmware runs on three kinds of board. You do not need the custom RecLink board to use RecLink.",
+        brds=[("ESP32-C3", "RecLink board", "dev", "In development", "The custom 0.48 g board made for cinewhoops: four solder pads (GND, 5V, TX, RX) and nothing else.", "Wire FC TX to RX and FC RX to TX. Updates over Wi-Fi."),
+              ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supported", "A tiny, cheap and easy to find dev board. Flash it from your browser over USB.", "FC TX to pin 7, FC RX to pin 6."),
+              ("ESP32-S3", "ESP32-S3 / S3-Zero", "sup", "Supported", "The Waveshare S3-Zero or another ESP32-S3 board. Flash it from your browser over USB. The S3-Zero's RGB LED shows the status in colour.", "FC TX to pin 4, FC RX to pin 5.")],
+        brd_cta="Open the installer",
         need_h="What you need", need_s="Four things.",
-        needs=[("A RecLink board", "The custom ESP32-C3 board, in development. Until then an ESP32-C3 or ESP32-S3 dev board runs the same firmware."),
+        needs=[("An ESP32 board", "The RecLink board (in development), an ESP32-C3 SuperMini, or an ESP32-S3 board such as the Waveshare S3-Zero. They all run the same firmware."),
                ("Betaflight 2025.12 or newer", "MSP API 1.47 or later, for custom OSD messages."),
                ("A supported camera", "GoPro HERO 9 or newer, or a DJI Osmo (experimental)."),
                ("A free UART", "One spare serial port on the flight controller.")],
@@ -179,8 +184,13 @@ C = {
              ("Caricala", "Installa il firmware dal browser via USB."),
              ("Abbina la camera", "Apri il configuratore e abbina la GoPro o la DJI."),
              ("Imposta gli interruttori", "Scegli quando registrare, crea le zone, disegna l'OSD.")],
+        brd_h="Funziona sulla scheda che hai", brd_s="Lo stesso firmware funziona su tre tipi di scheda. Non ti serve la scheda RecLink personalizzata per usare RecLink.",
+        brds=[("ESP32-C3", "Scheda RecLink", "dev", "In sviluppo", "La scheda personalizzata da 0,48 g pensata per i cinewhoop: quattro pad (GND, 5V, TX, RX) e nient'altro.", "Collega TX della FC a RX e RX della FC a TX. Si aggiorna via Wi-Fi."),
+              ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supportata", "Una scheda di sviluppo minuscola, economica e facile da trovare. Caricala dal browser via USB.", "TX della FC al pin 7, RX della FC al pin 6."),
+              ("ESP32-S3", "ESP32-S3 / S3-Zero", "sup", "Supportata", "La Waveshare S3-Zero o un'altra scheda ESP32-S3. Caricala dal browser via USB. Il LED RGB della S3-Zero mostra lo stato a colori.", "TX della FC al pin 4, RX della FC al pin 5.")],
+        brd_cta="Apri l'installer",
         need_h="Cosa ti serve", need_s="Quattro cose.",
-        needs=[("Una scheda RecLink", "La scheda ESP32-C3 personalizzata, in sviluppo. Nel frattempo una scheda di sviluppo ESP32-C3 o ESP32-S3 esegue lo stesso firmware."),
+        needs=[("Una scheda ESP32", "La scheda RecLink (in sviluppo), una ESP32-C3 SuperMini oppure una scheda ESP32-S3 come la Waveshare S3-Zero. Eseguono tutte lo stesso firmware."),
                ("Betaflight 2025.12 o successivo", "MSP API 1.47 o superiore, per i messaggi OSD personalizzati."),
                ("Una camera supportata", "GoPro HERO 9 o successiva, oppure una DJI Osmo (sperimentale)."),
                ("Una UART libera", "Una porta seriale libera sul flight controller.")],
@@ -189,7 +199,7 @@ C = {
     ),
 }
 
-BADGE_CLS = {"bench": "good", "unv": "warn", "exp": "warn"}
+BADGE_CLS = {"bench": "good", "unv": "warn", "exp": "warn", "sup": "good", "dev": "warn"}
 
 
 def render(lang, ctx, cards_html):
@@ -239,6 +249,13 @@ def render(lang, ctx, cards_html):
            f'<h3 class="mx-h">{c["mx_h"]}</h3><div class="mx-wrap"><table class="mx"><thead><tr><th>{c["mx_cols"][0]}</th><th>{c["mx_cols"][1]}</th><th>{c["mx_cols"][2]}</th></tr></thead><tbody>{rows}</tbody></table></div>'
            f'<ul class="mx-leg">{legend}</ul></section>')
 
+    brds = "".join(
+        f'<article class="cam"><div class="cam-top"><span class="brand-t">{esc(chip)}</span><span class="badge {BADGE_CLS[k]}">{esc(bt)}</span></div>'
+        f'<h3>{esc(n)}</h3><p>{esc(d)}</p><p class="proto">{esc(w)}</p></article>'
+        for chip, n, k, bt, d, w in c["brds"])
+    brd = (f'<section class="rl-sec" id="boards"><h2 class="sec">{c["brd_h"]}</h2><p class="sec-s">{c["brd_s"]}</p>'
+           f'<div class="cams">{brds}</div><p class="cta-row"><a class="btn" href="../flash/">{ctx["icons"]["fw"]}{c["brd_cta"]}</a></p></section>')
+
     safes = "".join(f'<article class="safe"><span class="ico">{I[k]}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></article>' for k, t, d in c["safes"])
     safe = f'<section class="rl-sec" id="safety"><h2 class="sec">{c["safe_h"]}</h2><p class="sec-s">{c["safe_s"]}</p><div class="safes">{safes}</div></section>'
 
@@ -258,7 +275,7 @@ def render(lang, ctx, cards_html):
            f'<a class="btn lg" href="../flash/">{ctx["icons"]["fw"]}{c["cta_fw"]}</a>'
            f'<a class="btn lg alt" href="{ctx["gh_url"]}" target="_blank" rel="noopener">{ctx["gh_svg"]}{ctx["gh"]}</a></p></section>')
 
-    return hero + callout + stats + show + feat + cam + safe + portal + go + need + more + end + OSD_JS
+    return hero + callout + stats + show + feat + cam + brd + safe + portal + go + need + more + end + OSD_JS
 
 
 # Live OSD preview: a simulated camera (connects, arms, records) feeds the same %tokens the firmware uses,

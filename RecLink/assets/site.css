@@ -467,3 +467,4 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 @keyframes osdprog{to{width:100%}}
 .osd-label{transition:opacity .18s}
 @media (prefers-reduced-motion:reduce){.osd-prog{display:none}.osd-screen.blip{animation:none}}
+.site-foot a[href$="LICENSE"]{white-space:nowrap}
