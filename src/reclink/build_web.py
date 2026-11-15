@@ -16,6 +16,7 @@ sys.path.insert(0, HERE)
 from bs4 import BeautifulSoup, NavigableString, Tag      # noqa: E402
 from PIL import Image                                       # noqa: E402
 import build2                                               # noqa: E402
+import rl_home                                              # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))   # repo root (the user site)
 DOCS = os.path.join(ROOT, "RecLink")                     # the RecLink section: https://fpvitt.github.io/RecLink/
@@ -520,11 +521,9 @@ def build_index(lang):
                         ("Installa il firmware", "Scegli la scheda e la versione, poi caricala via USB o aggiornala via Wi-Fi.", "Apri l'installer"))
     cards += (f'<article class="card" id="fw"><span class="ico">{ICONS["fw"]}</span><h2>{fw_t}</h2><p>{fw_d}</p>'
               f'<div class="actions"><a class="btn" href="../flash/">{fw_b}</a></div></article>')
-    which = "".join(f"<li>{w}</li>" for w in s["which"])
-    meta = "".join(f"<span>{html.escape(m)}</span>" for m in s["meta"])
-    main = (f'<div class="hero"><h1 class="logo-h1">{MARK}RecLink</h1><p class="sub">{s["home_sub"]}</p><div class="meta">{meta}</div><p class="gh-row"><a class="btn ghost" href="{GH_URL}" target="_blank" rel="noopener">{GH_SVG}{s["gh"]}</a></p></div>'
-            f'<div class="callout danger"><span class="tag">{s["pre_tag"]}</span><p>{s["pre"]}</p></div>'
-            f'<div class="cards">{cards}</div><h2 class="plain">{s["which_h"]}</h2><ul class="which">{which}</ul>')
+    ctx = dict(gh_url=GH_URL, gh_svg=GH_SVG, gh=s["gh"], mark=MARK, pre_tag=s["pre_tag"], pre=s["pre"], home_sub=s["home_sub"],
+               meta=s["meta"], icons=ICONS, pages={d: PAGES[(lang, d)] for d in ("qs", "guide", "board")})
+    main = rl_home.render(lang, ctx, cards)
     alt_href = f"../{other}/index.html"
     return page(lang, "index", s["site"], s["home_sub"], main, alt_href=alt_href)
 
