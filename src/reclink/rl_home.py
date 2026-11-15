@@ -15,12 +15,12 @@ E = html.escape
 OSD_TPL = [
     ["%st %et  %bt", "%rs %fp %ln", "%sd %sg", "%md %pr"],
     ["", "%st %et", "", ""],
-    ["%cn", "%st %et  %bt", "GPS %gf  %gs SAT", "%sg FREE"],
+    ["%st %et", "SD %sd left", "%sg FREE", "BAT %bt"],
     ["%rs %fp %ln", "%pr %bd %ar", "%cr dBm  %bt", "%st %et"],
 ]
 # values used for the no-JS fallback (the script below runs a live simulation instead)
-OSD_STATIC = dict(st="REC", et="0:42", bt="87%", rs="5.3K", fp="60", ln="WIDE", sd="94m", sg="38.4G", md="VIDEO", pr="HLG",
-                  bd="10b", ar="16:9", cr="-62", cn="MY CINEWHOOP", gf="3D", gs="14")
+OSD_STATIC = dict(st="REC", et="0:00", bt="87%", rs="5.3K", fp="60", ln="WIDE", sd="94m", sg="38.4G", md="VIDEO", pr="HLG",
+                  bd="10b", ar="16:9", cr="-62")
 
 
 def expand(tpl):
@@ -63,7 +63,7 @@ C = {
               ("osd", "Status in your goggles", "Recording state, timers, battery, SD space and settings drawn on your Betaflight OSD, on four lines you design."),
               ("wifi", "Configure from your phone", "The board opens its own Wi-Fi while you are disarmed. No app, no cloud, no account. It switches off the instant you arm.")],
         osd_h="Your OSD, your layout", osd_cap="A simulated camera feeds it, with the same tokens you place in the configurator. You choose what goes on each of the four 16-character lines.",
-        osd_sets=[("Full status", OSD_TPL[0]), ("Minimal", OSD_TPL[1]), ("Craft and GPS", OSD_TPL[2]), ("Camera settings", OSD_TPL[3])],
+        osd_sets=[("Full status", OSD_TPL[0]), ("Minimal", OSD_TPL[1]), ("Card and battery", OSD_TPL[2]), ("Camera settings", OSD_TPL[3])],
         osd_note="A value the camera has not confirmed is left blank, never shown as 0 or a guess.",
         feat_h="Everything it does", feat_s="One small board, nine jobs.",
         feats=[("rec", "Record that follows the aircraft", "Start and stop on arm, on a radio switch, arm OR switch, or arm AND switch. Each command is confirmed by the camera before RecLink moves on."),
@@ -129,7 +129,7 @@ C = {
               ("osd", "Lo stato nei goggles", "Stato di registrazione, tempi, batteria, spazio SD e impostazioni sull'OSD di Betaflight, su quattro righe che disegni tu."),
               ("wifi", "Configura dal telefono", "La scheda apre un suo Wi-Fi finché sei disarmato. Nessuna app, nessun cloud, nessun account. Si spegne appena armi.")],
         osd_h="Il tuo OSD, a modo tuo", osd_cap="Lo alimenta una camera simulata, con gli stessi token che usi nel configuratore. Scegli tu cosa mettere su ognuna delle quattro righe da 16 caratteri.",
-        osd_sets=[("Stato completo", OSD_TPL[0]), ("Minimale", OSD_TPL[1]), ("Nome e GPS", OSD_TPL[2]), ("Impostazioni camera", OSD_TPL[3])],
+        osd_sets=[("Stato completo", OSD_TPL[0]), ("Minimale", OSD_TPL[1]), ("Scheda SD e batteria", OSD_TPL[2]), ("Impostazioni camera", OSD_TPL[3])],
         osd_note="Un valore che la camera non ha confermato resta vuoto, mai 0 né un'ipotesi.",
         feat_h="Tutto quello che fa", feat_s="Una piccola scheda, nove compiti.",
         feats=[("rec", "Registra insieme al velivolo", "Avvio e stop all'arm, da un interruttore, arm OPPURE interruttore, o arm E interruttore. Ogni comando è confermato dalla camera prima di andare avanti."),
@@ -270,19 +270,16 @@ OSD_JS = r"""<script>
   var lines=s.querySelectorAll('.osd-lines span'), lab=document.querySelector('.osd-label'), dots=document.querySelectorAll('.osd-dot'), prog=s.querySelector('.osd-prog');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var layout=0, sim=0, tick=null, rot=null, anim=false, raf=0, GL='#%/+=*0123456789ABCDEF';
-  // simulated camera + FC: tokens stay blank until the camera has confirmed them (blank-on-unconfirmed)
+  // simulated camera, already recording from the first frame (only camera values are shown)
   function values(t){
-    var cam=t>=2, rec=t>=5, el=rec?t-5:0;
+    var el=t;
     var m=function(n){return Math.floor(n/60)+':'+('0'+(n%60)).slice(-2);};
     var rem=Math.max(0,5640-el), rm=Math.ceil(rem/60);
-    var v={cn:'MY CINEWHOOP', gf:'3D', gs:String(13+Math.round(1.2*Math.sin(t/9)))};
-    if(cam){
-      v.st=rec?'REC':'IDLE'; v.et=m(el); v.bt=(87-Math.floor(el/54))+'%';
-      v.rs='5.3K'; v.fp='60'; v.ln='WIDE'; v.md='VIDEO'; v.pr='HLG'; v.bd='10b'; v.ar='16:9';
-      v.rt=rm>=100?Math.floor(rm/60)+'h':rm+'m'; v.sd=v.rt;
-      v.sg=(38.4-0.1*Math.floor(el/7)).toFixed(1)+'G';
-      v.cr=String(-62+Math.round(3*Math.sin(t/3)+2*Math.sin(t/1.7)));
-    }
+    var v={st:'REC', et:m(el), bt:(87-Math.floor(el/54))+'%',
+      rs:'5.3K', fp:'60', ln:'WIDE', md:'VIDEO', pr:'HLG', bd:'10b', ar:'16:9'};
+    v.rt=rm>=100?Math.floor(rm/60)+'h':rm+'m'; v.sd=v.rt;
+    v.sg=(38.4-0.1*Math.floor(el/7)).toFixed(1)+'G';
+    v.cr=String(-62+Math.round(3*Math.sin(t/3)+2*Math.sin(t/1.7)));
     return v;
   }
   function expand(tp,v){ return tp.replace(/%([a-z]{2})/g,function(x,k){ return k in v?v[k]:(/^(st|et|bt|rs|fp|ln|md|pr|bd|ar|rt|sd|sg|cr)$/.test(k)?'':x); }).replace(/\s+$/,'').slice(0,16); }
@@ -324,7 +321,7 @@ OSD_JS = r"""<script>
   function start(){
     stop(); if(reduce) return;
     restartProg();
-    tick=setInterval(function(){ sim=(sim+1)%150; paint(); },1000);
+    tick=setInterval(function(){ sim=(sim+1)%600; paint(); },1000);
     rot=setInterval(function(){ go((layout+1)%T.length); },7000);
   }
   function stop(){ if(tick){clearInterval(tick);tick=null;} if(rot){clearInterval(rot);rot=null;} clearInterval(raf); if(anim){ anim=false; paint(); } }
