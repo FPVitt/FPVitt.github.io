@@ -306,7 +306,7 @@
 <div class="grow">
 <ol class="steps">
 <li><div><b>Remove the propellers</b>, then power the flight controller from a battery or USB. The RecLink LED lights solid while it boots.</div></li>
-<li><div><b>Wait for the portal.</b> When the board sees the flight controller and the aircraft is <b>disarmed</b>, it starts its own Wi-Fi network. The LED shows two short blinks every second while the portal is open.</div></li>
+<li><div><b>Wait for the portal.</b> When the board sees the flight controller and the aircraft is <b>disarmed</b>, it starts its own Wi-Fi network.</div></li>
 <li><div><b>Join the network</b> named <code>RECLINK-XXXX</code> (the last two bytes of the board's address) on your phone or laptop. The factory password is <code>reclinkfpv</code>.</div></li>
 <li><div><b>Open <code>http://10.0.0.1</code></b> in a browser. Your phone may warn that the network has no internet. Stay connected. RecLink does not force a login sheet, so you open the address yourself.</div></li>
 <li><div><b>Change the Wi-Fi password</b> when asked (below). Up to three devices can be connected at once.</div></li>
@@ -748,7 +748,7 @@
 <h2 id="ch13-1">Bench check, props off<a aria-label="link" class="anchor" href="#ch13-1">#</a></h2>
 <div class="tbl long"><table>
 <tr><th style="width:9mm"></th><th>Step</th><th>You should see</th></tr>
-<tr><td>☐</td><td class="wrap">Power the quad. Wait a few seconds.</td><td class="wrap">LED: two short blinks per second (portal open), then idle blink once the camera is ready.</td></tr>
+<tr><td>☐</td><td class="wrap">Power the quad. Wait a few seconds.</td><td class="wrap">LED: a short blink every 3 s once the camera is ready.</td></tr>
 <tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">Aircraft: disarmed. Camera link: READY, in green. Battery and SD readouts are filled in.</td></tr>
 <tr><td>☐</td><td class="wrap">Look at the goggles.</td><td class="wrap">The four lines show the camera's state, not <b>CAM LOST</b>.</td></tr>
 <tr><td>☐</td><td class="wrap">Binding tab: 3 s test recording.</td><td class="wrap">The camera records for 3 seconds. OSD shows REC.</td></tr>
@@ -810,7 +810,7 @@
 <h2 id="ch14-2">Wi-Fi and the configurator<a aria-label="link" class="anchor" href="#ch14-2">#</a></h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the aircraft is disarmed and the LED shows two quick blinks per second. Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
+<tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the aircraft is disarmed and the LED is not showing two short blinks every 2 seconds (no flight controller link). Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
 <tr><td class="wrap">I joined, but the page will not load</td><td class="wrap">Type <code>http://10.0.0.1</code> in the address bar. Stay connected even if the phone warns about no internet. Turn off mobile data if the phone keeps switching away. Up to three devices can connect at once.</td></tr>
 <tr><td class="wrap">The password is rejected</td><td class="wrap">The factory password is <code>reclinkfpv</code>. If you changed it and lost it, hold the button for 10 seconds to factory reset. That also erases camera pairings.</td></tr>
 <tr><td class="wrap">My changes disappeared</td><td class="wrap">Press <b>Save settings</b>. Changes apply and persist only after saving. The bar says "unsaved changes" until you do.</td></tr>

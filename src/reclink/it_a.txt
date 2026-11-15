@@ -156,7 +156,7 @@ u171|||Capitolo 5
 u172|||Prima accensione e configuratore web
 u173|||Accendi il quad, collega il telefono al Wi-Fi di RecLink e apri il configuratore. Da qui in poi tutto si fa in quella pagina.
 u175|||<b>Rimuovi le eliche</b>, poi alimenta il flight controller da batteria o USB. Il LED di RecLink resta acceso fisso durante l'avvio.
-u176|||<b>Aspetta il portale.</b> Quando la scheda vede il flight controller e il velivolo è <b>disarmato</b>, crea la propria rete Wi-Fi. Il LED fa due brevi lampeggi al secondo finché il portale è aperto.
+u176|||<b>Aspetta il portale.</b> Quando la scheda vede il flight controller e il velivolo è <b>disarmato</b>, crea la propria rete Wi-Fi.
 u177|||<b>Collegati alla rete</b> chiamata <code>RECLINK-XXXX</code> (gli ultimi due byte dell'indirizzo della scheda) dal telefono o dal portatile. La password di fabbrica è <code>reclinkfpv</code>.
 u178|||<b>Apri <code>http://10.0.0.1</code></b> in un browser. Il telefono può avvisare che la rete non ha internet: resta collegato. RecLink non forza una schermata di accesso, quindi l'indirizzo lo apri tu.
 u179|||<b>Cambia la password Wi-Fi</b> quando richiesto (vedi sotto). Si possono collegare fino a tre dispositivi insieme.

@@ -306,7 +306,7 @@
 <div class="grow">
 <ol class="steps">
 <li><div><b>Rimuovi le eliche</b>, poi alimenta il flight controller da batteria o USB. Il LED di RecLink resta acceso fisso durante l'avvio.</div></li>
-<li><div><b>Aspetta il portale.</b> Quando la scheda vede il flight controller e il velivolo è <b>disarmato</b>, crea la propria rete Wi-Fi. Il LED fa due brevi lampeggi al secondo finché il portale è aperto.</div></li>
+<li><div><b>Aspetta il portale.</b> Quando la scheda vede il flight controller e il velivolo è <b>disarmato</b>, crea la propria rete Wi-Fi.</div></li>
 <li><div><b>Collegati alla rete</b> chiamata <code>RECLINK-XXXX</code> (gli ultimi due byte dell'indirizzo della scheda) dal telefono o dal portatile. La password di fabbrica è <code>reclinkfpv</code>.</div></li>
 <li><div><b>Apri <code>http://10.0.0.1</code></b> in un browser. Il telefono può avvisare che la rete non ha internet: resta collegato. RecLink non forza una schermata di accesso, quindi l'indirizzo lo apri tu.</div></li>
 <li><div><b>Cambia la password Wi-Fi</b> quando richiesto (vedi sotto). Si possono collegare fino a tre dispositivi insieme.</div></li>
@@ -748,7 +748,7 @@
 <h2 id="ch13-1">Prova a banco, eliche rimosse<a aria-label="link" class="anchor" href="#ch13-1">#</a></h2>
 <div class="tbl long"><table>
 <tr><th style="width:9mm"></th><th>Passo</th><th>Dovresti vedere</th></tr>
-<tr><td>☐</td><td class="wrap">Accendi il quad. Aspetta qualche secondo.</td><td class="wrap">LED: due brevi lampeggi al secondo (portale aperto), poi lampeggio di riposo quando la camera è pronta.</td></tr>
+<tr><td>☐</td><td class="wrap">Accendi il quad. Aspetta qualche secondo.</td><td class="wrap">LED: un breve lampeggio ogni 3 s quando la camera è pronta.</td></tr>
 <tr><td>☐</td><td class="wrap">Apri il portale. Guarda la scheda Status.</td><td class="wrap">Aircraft: disarmed. Camera link: READY, in verde. Le letture di batteria e SD sono compilate.</td></tr>
 <tr><td>☐</td><td class="wrap">Guarda il visore.</td><td class="wrap">Le quattro righe mostrano lo stato della camera, non <b>CAM LOST</b>.</td></tr>
 <tr><td>☐</td><td class="wrap">Scheda Binding: 3 s test recording.</td><td class="wrap">La camera registra per 3 secondi. L'OSD mostra REC.</td></tr>
@@ -810,7 +810,7 @@
 <h2 id="ch14-2">Wi-Fi e configuratore<a aria-label="link" class="anchor" href="#ch14-2">#</a></h2>
 <div class="tbl"><table>
 <tr><th>Problema</th><th>Prova</th></tr>
-<tr><td class="wrap">Non vedo la rete RECLINK</td><td class="wrap">Il portale funziona solo da <b>disarmato</b> e con il collegamento con il flight controller attivo. Controlla che il velivolo sia disarmato e che il LED faccia due lampeggi rapidi al secondo. Tieni premuto il pulsante della scheda per 3 secondi per aprirlo a mano. Si chiude anche dopo 15 minuti di inattività, quindi tieni premuto di nuovo se è sparito.</td></tr>
+<tr><td class="wrap">Non vedo la rete RECLINK</td><td class="wrap">Il portale funziona solo da <b>disarmato</b> e con il collegamento con il flight controller attivo. Controlla che il velivolo sia disarmato e che il LED non faccia due brevi lampeggi ogni 2 secondi (nessun collegamento con il flight controller). Tieni premuto il pulsante della scheda per 3 secondi per aprirlo a mano. Si chiude anche dopo 15 minuti di inattività, quindi tieni premuto di nuovo se è sparito.</td></tr>
 <tr><td class="wrap">Mi sono collegato, ma la pagina non si carica</td><td class="wrap">Scrivi <code>http://10.0.0.1</code> nella barra degli indirizzi. Resta collegato anche se il telefono avvisa che non c'è internet. Disattiva i dati mobili se il telefono continua a cambiare rete. Si possono collegare fino a tre dispositivi insieme.</td></tr>
 <tr><td class="wrap">La password viene rifiutata</td><td class="wrap">La password di fabbrica è <code>reclinkfpv</code>. Se l'hai cambiata e l'hai persa, tieni premuto il pulsante per 10 secondi per il ripristino di fabbrica. Cancella anche gli abbinamenti delle camere.</td></tr>
 <tr><td class="wrap">Le mie modifiche sono sparite</td><td class="wrap">Premi <b>Save settings</b>. Le modifiche si applicano e restano solo dopo il salvataggio. La barra dice «unsaved changes» finché non salvi.</td></tr>

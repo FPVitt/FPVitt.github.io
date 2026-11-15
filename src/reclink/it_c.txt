@@ -188,7 +188,7 @@ u868|||Vai nella scheda <b>OSD</b>. Spunta <b>Custom message 1, 2, 3 e 4</b> e t
 u869|||Sulla radio, scegli un interruttore libero per la registrazione, se ne vuoi uno. È facoltativo.
 u872|||Passo 3
 u873|||Apri il configuratore
-u874|||Accendi il quad (eliche rimosse). Aspetta qualche secondo. Il LED di RecLink fa due lampeggi al secondo quando il suo Wi-Fi è attivo.
+u874|||Accendi il quad (eliche rimosse). Aspetta qualche secondo che RecLink attivi il suo Wi-Fi.
 u875|||Dal telefono, collegati alla rete Wi-Fi <code>RECLINK-XXXX</code>. Password: <code>reclinkfpv</code>.
 u876|||Apri <code>http://10.0.0.1</code> nel browser. Se il telefono dice che non c'è internet, resta collegato.
 u877|||Quando richiesto, <b>cambia la password Wi-Fi</b>.
