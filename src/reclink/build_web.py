@@ -26,7 +26,7 @@ REPO_URL = "https://github.com/FPVitt/RecLink"
 FW = "0.2.0"
 SITE = "https://fpvitt.github.io/RecLink/"
 HOME = "https://fpvitt.github.io/"
-GC_CODE = ""   # GoatCounter site code (https://<code>.goatcounter.com). Empty = no analytics at all.
+GC_CODE = "fpvitt"   # GoatCounter site code (https://<code>.goatcounter.com). Empty = no analytics at all.
 OG_IMG = SITE + "assets/og.png"
 
 
