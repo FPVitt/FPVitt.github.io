@@ -208,12 +208,20 @@ def render(lang, ctx, cards_html):
     meta = "".join(f"<span>{E(m)}</span>" for m in ctx["meta"])
     esc = E
 
+    # The hero picture rotates (pure CSS crossfade) between the three boards RecLink runs on.
+    caps = (("RecLink board" if lang == "en" else "Scheda RecLink"), "ESP32-C3 SuperMini", "ESP32-S3-Zero")
+    files = ("board-iso.webp", "hero-supermini.webp", "hero-s3zero.webp")
+    hero_imgs = "".join(
+        f'<figure class="hs" style="--i:{i}"><img src="../assets/board/{f}" alt="{esc(cap)}" width="640" height="640" '
+        f'loading="{"eager" if i == 0 else "lazy"}" decoding="async"><figcaption>{esc(cap)}</figcaption></figure>'
+        for i, (f, cap) in enumerate(zip(files, caps)))
+
     hero = (f'<div class="hero rl-hero"><div class="rl-hero-txt"><h1 class="logo-h1">{ctx["mark"]}RecLink</h1>'
             f'<p class="sub">{ctx["home_sub"]}</p><div class="meta">{meta}</div>'
             f'<p class="cta-row"><a class="btn lg" href="../flash/">{ctx["icons"]["fw"]}{c["cta_fw"]}</a>'
             f'<a class="btn lg alt" href="{p["qs"]}">{ctx["icons"]["qs"]}{c["cta_qs"]}</a>'
             f'<a class="btn lg alt" href="{ctx["gh_url"]}" target="_blank" rel="noopener">{ctx["gh_svg"]}{ctx["gh"]}</a></p></div>'
-            f'<div class="rl-hero-img"><img src="../assets/board/board-iso.webp" alt="" width="640" height="640" loading="eager" decoding="async"></div></div>')
+            f'<div class="rl-hero-img"><div class="hero-stack">{hero_imgs}</div></div></div>')
 
     callout = f'<div class="callout danger"><span class="tag">{ctx["pre_tag"]}</span><p>{ctx["pre"]}</p></div>'
 
