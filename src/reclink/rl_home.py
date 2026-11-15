@@ -300,9 +300,9 @@ OSD_JS = r"""<script>
     var v=values(sim), tp=T[n], tgt=[], rev=[], dur=0, k, i;
     for(k=0;k<lines.length;k++){
       tgt.push(expand(tp[k]||'',v)); rev.push([]);
-      for(i=0;i<16;i++){ rev[k][i]=k*120+i*34+Math.random()*140; if(rev[k][i]>dur) dur=rev[k][i]; }
+      for(i=0;i<16;i++){ rev[k][i]=k*70+i*20+Math.random()*90; if(rev[k][i]>dur) dur=rev[k][i]; }
     }
-    dur+=120; layout=n; anim=true; s.classList.remove('blip'); void s.offsetWidth; s.classList.add('blip');
+    dur+=80; layout=n; anim=true; s.classList.remove('blip'); void s.offsetWidth; s.classList.add('blip');
     var t0=Date.now();
     function frame(){
       var e=Date.now()-t0;
@@ -316,7 +316,7 @@ OSD_JS = r"""<script>
         lines[k].innerHTML=out;
       }
     }
-    frame(); raf=setInterval(frame,48);
+    frame(); raf=setInterval(frame,40);
   }
   function start(){
     stop(); if(reduce) return;
