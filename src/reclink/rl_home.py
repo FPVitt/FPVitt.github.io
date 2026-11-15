@@ -213,15 +213,14 @@ def render(lang, ctx, cards_html):
     acts = "".join(f'<article class="act"><span class="ico">{I[k]}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></article>' for k, t, d in c["acts"])
     sets = c["osd_sets"]
     osd_lines = "".join(f"<span>{esc(expand(l))}</span>" for l in sets[0][1])
-    tpl_txt = esc("\n".join(sets[0][1]))
     sets_json = esc(json.dumps([s[1] for s in sets], ensure_ascii=False))
     dots = "".join(f'<button type="button" class="osd-dot{" on" if i == 0 else ""}" aria-label="{esc(s[0])}" data-i="{i}"></button>' for i, s in enumerate(sets))
     labels_json = esc(json.dumps([s[0] for s in sets], ensure_ascii=False))
     show = (f'<section class="rl-sec" id="action"><h2 class="sec">{c["act_h"]}</h2><p class="sec-s">{c["act_s"]}</p>'
             f'<div class="acts">{acts}</div>'
             f'<div class="osd-demo"><div class="osd-cap"><h3>{c["osd_h"]}</h3><p>{c["osd_cap"]}</p><p class="osd-note">{c["osd_note"]}</p></div>'
-            f'<div class="osd-wrap"><div class="osd-screen" role="img" aria-label="{esc(c["osd_cap"])}" data-sets="{sets_json}" data-labels="{labels_json}"><div class="osd-lines">{osd_lines}</div></div>'
-            f'<div class="osd-bar"><span class="osd-label">{esc(sets[0][0])}</span><span class="osd-dots">{dots}</span></div><pre class="osd-tpl" aria-hidden="true">{tpl_txt}</pre></div></div></section>')
+            f'<div class="osd-wrap"><div class="osd-screen" role="img" aria-label="{esc(c["osd_cap"])}" data-sets="{sets_json}" data-labels="{labels_json}"><div class="osd-lines">{osd_lines}</div><i class="osd-prog" aria-hidden="true"></i></div>'
+            f'<div class="osd-bar"><span class="osd-label">{esc(sets[0][0])}</span><span class="osd-dots">{dots}</span></div></div></div></section>')
 
     feats = "".join(f'<article class="feat"><span class="ico">{I[k]}</span><div><h3>{esc(t)}</h3><p>{esc(d)}</p></div></article>' for k, t, d in c["feats"])
     feat = f'<section class="rl-sec" id="features"><h2 class="sec">{c["feat_h"]}</h2><p class="sec-s">{c["feat_s"]}</p><div class="feats">{feats}</div></section>'
@@ -268,9 +267,9 @@ OSD_JS = r"""<script>
 (function(){
   var s=document.querySelector('.osd-screen'); if(!s) return;
   var T=JSON.parse(s.getAttribute('data-sets')), labels=JSON.parse(s.getAttribute('data-labels'));
-  var lines=s.querySelectorAll('.osd-lines span'), lab=document.querySelector('.osd-label'), dots=document.querySelectorAll('.osd-dot'), tpl=document.querySelector('.osd-tpl');
+  var lines=s.querySelectorAll('.osd-lines span'), lab=document.querySelector('.osd-label'), dots=document.querySelectorAll('.osd-dot'), prog=s.querySelector('.osd-prog');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var layout=0, sim=0, tick=null, rot=null;
+  var layout=0, sim=0, tick=null, rot=null, anim=false, raf=0, GL='#%/+=*0123456789ABCDEF';
   // simulated camera + FC: tokens stay blank until the camera has confirmed them (blank-on-unconfirmed)
   function values(t){
     var cam=t>=2, rec=t>=5, el=rec?t-5:0;
@@ -288,21 +287,48 @@ OSD_JS = r"""<script>
   }
   function expand(tp,v){ return tp.replace(/%([a-z]{2})/g,function(x,k){ return k in v?v[k]:(/^(st|et|bt|rs|fp|ln|md|pr|bd|ar|rt|sd|sg|cr)$/.test(k)?'':x); }).replace(/\s+$/,'').slice(0,16); }
   function paint(){
+    if(anim) return;
     var v=values(sim), tp=T[layout];
     for(var k=0;k<lines.length;k++) lines[k].textContent=expand(tp[k]||'',v);
   }
-  function show(n){
-    layout=n; paint(); lab.textContent=labels[n]; tpl.textContent=T[n].join('\n');
+  function restartProg(){ if(!prog) return; prog.style.animation='none'; void prog.offsetWidth; prog.style.animation=''; }
+  function mark(n){
     for(var d=0;d<dots.length;d++) dots[d].classList.toggle('on',d===n);
+    lab.style.opacity=0; setTimeout(function(){ lab.textContent=labels[n]; lab.style.opacity=1; },180);
   }
-  function go(n){ s.classList.add('swap'); setTimeout(function(){ show(n); s.classList.remove('swap'); },260); }
+  function show(n){ layout=n; anim=false; paint(); lab.textContent=labels[n]; for(var d=0;d<dots.length;d++) dots[d].classList.toggle('on',d===n); restartProg(); }
+  // layout change: every column "decodes" from random glyphs into its final character, left to right, line by line
+  function go(n){
+    clearInterval(raf); mark(n); restartProg();
+    var v=values(sim), tp=T[n], tgt=[], rev=[], dur=0, k, i;
+    for(k=0;k<lines.length;k++){
+      tgt.push(expand(tp[k]||'',v)); rev.push([]);
+      for(i=0;i<16;i++){ rev[k][i]=k*120+i*34+Math.random()*140; if(rev[k][i]>dur) dur=rev[k][i]; }
+    }
+    dur+=120; layout=n; anim=true; s.classList.remove('blip'); void s.offsetWidth; s.classList.add('blip');
+    var t0=Date.now();
+    function frame(){
+      var e=Date.now()-t0;
+      if(e>=dur){ clearInterval(raf); anim=false; paint(); return; }
+      for(k=0;k<lines.length;k++){
+        var out='';
+        for(i=0;i<16;i++){
+          if(e>=rev[k][i]){ var ch=tgt[k].charAt(i); out+=(ch===' '||!ch)?' ':ch; }
+          else out+='<i>'+GL.charAt(Math.floor(Math.random()*GL.length))+'</i>';
+        }
+        lines[k].innerHTML=out;
+      }
+    }
+    frame(); raf=setInterval(frame,48);
+  }
   function start(){
     stop(); if(reduce) return;
+    restartProg();
     tick=setInterval(function(){ sim=(sim+1)%150; paint(); },1000);
     rot=setInterval(function(){ go((layout+1)%T.length); },7000);
   }
-  function stop(){ if(tick){clearInterval(tick);tick=null;} if(rot){clearInterval(rot);rot=null;} }
-  for(var d=0;d<dots.length;d++) dots[d].addEventListener('click',function(){ go(+this.getAttribute('data-i')); start(); });
+  function stop(){ if(tick){clearInterval(tick);tick=null;} if(rot){clearInterval(rot);rot=null;} clearInterval(raf); if(anim){ anim=false; paint(); } }
+  for(var d=0;d<dots.length;d++) dots[d].addEventListener('click',function(){ start(); go(+this.getAttribute('data-i')); });
   document.addEventListener('visibilitychange',function(){ document.hidden?stop():start(); });
   if(reduce){ sim=40; }
   show(0); start();
