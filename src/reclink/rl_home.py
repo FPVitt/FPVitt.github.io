@@ -5,8 +5,27 @@ render(lang, ctx) returns the <main> HTML. ctx supplies shared bits from build_w
     gh_url, gh_svg, mark, pre_tag, pre, home_sub, meta, pages (doc -> href), icons
 """
 import html
+import json
 
 E = html.escape
+
+# OSD layouts shown on the page: four templates each, written with the firmware's own %tokens
+# (%st state, %et elapsed, %bt battery, %rs resolution, %fp frame rate, %ln lens, %sd/%sg SD space,
+#  %md mode, %pr profile, %bd bit depth, %ar aspect, %cr link RSSI, %cn craft name, %gf/%gs FC GPS).
+OSD_TPL = [
+    ["%st %et  %bt", "%rs %fp %ln", "%sd %sg", "%md %pr"],
+    ["", "%st %et", "", ""],
+    ["%cn", "%st %et  %bt", "GPS %gf  %gs SAT", "%sg FREE"],
+    ["%rs %fp %ln", "%pr %bd %ar", "%cr dBm  %bt", "%st %et"],
+]
+# values used for the no-JS fallback (the script below runs a live simulation instead)
+OSD_STATIC = dict(st="REC", et="0:42", bt="87%", rs="5.3K", fp="60", ln="WIDE", sd="94m", sg="38.4G", md="VIDEO", pr="HLG",
+                  bd="10b", ar="16:9", cr="-62", cn="MY CINEWHOOP", gf="3D", gs="14")
+
+
+def expand(tpl):
+    import re
+    return re.sub(r"%([a-z]{2})", lambda m: OSD_STATIC.get(m.group(1), m.group(0)), tpl)[:16]
 
 
 def _i(path, extra=""):
@@ -43,8 +62,8 @@ C = {
         acts=[("rec", "Arm to record", "Recording starts the moment you arm, or from a radio switch, or both. Every command is checked against what the camera actually reports."),
               ("osd", "Status in your goggles", "Recording state, timers, battery, SD space and settings drawn on your Betaflight OSD, on four lines you design."),
               ("wifi", "Configure from your phone", "The board opens its own Wi-Fi while you are disarmed. No app, no cloud, no account. It switches off the instant you arm.")],
-        osd_h="Your OSD, your layout", osd_cap="Example. You choose what goes on each of the four 16-character lines.",
-        osd_lines=["REC 2:14   87%", "4K 60  WIDE", "SD 142m  38.4G", "VIDEO  LOG"],
+        osd_h="Your OSD, your layout", osd_cap="A simulated camera feeds it, with the same tokens you place in the configurator. You choose what goes on each of the four 16-character lines.",
+        osd_sets=[("Full status", OSD_TPL[0]), ("Minimal", OSD_TPL[1]), ("Craft and GPS", OSD_TPL[2]), ("Camera settings", OSD_TPL[3])],
         osd_note="A value the camera has not confirmed is left blank, never shown as 0 or a guess.",
         feat_h="Everything it does", feat_s="One small board, nine jobs.",
         feats=[("rec", "Record that follows the aircraft", "Start and stop on arm, on a radio switch, arm OR switch, or arm AND switch. Each command is confirmed by the camera before RecLink moves on."),
@@ -109,8 +128,8 @@ C = {
         acts=[("rec", "Arma e registra", "La registrazione parte quando armi, da un interruttore della radio, o con entrambi. Ogni comando viene verificato su ciò che la camera riporta davvero."),
               ("osd", "Lo stato nei goggles", "Stato di registrazione, tempi, batteria, spazio SD e impostazioni sull'OSD di Betaflight, su quattro righe che disegni tu."),
               ("wifi", "Configura dal telefono", "La scheda apre un suo Wi-Fi finché sei disarmato. Nessuna app, nessun cloud, nessun account. Si spegne appena armi.")],
-        osd_h="Il tuo OSD, a modo tuo", osd_cap="Esempio. Scegli tu cosa mettere su ognuna delle quattro righe da 16 caratteri.",
-        osd_lines=["REC 2:14   87%", "4K 60  WIDE", "SD 142m  38.4G", "VIDEO  LOG"],
+        osd_h="Il tuo OSD, a modo tuo", osd_cap="Lo alimenta una camera simulata, con gli stessi token che usi nel configuratore. Scegli tu cosa mettere su ognuna delle quattro righe da 16 caratteri.",
+        osd_sets=[("Stato completo", OSD_TPL[0]), ("Minimale", OSD_TPL[1]), ("Nome e GPS", OSD_TPL[2]), ("Impostazioni camera", OSD_TPL[3])],
         osd_note="Un valore che la camera non ha confermato resta vuoto, mai 0 né un'ipotesi.",
         feat_h="Tutto quello che fa", feat_s="Una piccola scheda, nove compiti.",
         feats=[("rec", "Registra insieme al velivolo", "Avvio e stop all'arm, da un interruttore, arm OPPURE interruttore, o arm E interruttore. Ogni comando è confermato dalla camera prima di andare avanti."),
@@ -192,11 +211,17 @@ def render(lang, ctx, cards_html):
     stats = f'<ul class="rl-stats">{stats}</ul>'
 
     acts = "".join(f'<article class="act"><span class="ico">{I[k]}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></article>' for k, t, d in c["acts"])
-    osd_lines = "".join(f"<span>{esc(l)}</span>" for l in c["osd_lines"])
+    sets = c["osd_sets"]
+    osd_lines = "".join(f"<span>{esc(expand(l))}</span>" for l in sets[0][1])
+    tpl_txt = esc("\n".join(sets[0][1]))
+    sets_json = esc(json.dumps([s[1] for s in sets], ensure_ascii=False))
+    dots = "".join(f'<button type="button" class="osd-dot{" on" if i == 0 else ""}" aria-label="{esc(s[0])}" data-i="{i}"></button>' for i, s in enumerate(sets))
+    labels_json = esc(json.dumps([s[0] for s in sets], ensure_ascii=False))
     show = (f'<section class="rl-sec" id="action"><h2 class="sec">{c["act_h"]}</h2><p class="sec-s">{c["act_s"]}</p>'
             f'<div class="acts">{acts}</div>'
             f'<div class="osd-demo"><div class="osd-cap"><h3>{c["osd_h"]}</h3><p>{c["osd_cap"]}</p><p class="osd-note">{c["osd_note"]}</p></div>'
-            f'<div class="osd-screen" role="img" aria-label="{esc(c["osd_cap"])}"><div class="osd-lines">{osd_lines}</div></div></div></section>')
+            f'<div class="osd-wrap"><div class="osd-screen" role="img" aria-label="{esc(c["osd_cap"])}" data-sets="{sets_json}" data-labels="{labels_json}"><div class="osd-lines">{osd_lines}</div></div>'
+            f'<div class="osd-bar"><span class="osd-label">{esc(sets[0][0])}</span><span class="osd-dots">{dots}</span></div><pre class="osd-tpl" aria-hidden="true">{tpl_txt}</pre></div></div></section>')
 
     feats = "".join(f'<article class="feat"><span class="ico">{I[k]}</span><div><h3>{esc(t)}</h3><p>{esc(d)}</p></div></article>' for k, t, d in c["feats"])
     feat = f'<section class="rl-sec" id="features"><h2 class="sec">{c["feat_h"]}</h2><p class="sec-s">{c["feat_s"]}</p><div class="feats">{feats}</div></section>'
@@ -234,4 +259,52 @@ def render(lang, ctx, cards_html):
            f'<a class="btn lg" href="../flash/">{ctx["icons"]["fw"]}{c["cta_fw"]}</a>'
            f'<a class="btn lg alt" href="{ctx["gh_url"]}" target="_blank" rel="noopener">{ctx["gh_svg"]}{ctx["gh"]}</a></p></section>')
 
-    return hero + callout + stats + show + feat + cam + safe + portal + go + need + more + end
+    return hero + callout + stats + show + feat + cam + safe + portal + go + need + more + end + OSD_JS
+
+
+# Live OSD preview: a simulated camera (connects, arms, records) feeds the same %tokens the firmware uses,
+# and the page rotates through the example layouts. Reduced-motion users get a static first layout.
+OSD_JS = r"""<script>
+(function(){
+  var s=document.querySelector('.osd-screen'); if(!s) return;
+  var T=JSON.parse(s.getAttribute('data-sets')), labels=JSON.parse(s.getAttribute('data-labels'));
+  var lines=s.querySelectorAll('.osd-lines span'), lab=document.querySelector('.osd-label'), dots=document.querySelectorAll('.osd-dot'), tpl=document.querySelector('.osd-tpl');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var layout=0, sim=0, tick=null, rot=null;
+  // simulated camera + FC: tokens stay blank until the camera has confirmed them (blank-on-unconfirmed)
+  function values(t){
+    var cam=t>=2, rec=t>=5, el=rec?t-5:0;
+    var m=function(n){return Math.floor(n/60)+':'+('0'+(n%60)).slice(-2);};
+    var rem=Math.max(0,5640-el), rm=Math.ceil(rem/60);
+    var v={cn:'MY CINEWHOOP', gf:'3D', gs:String(13+Math.round(1.2*Math.sin(t/9)))};
+    if(cam){
+      v.st=rec?'REC':'IDLE'; v.et=m(el); v.bt=(87-Math.floor(el/54))+'%';
+      v.rs='5.3K'; v.fp='60'; v.ln='WIDE'; v.md='VIDEO'; v.pr='HLG'; v.bd='10b'; v.ar='16:9';
+      v.rt=rm>=100?Math.floor(rm/60)+'h':rm+'m'; v.sd=v.rt;
+      v.sg=(38.4-0.1*Math.floor(el/7)).toFixed(1)+'G';
+      v.cr=String(-62+Math.round(3*Math.sin(t/3)+2*Math.sin(t/1.7)));
+    }
+    return v;
+  }
+  function expand(tp,v){ return tp.replace(/%([a-z]{2})/g,function(x,k){ return k in v?v[k]:(/^(st|et|bt|rs|fp|ln|md|pr|bd|ar|rt|sd|sg|cr)$/.test(k)?'':x); }).replace(/\s+$/,'').slice(0,16); }
+  function paint(){
+    var v=values(sim), tp=T[layout];
+    for(var k=0;k<lines.length;k++) lines[k].textContent=expand(tp[k]||'',v);
+  }
+  function show(n){
+    layout=n; paint(); lab.textContent=labels[n]; tpl.textContent=T[n].join('\n');
+    for(var d=0;d<dots.length;d++) dots[d].classList.toggle('on',d===n);
+  }
+  function go(n){ s.classList.add('swap'); setTimeout(function(){ show(n); s.classList.remove('swap'); },260); }
+  function start(){
+    stop(); if(reduce) return;
+    tick=setInterval(function(){ sim=(sim+1)%150; paint(); },1000);
+    rot=setInterval(function(){ go((layout+1)%T.length); },7000);
+  }
+  function stop(){ if(tick){clearInterval(tick);tick=null;} if(rot){clearInterval(rot);rot=null;} }
+  for(var d=0;d<dots.length;d++) dots[d].addEventListener('click',function(){ go(+this.getAttribute('data-i')); start(); });
+  document.addEventListener('visibilitychange',function(){ document.hidden?stop():start(); });
+  if(reduce){ sim=40; }
+  show(0); start();
+})();
+</script>"""

@@ -37,3 +37,5 @@ h1.ch,h2,h3,.chno,.lead{break-inside:avoid;break-after:avoid}
 .diagram.osdd{display:flow-root;overflow:hidden}
 
 .cols.keep{break-inside:avoid}
+.diagram.wire:not([style]){column-span:none}
+.diagram.wire svg{max-height:none;height:auto}

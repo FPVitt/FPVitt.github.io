@@ -67,7 +67,7 @@
 <h1 class="ch">Wire it<a aria-label="link" class="anchor" href="#step1">#</a></h1>
 <div class="cols">
 <div class="grow">
-<div class="diagram wire" style="margin:0"><svg aria-label="Wiring" role="img" viewbox="0 0 300 410">
+<div class="diagram wire" style="margin:0"><svg aria-label="Wiring" role="img" viewbox="0 0 300 360">
 <rect class="boxc" height="88" rx="12" width="284" x="8" y="8"></rect>
 <text class="b" font-size="17" text-anchor="middle" x="150" y="36">Flight controller</text>
 <text class="m" font-size="13" text-anchor="middle" x="150" y="55">a spare UART</text>
@@ -92,7 +92,6 @@
 <g font-size="14" font-weight="700" text-anchor="middle">
 <text x="45" y="185">TX→RX</text><text x="115" y="185">RX→TX</text><text x="185" y="185">+5 V</text><text x="255" y="185">GND</text>
 </g>
-<rect class="boxd" height="38" rx="10" width="284" x="8" y="368"></rect><text font-size="14" text-anchor="middle" x="150" y="392">The camera keeps its own power</text>
 </svg></div>
 </div>
 <div style="width:70mm;flex:none">
@@ -104,8 +103,8 @@
 </div>
 <div class="tbl pins"><table>
 <tr><th>Flight controller</th><th>RecLink board</th><th>SuperMini</th><th>S3</th></tr>
-<tr><td>TX</td><td>GPIO20</td><td>GPIO7</td><td>GPIO4</td></tr>
-<tr><td>RX</td><td>GPIO21</td><td>GPIO6</td><td>GPIO5</td></tr>
+<tr><td>TX</td><td>RX</td><td>7</td><td>4</td></tr>
+<tr><td>RX</td><td>TX</td><td>6</td><td>5</td></tr>
 <tr><td>5 V</td><td>5 V</td><td>5V</td><td>5V</td></tr>
 <tr><td>GND</td><td>GND</td><td>GND</td><td>GND</td></tr>
 </table></div>

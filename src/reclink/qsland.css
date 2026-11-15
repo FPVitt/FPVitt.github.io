@@ -1,2 +1,11 @@
 .chapter.sl{break-before:page;margin-top:0}
 .diagram svg{height:40mm;width:auto;display:block;margin:0 auto}
+.diagram.wire svg{height:auto;width:100%;max-height:none}
+.diagram{column-span:none}
+section:has(.diagram.wire){column-count:1!important;display:grid;grid-template-columns:78mm 1fr;column-gap:6mm;align-items:start}
+section:has(.diagram.wire)>.chno,section:has(.diagram.wire)>h1{grid-column:1/-1}
+section:has(.diagram.wire)>.cols{display:contents}
+section:has(.diagram.wire)>.cols>div.grow{grid-column:1;grid-row:3/span 2;float:none;width:auto}
+section:has(.diagram.wire)>.cols>div[style*="width"]{grid-column:2;grid-row:3;width:auto!important;float:none;margin:0}
+section:has(.diagram.wire)>.tbl{grid-column:2;grid-row:4}
+section:has(.diagram.wire){break-before:page}

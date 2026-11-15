@@ -80,3 +80,4 @@ Your board|||La tua scheda
 GPIO number on each board|||Numero GPIO su ogni scheda
 If you have the <b>RecLink board</b>, you can skip this part, but make sure its firmware is up to date: update it over Wi-Fi from the web installer (System tab → Firmware update).|||Se hai la <b>scheda RecLink</b> puoi saltare questa parte, ma controlla che il firmware sia aggiornato: aggiornalo via Wi-Fi dall'installer web (scheda Sistema → Aggiornamento firmware).
 A <b>SuperMini</b> or <b>S3</b> board must be flashed once, from the web installer. Follow the steps below.|||Una scheda <b>SuperMini</b> o <b>S3</b> va caricata una volta con l'installer web. Segui i passi qui sotto.
+TX, with a 470 Ω resistor on the board|||TX, con resistenza da 470 Ω sulla scheda

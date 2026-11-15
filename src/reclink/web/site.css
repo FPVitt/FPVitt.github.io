@@ -440,3 +440,16 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 .tbl.pins td:first-child{white-space:normal;font-weight:650}
 @media (max-width:640px){.tbl.pins th{letter-spacing:.02em;font-size:.68rem;text-transform:none;font-weight:700}.tbl.pins{padding:.1rem .2rem}.tbl.pins table{font-size:.85rem}}
 .diagram.wire{margin-left:auto;margin-right:auto}
+
+/* live OSD preview */
+.osd-wrap{min-width:0}
+.osd-lines{min-width:17ch}
+.osd-lines span{min-height:1.15em;transition:opacity .26s}
+.osd-lines span:empty::before{content:"\00a0"}
+.osd-screen.swap .osd-lines span{opacity:0}
+.osd-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:.7rem .1rem 0}
+.osd-label{font-size:.9rem;font-weight:650;color:var(--fg)}
+.osd-dots{display:flex;gap:.45rem}
+.osd-dot{width:.7rem;height:.7rem;padding:0;border-radius:50%;border:1px solid var(--mut);background:transparent;cursor:pointer}
+.osd-dot.on{background:var(--acc-ink);border-color:var(--acc-ink)}
+.osd-tpl{margin:.6rem 0 0;padding:.6rem .8rem;background:var(--well);border:1px solid var(--line);border-radius:var(--radius-md);font:500 .78rem/1.5 var(--font-mono);color:var(--mut);white-space:pre;overflow:hidden}

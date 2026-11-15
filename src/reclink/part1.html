@@ -160,7 +160,7 @@
   <circle cx="42" cy="86" r="7" class="boxa"/><text x="58" y="90" class="t10">Status LED</text><text x="58" y="102" class="m t8">GPIO10</text>
   <rect x="35" y="124" width="14" height="14" rx="3" class="box"/><text x="58" y="131" class="t10">Button</text><text x="58" y="143" class="m t8">GPIO9</text>
   <text x="26" y="176" class="b t10">Serial to the FC</text>
-  <text x="26" y="191" class="t9">RX  GPIO20   TX  GPIO21</text>
+  <text x="26" y="191" class="t9">RX   ·   TX</text>
   <text x="26" y="205" class="t9">5 V in   ·   GND</text>
 </svg><p class="cap">Controls and pins on the production board.</p></div>
 </div>
@@ -207,12 +207,12 @@
 <h2>Wiring by board</h2>
 <div class="tbl"><table>
 <tr><th>Board</th><th>FC TX goes to</th><th>FC RX comes from</th><th>Power</th><th>Status LED</th></tr>
-<tr><td>RecLink board</td><td>RX (GPIO20)</td><td class="wrap">TX (GPIO21), with a 470 Ω resistor on the board</td><td class="wrap">5 V and GND pads</td><td class="wrap">GPIO10, on the board</td></tr>
-<tr><td>ESP32-C3 SuperMini</td><td>GPIO7</td><td>GPIO6</td><td class="wrap">5V pin and GND</td><td class="wrap">GPIO8, onboard</td></tr>
-<tr><td>ESP32-S3 dev board</td><td>GPIO4</td><td>GPIO5</td><td class="wrap">5V pin and GND</td><td class="wrap">GPIO8 if the board has one</td></tr>
+<tr><td>RecLink board</td><td>RX</td><td class="wrap">TX, with a 470 Ω resistor on the board</td><td class="wrap">5 V and GND pads</td><td class="wrap">GPIO10, on the board</td></tr>
+<tr><td>ESP32-C3 SuperMini</td><td>7</td><td>6</td><td class="wrap">5V pin and GND</td><td class="wrap">GPIO8, onboard</td></tr>
+<tr><td>ESP32-S3 dev board</td><td>4</td><td>5</td><td class="wrap">5V pin and GND</td><td class="wrap">GPIO8 if the board has one</td></tr>
 </table></div>
 <p class="sm mut">The serial wires cross: FC TX goes to the board's RX, and the board's TX goes to the FC RX. Dev boards have no series resistor; if you see garbage on the link, add 470 Ω in the TX line. The firmware for each board uses these pins, so a SuperMini image will not drive the RecLink board's LED, and the other way round.</p>
-<div class="diagram wire"><svg viewBox="0 0 340 530" role="img" aria-label="Wiring diagram">
+<div class="diagram wire"><svg viewBox="0 0 340 470" role="img" aria-label="Wiring diagram">
   <text x="170" y="20" text-anchor="middle" class="m" font-size="13">3.3 V logic on both sides: direct connection</text>
   <rect x="8" y="34" width="324" height="94" rx="12" class="boxc"/>
   <text x="170" y="62" text-anchor="middle" class="b" font-size="17">Flight controller</text>
@@ -224,7 +224,6 @@
     <text x="55" y="114">TX</text><text x="138" y="114">RX</text><text x="221" y="114">5 V</text><text x="304" y="114">GND</text>
     <text x="55" y="326">RX</text><text x="138" y="326">TX</text><text x="221" y="326">5 V</text><text x="304" y="326">GND</text>
   </g>
-  <g font-size="12" text-anchor="middle" class="m"><text x="55" y="345">GPIO20</text><text x="138" y="345">GPIO21</text></g>
   <g stroke-width="5" stroke-linecap="round" fill="none">
     <path d="M55 128 V300" stroke="var(--zone-2)"/><path d="M138 128 V300" stroke="var(--warn)"/>
     <path d="M221 128 V300" stroke="var(--dng)"/><path d="M304 128 V300" stroke="var(--mut)"/>
@@ -240,11 +239,8 @@
   <g font-size="14" font-weight="700" text-anchor="middle">
     <text x="55" y="219">TX→RX</text><text x="138" y="219">RX→TX</text><text x="221" y="219">+5 V</text><text x="304" y="219">GND</text>
   </g>
-  <rect x="8" y="424" width="324" height="56" rx="10" class="boxd"/>
-  <text x="170" y="448" text-anchor="middle" class="b" font-size="14">Camera: its own battery or BEC</text>
-  <text x="170" y="467" text-anchor="middle" class="m" font-size="13">never powered from RecLink</text>
-  <text x="170" y="505" text-anchor="middle" class="m" font-size="13">≥ 220 µF capacitor across 5 V</text>
-  <text x="170" y="523" text-anchor="middle" class="m" font-size="13">(if the board does not have one)</text>
+  <text x="170" y="440" text-anchor="middle" class="m" font-size="13">≥ 220 µF capacitor across 5 V</text>
+  <text x="170" y="458" text-anchor="middle" class="m" font-size="13">(if the board does not have one)</text>
 </svg>
 <p class="cap">Serial wires cross: the FC's TX goes to RecLink's RX, and RecLink's TX goes to the FC's RX.</p></div>
 
