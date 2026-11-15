@@ -1,4 +1,4 @@
-import re, json, sys, os
+import hashlib, re, json, sys, os
 from PIL import Image
 from bs4 import BeautifulSoup, Comment
 from svgs import SVG
@@ -105,7 +105,7 @@ def build(doc,lang,orient):
                 y0=0 if s=="-" else max(0,anch[s][1]-4)
                 y1=H if e=="-" else (max(0,anch[e[:-1]][1]-3) if e.endswith("^") else min(H,anch[e][1]+anch[e][3]+6))
                 im=Image.open(img); sc=im.width/W
-                out=f"shots/_{name}_{abs(hash(a['crop']))%10000}.png"
+                out=f"shots/_{name}_{int(hashlib.md5(a['crop'].encode()).hexdigest()[:8], 16)}.png"   # stable + collision-free (hash() is randomised per run and collided)
                 im.crop((0,int(y0*sc),im.width,int(y1*sc))).save(out); img=out
             else: y1=H
         ch=(y1-y0) if an else None

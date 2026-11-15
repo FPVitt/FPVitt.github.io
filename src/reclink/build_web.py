@@ -24,7 +24,7 @@ ASSETS = os.path.join(DOCS, "assets")
 IMG = os.path.join(ASSETS, "img")
 PDFDIR = os.path.join(DOCS, "pdf")
 REPO_URL = "https://github.com/FPVitt/RecLink"
-FW = "0.2.0"
+FW = "0.2.1"
 SITE = "https://fpvitt.github.io/RecLink/"
 HOME = "https://fpvitt.github.io/"
 GC_CODE = "fpvitt"   # GoatCounter site code (https://<code>.goatcounter.com). Empty = no analytics at all.

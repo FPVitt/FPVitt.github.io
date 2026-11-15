@@ -1,13 +1,13 @@
 {
  "name": "RecLink",
- "version": "0.2.0",
+ "version": "0.2.1",
  "new_install_prompt_erase": true,
  "builds": [
   {
    "chipFamily": "ESP32-S3",
    "parts": [
     {
-     "path": "reclink-esp32s3.bin",
+     "path": "reclink-esp32s3-zero.bin",
      "offset": 0
     }
    ]
