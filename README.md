@@ -34,3 +34,9 @@ The installer (`RecLink/flash/`) serves the firmware images from this repo, beca
 ## Adding a project
 
 Add an entry to `projects` in `build_home()` (`src/reclink/build_web.py`) and put the project's pages in a new top-level folder.
+
+## Analytics (GoatCounter)
+
+Anonymous, cookieless statistics. Set `GC_CODE` in `src/reclink/build_web.py` to your GoatCounter site code (`https://<code>.goatcounter.com`) and rebuild; with an empty code nothing is loaded. Visitors with Do Not Track on are skipped. When active, a one-line notice is added to the page footers.
+
+Custom events from the installer (shown under *Events* in GoatCounter): `flash/board/<board>`, `flash/method/<board>/<usb|ota>`, `flash/version/<tag>`, `flash/download/<asset>`, `flash/connect/<board>` (Connect button), `flash/dialog-opened/<board>` (a serial port was picked) and `flash/dialog-closed/<board>/<finished|not-finished>` (the last one reads an internal property of ESP Web Tools 10, so re-check it after a library bump).

@@ -69,6 +69,7 @@ code{background:var(--well);padding:1px 5px;border-radius:4px}.card ol{padding-l
 </main>
 </div>
 <footer class="site-foot"><div><span>Firmware 0.2.0 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Source on GitHub</a><a href="#top" class="to-top">Back to top</a></div></footer>
+<script src="../assets/stats.js" defer></script>
 <script src="../assets/site.js" defer></script>
 <script>
 (function(){
@@ -77,9 +78,10 @@ if(L!=='en'&&L!=='it')L=(function(){var a=navigator.languages&&navigator.languag
 var segs=document.querySelectorAll('.seg a[data-lang]');
 function setL(l){L=l;document.documentElement.lang=l;segs.forEach(function(a){if(a.dataset.lang===l)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});try{localStorage.setItem('rl-lang',l)}catch(e){}}
 segs.forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();setL(a.dataset.lang)})});setL(L);
+function T(n){try{window.rlTrack&&window.rlTrack(n)}catch(e){}}
 var bs=document.querySelectorAll('.board'),ps=document.querySelectorAll('#panels>div');
 function pick(x){bs.forEach(function(e){e.setAttribute('aria-pressed',e.dataset.b===x)});ps.forEach(function(p){p.classList.toggle('on',p.id==='p-'+x)});try{history.replaceState(null,'','#'+x)}catch(e){}}
-bs.forEach(function(e){e.onclick=function(){pick(e.dataset.b)}});
+bs.forEach(function(e){e.onclick=function(){pick(e.dataset.b);T('flash/board/'+e.dataset.b)}});
 var h=(location.hash||'').slice(1);if(h)pick(h);
 var USB={'v0.2.0':true};      // versions whose full USB flash images are bundled in this folder
 var sel=document.getElementById('ver-sel'),rels=[];
@@ -91,8 +93,10 @@ function apply(){var r=rels[sel.selectedIndex];if(!r)return;var a=pickAsset(r),d
   var v=e.parentNode.querySelector('.dlv');v.textContent=r.tag_name+(f?'':' · no image for this board in this release')});
  var u=!!USB[r.tag_name];document.querySelectorAll('.usb').forEach(function(e){e.hidden=!u});document.querySelectorAll('.nousb').forEach(function(e){e.hidden=u});}
 document.querySelectorAll('.mpick').forEach(function(g){var card=g.parentNode;g.querySelectorAll('.mbtn').forEach(function(b){b.onclick=function(){g.querySelectorAll('.mbtn').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
- card.querySelector('.m-usb').hidden=b.dataset.m!=='usb';card.querySelector('.m-ota').hidden=b.dataset.m!=='ota';}})});
-sel.onchange=apply;
+ card.querySelector('.m-usb').hidden=b.dataset.m!=='usb';card.querySelector('.m-ota').hidden=b.dataset.m!=='ota';T('flash/method/'+(card.id||'').replace('p-','')+'/'+b.dataset.m);}})});
+sel.onchange=function(){apply();var r=rels[sel.selectedIndex];if(r)T('flash/version/'+r.tag_name)};
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.dla,#dl');if(a)T('flash/download/'+(a.dataset.asset||'default'));var b=e.target.closest&&e.target.closest('esp-web-install-button');if(b)T('flash/connect/'+(b.getAttribute('manifest')||'').replace(/^manifest-|\.json$/g,''))},true);
+new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.tagName==='EWT-INSTALL-DIALOG'){var mf=(n.manifestPath||'').replace(/^manifest-|\.json$/g,'');T('flash/dialog-opened/'+mf);n.addEventListener('closed',function(){var st='';try{st=String((n._installState||{}).state||'').toLowerCase()}catch(e){}T('flash/dialog-closed/'+mf+'/'+(st==='finished'?'finished':'not-finished'))})}})})}).observe(document.body,{childList:true});
 fetch('https://api.github.com/repos/FPVitt/RecLink/releases?per_page=20').then(function(r){return r.json()}).then(function(a){
  rels=(a||[]).filter(function(r){return !r.draft});sel.innerHTML='';
  rels.forEach(function(r,i){var o=document.createElement('option');o.textContent=r.tag_name+(r.prerelease?' (pre-release)':'')+(i===0?' · latest':'');sel.appendChild(o)});apply();
