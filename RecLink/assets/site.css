@@ -471,7 +471,7 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 
 /* hero: the board picture rotates between RecLink board, SuperMini and S3-Zero (CSS only) */
 .hero-stack{display:grid}
-.hs{grid-area:1/1;margin:0;opacity:0;animation:heroswap 13.5s infinite;animation-delay:calc(var(--i) * 4.5s)}
+.hs{grid-area:1/1;margin:0;opacity:0;animation:heroswap 9s infinite;animation-delay:calc(var(--i) * 3s)}
 .hs:first-child{opacity:1;animation-name:heroswap0}
 .hs img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 18px 40px rgba(0,0,0,.45))}
 .hs figcaption{text-align:center;color:var(--mut);font-size:.88rem;font-weight:600;margin-top:.2rem}
