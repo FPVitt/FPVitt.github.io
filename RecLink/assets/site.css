@@ -439,3 +439,4 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 .tbl.pins th,.tbl.pins td{white-space:normal;padding-left:.45rem;padding-right:.45rem}
 .tbl.pins td:first-child{white-space:normal;font-weight:650}
 @media (max-width:640px){.tbl.pins th{letter-spacing:.02em;font-size:.68rem;text-transform:none;font-weight:700}.tbl.pins{padding:.1rem .2rem}.tbl.pins table{font-size:.85rem}}
+.diagram.wire{margin-left:auto;margin-right:auto}
