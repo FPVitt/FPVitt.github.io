@@ -67,42 +67,48 @@
 <h1 class="ch">Cablaggio<a aria-label="link" class="anchor" href="#step1">#</a></h1>
 <div class="cols">
 <div class="grow">
-<div class="diagram" style="margin:0"><svg aria-label="Wiring" role="img" viewbox="0 0 700 262">
-<rect class="boxc" height="170" rx="10" width="190" x="20" y="30"></rect>
-<text class="b t12" text-anchor="middle" x="115" y="54">Flight controller</text><text class="m t9" text-anchor="middle" x="115" y="68">una UART libera</text>
-<rect class="boxc" height="170" rx="10" style="stroke:var(--acc)" width="260" x="430" y="30"></rect>
-<text class="b t12" text-anchor="middle" x="560" y="50">La tua scheda</text><text class="m t9" text-anchor="middle" x="560" y="63">Numero GPIO su ogni scheda</text>
-<g class="t9 b m" text-anchor="middle"><text x="575" y="80">SuperMini</text><text x="640" y="80">S3</text></g>
-<g class="t11">
-<circle cx="210" cy="98" fill="var(--fg)" r="5"></circle><text text-anchor="end" x="198" y="102">TX</text>
-<circle cx="210" cy="128" fill="var(--fg)" r="5"></circle><text text-anchor="end" x="198" y="132">RX</text>
-<circle cx="210" cy="158" fill="var(--fg)" r="5"></circle><text text-anchor="end" x="198" y="162">5 V</text>
-<circle cx="210" cy="188" fill="var(--fg)" r="5"></circle><text text-anchor="end" x="198" y="192">GND</text>
-<circle cx="430" cy="98" fill="var(--fg)" r="5"></circle><text x="442" y="102">RX</text>
-<circle cx="430" cy="128" fill="var(--fg)" r="5"></circle><text x="442" y="132">TX</text>
-<circle cx="430" cy="158" fill="var(--fg)" r="5"></circle><text x="442" y="162">5 V</text>
-<circle cx="430" cy="188" fill="var(--fg)" r="5"></circle><text x="442" y="192">GND</text>
+<div class="diagram wire" style="margin:0"><svg aria-label="Wiring" role="img" viewbox="0 0 300 410">
+<rect class="boxc" height="88" rx="12" width="284" x="8" y="8"></rect>
+<text class="b" font-size="17" text-anchor="middle" x="150" y="36">Flight controller</text>
+<text class="m" font-size="13" text-anchor="middle" x="150" y="55">una UART libera</text>
+<rect class="boxc" height="88" rx="12" style="stroke:var(--acc);stroke-width:2" width="284" x="8" y="264"></rect>
+<text class="b" font-size="17" text-anchor="middle" x="150" y="332">La tua scheda</text>
+<g font-size="15" font-weight="700" text-anchor="middle">
+<text x="45" y="82">TX</text><text x="115" y="82">RX</text><text x="185" y="82">5 V</text><text x="255" y="82">GND</text>
+<text x="45" y="291">RX</text><text x="115" y="291">TX</text><text x="185" y="291">5 V</text><text x="255" y="291">GND</text>
 </g>
-<g class="t11" text-anchor="middle"><text x="575" y="102">7</text><text x="640" y="102">4</text>
-<text x="575" y="132">6</text><text x="640" y="132">5</text>
-<text x="575" y="162">5V</text><text x="640" y="162">5V</text>
-<text x="575" y="192">GND</text><text x="640" y="192">GND</text></g>
-<path d="M215 98 H425" fill="none" stroke="var(--zone-2)" stroke-width="3"></path>
-<path d="M215 128 H425" fill="none" stroke="var(--warn)" stroke-width="3"></path>
-<path d="M215 158 H425" fill="none" stroke="var(--dng)" stroke-width="3"></path>
-<path d="M215 188 H425" fill="none" stroke="var(--mut)" stroke-width="3"></path>
-<g class="t10 m" text-anchor="middle"><text x="320" y="91">TX va a RX</text><text x="320" y="121">RX va a TX</text><text x="320" y="151">alimentazione</text><text x="320" y="181">massa</text></g>
-<rect class="boxd" height="34" rx="8" width="270" x="185" y="218"></rect><text class="t10" text-anchor="middle" x="320" y="239">La camera ha la sua alimentazione</text>
+<g fill="none" stroke-linecap="round" stroke-width="5">
+<path d="M45 96 V264" stroke="var(--zone-2)"></path><path d="M115 96 V264" stroke="var(--warn)"></path>
+<path d="M185 96 V264" stroke="var(--dng)"></path><path d="M255 96 V264" stroke="var(--mut)"></path>
+</g>
+<g fill="var(--fg)" stroke="var(--card)" stroke-width="2">
+<circle cx="45" cy="96" r="7"></circle><circle cx="115" cy="96" r="7"></circle><circle cx="185" cy="96" r="7"></circle><circle cx="255" cy="96" r="7"></circle>
+<circle cx="45" cy="264" r="7"></circle><circle cx="115" cy="264" r="7"></circle><circle cx="185" cy="264" r="7"></circle><circle cx="255" cy="264" r="7"></circle>
+</g>
+<g fill="var(--bg)" stroke-width="2">
+<rect height="28" rx="14" stroke="var(--zone-2)" width="66" x="12" y="166"></rect><rect height="28" rx="14" stroke="var(--warn)" width="66" x="82" y="166"></rect>
+<rect height="28" rx="14" stroke="var(--dng)" width="66" x="152" y="166"></rect><rect height="28" rx="14" stroke="var(--mut)" width="66" x="222" y="166"></rect>
+</g>
+<g font-size="14" font-weight="700" text-anchor="middle">
+<text x="45" y="185">TX→RX</text><text x="115" y="185">RX→TX</text><text x="185" y="185">+5 V</text><text x="255" y="185">GND</text>
+</g>
+<rect class="boxd" height="38" rx="10" width="284" x="8" y="368"></rect><text font-size="14" text-anchor="middle" x="150" y="392">La camera ha la sua alimentazione</text>
 </svg></div>
 </div>
 <div style="width:70mm;flex:none">
 <ul>
 <li>Collega i quattro fili come nel disegno. <b>TX va a RX e RX va a TX.</b></li>
-<li>SuperMini: TX della FC a <b>GPIO7</b>, RX della FC da <b>GPIO6</b>. S3: TX della FC a <b>GPIO4</b>, RX della FC da <b>GPIO5</b>. Alimentazione da 5 V e GND della FC (tabella completa nella Guida utente).</li>
 <li>Fili incrociati per errore? Correggi dopo nel configuratore (Network → Swap TX/RX pins). Niente saldature.</li>
 </ul>
 </div>
 </div>
+<div class="tbl pins"><table>
+<tr><th>Flight controller</th><th>Scheda RecLink</th><th>SuperMini</th><th>S3</th></tr>
+<tr><td>TX</td><td>GPIO20</td><td>GPIO7</td><td>GPIO4</td></tr>
+<tr><td>RX</td><td>GPIO21</td><td>GPIO6</td><td>GPIO5</td></tr>
+<tr><td>5 V</td><td>5 V</td><td>5V</td><td>5V</td></tr>
+<tr><td>GND</td><td>GND</td><td>GND</td><td>GND</td></tr>
+</table></div>
 </section><section class="chapter" id="step2">
 <p class="chno">Passo 2</p>
 <h1 class="ch">Configura Betaflight<a aria-label="link" class="anchor" href="#step2">#</a></h1>
