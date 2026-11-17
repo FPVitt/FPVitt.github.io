@@ -57,14 +57,13 @@ NO = '<span class="cm no" title="{t}"><svg viewBox="0 0 16 16" aria-hidden="true
 C = {
     "en": dict(
         cta_fw="Install the firmware", cta_qs="Quick start",
-        stats=[("0.48 g", "board weight"), ("22", "OSD tokens"), ("4", "cameras paired"), ("2–6", "radio-switch zones"), ("0", "commands that touch flight")],
+        stats=[("0.68 g", "board weight"), ("3", "boards it runs on"), ("2", "camera brands"), ("≤100 ms", "Wi-Fi off after arming"), ("GPL-3.0", "open source")],
         act_h="See it in action", act_s="What RecLink does while you fly, and what you set up on the ground.",
         acts=[("rec", "Arm to record", "Recording starts the moment you arm, or from a radio switch, or both. Every command is checked against what the camera actually reports."),
               ("osd", "Status in your goggles", "Recording state, timers, battery, SD space and settings drawn on your Betaflight OSD, on four lines you design."),
               ("wifi", "Configure from your phone", "The board opens its own Wi-Fi while you are disarmed. No app, no cloud, no account. It switches off the instant you arm.")],
         osd_h="Your OSD, your layout", osd_cap="A simulated camera feeds it, with the same tokens you place in the configurator. You choose what goes on each of the four 16-character lines.",
         osd_sets=[("Full status", OSD_TPL[0]), ("Minimal", OSD_TPL[1]), ("Card and battery", OSD_TPL[2]), ("Camera settings", OSD_TPL[3])],
-        osd_note="A value the camera has not confirmed is left blank, never shown as 0 or a guess.",
         feat_h="Everything it does", feat_s="One small board, nine jobs.",
         feats=[("rec", "Record that follows the aircraft", "Start and stop on arm, on a radio switch, arm OR switch, or arm AND switch. Each command is confirmed by the camera before RecLink moves on."),
                ("zones", "Switch zones", "A 2–6 position switch changes camera settings in flight. On a GoPro each zone sets resolution, frame rate, lens, HyperSmooth and Protune values; on a DJI each zone picks a mode."),
@@ -114,7 +113,7 @@ C = {
              ("Pair the camera", "Open the configurator and pair your GoPro or DJI."),
              ("Set your switches", "Pick when to record, build your zones, lay out the OSD.")],
         brd_h="Runs on the board you have", brd_s="The same firmware runs on three kinds of board. You do not need the custom RecLink board to use RecLink.",
-        brds=[("ESP32-C3", "RecLink board", "dev", "In development", "The custom 0.48 g board made for cinewhoops: four solder pads (GND, 5V, TX, RX) and nothing else.", "Wire FC TX to RX and FC RX to TX. Updates over Wi-Fi."),
+        brds=[("ESP32-C3", "RecLink board", "dev", "In development", "The custom 0.68 g board made for cinewhoops: four solder pads (GND, 5V, TX, RX) and nothing else.", "Wire FC TX to RX and FC RX to TX. Updates over Wi-Fi."),
               ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supported", "A tiny, cheap and easy to find dev board. Flash it from your browser over USB.", "FC TX to pin 7, FC RX to pin 6."),
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supported", "The Waveshare ESP32-S3-Zero. Flash it from your browser over USB. Its RGB LED shows the status in colour.", "FC TX to pin 4, FC RX to pin 5.")],
         brd_cta="Open the installer",
@@ -128,14 +127,13 @@ C = {
     ),
     "it": dict(
         cta_fw="Installa il firmware", cta_qs="Guida rapida",
-        stats=[("0,48 g", "peso della scheda"), ("22", "token OSD"), ("4", "camere abbinate"), ("2–6", "zone sull'interruttore"), ("0", "comandi che toccano il volo")],
+        stats=[("0,68 g", "peso della scheda"), ("3", "schede supportate"), ("2", "marchi di camere"), ("≤100 ms", "Wi-Fi spento dopo l'arm"), ("GPL-3.0", "open source")],
         act_h="Guardalo in azione", act_s="Cosa fa RecLink mentre voli, e cosa imposti a terra.",
         acts=[("rec", "Arma e registra", "La registrazione parte quando armi, da un interruttore della radio, o con entrambi. Ogni comando viene verificato su ciò che la camera riporta davvero."),
               ("osd", "Lo stato nei goggles", "Stato di registrazione, tempi, batteria, spazio SD e impostazioni sull'OSD di Betaflight, su quattro righe che disegni tu."),
               ("wifi", "Configura dal telefono", "La scheda apre un suo Wi-Fi finché sei disarmato. Nessuna app, nessun cloud, nessun account. Si spegne appena armi.")],
         osd_h="Il tuo OSD, a modo tuo", osd_cap="Lo alimenta una camera simulata, con gli stessi token che usi nel configuratore. Scegli tu cosa mettere su ognuna delle quattro righe da 16 caratteri.",
         osd_sets=[("Stato completo", OSD_TPL[0]), ("Minimale", OSD_TPL[1]), ("Scheda SD e batteria", OSD_TPL[2]), ("Impostazioni camera", OSD_TPL[3])],
-        osd_note="Un valore che la camera non ha confermato resta vuoto, mai 0 né un'ipotesi.",
         feat_h="Tutto quello che fa", feat_s="Una piccola scheda, nove compiti.",
         feats=[("rec", "Registra insieme al velivolo", "Avvio e stop all'arm, da un interruttore, arm OPPURE interruttore, o arm E interruttore. Ogni comando è confermato dalla camera prima di andare avanti."),
                ("zones", "Zone dell'interruttore", "Un interruttore a 2–6 posizioni cambia le impostazioni della camera in volo. Su GoPro ogni zona imposta risoluzione, frame rate, lente, HyperSmooth e Protune; su DJI ogni zona sceglie una modalità."),
@@ -185,7 +183,7 @@ C = {
              ("Abbina la camera", "Apri il configuratore e abbina la GoPro o la DJI."),
              ("Imposta gli interruttori", "Scegli quando registrare, crea le zone, disegna l'OSD.")],
         brd_h="Funziona sulla scheda che hai", brd_s="Lo stesso firmware funziona su tre tipi di scheda. Non ti serve la scheda RecLink personalizzata per usare RecLink.",
-        brds=[("ESP32-C3", "Scheda RecLink", "dev", "In sviluppo", "La scheda personalizzata da 0,48 g pensata per i cinewhoop: quattro pad (GND, 5V, TX, RX) e nient'altro.", "Collega TX della FC a RX e RX della FC a TX. Si aggiorna via Wi-Fi."),
+        brds=[("ESP32-C3", "Scheda RecLink", "dev", "In sviluppo", "La scheda personalizzata da 0,68 g pensata per i cinewhoop: quattro pad (GND, 5V, TX, RX) e nient'altro.", "Collega TX della FC a RX e RX della FC a TX. Si aggiorna via Wi-Fi."),
               ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supportata", "Una scheda di sviluppo minuscola, economica e facile da trovare. Caricala dal browser via USB.", "TX della FC al pin 7, RX della FC al pin 6."),
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supportata", "La Waveshare ESP32-S3-Zero. Caricala dal browser via USB. Il suo LED RGB mostra lo stato a colori.", "TX della FC al pin 4, RX della FC al pin 5.")],
         brd_cta="Apri l'installer",
@@ -236,7 +234,7 @@ def render(lang, ctx, cards_html):
     labels_json = esc(json.dumps([s[0] for s in sets], ensure_ascii=False))
     show = (f'<section class="rl-sec" id="action"><h2 class="sec">{c["act_h"]}</h2><p class="sec-s">{c["act_s"]}</p>'
             f'<div class="acts">{acts}</div>'
-            f'<div class="osd-demo"><div class="osd-cap"><h3>{c["osd_h"]}</h3><p>{c["osd_cap"]}</p><p class="osd-note">{c["osd_note"]}</p></div>'
+            f'<div class="osd-demo"><div class="osd-cap"><h3>{c["osd_h"]}</h3><p>{c["osd_cap"]}</p></div>'
             f'<div class="osd-wrap"><div class="osd-screen" role="img" aria-label="{esc(c["osd_cap"])}" data-sets="{sets_json}" data-labels="{labels_json}"><div class="osd-lines">{osd_lines}</div><i class="osd-prog" aria-hidden="true"></i></div>'
             f'<div class="osd-bar"><span class="osd-label">{esc(sets[0][0])}</span><span class="osd-dots">{dots}</span></div></div></div></section>')
 
