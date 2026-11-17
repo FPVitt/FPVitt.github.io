@@ -13,7 +13,7 @@
   s.onload = function () { ready = true; q.forEach(function (a) { send(a[0], a[1]); }); q = []; };
   document.head.appendChild(s);
   document.addEventListener('DOMContentLoaded', function () {
-    var f = document.querySelector('.site-foot div'); if (!f) return;
+    var f = document.querySelector('.site-foot div, .footer__legal'); if (!f) return;
     var m = document.createElement('span');
     m.textContent = (document.documentElement.lang === 'it' ? 'Statistiche di visita anonime (GoatCounter), nessun cookie.' : 'Anonymous visit statistics (GoatCounter), no cookies.');
     f.insertBefore(m, f.firstChild.nextSibling);
