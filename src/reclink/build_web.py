@@ -16,8 +16,7 @@ sys.path.insert(0, HERE)
 from bs4 import BeautifulSoup, NavigableString, Tag      # noqa: E402
 from PIL import Image                                       # noqa: E402
 import build2                                               # noqa: E402
-import rl_site                                              # noqa: E402
-import kit                                                  # noqa: E402
+import rl_home                                              # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))   # repo root (the user site)
 DOCS = os.path.join(ROOT, "RecLink")                     # the RecLink section: https://fpvitt.github.io/RecLink/
@@ -307,7 +306,7 @@ def seo_head(lang, doc, title, desc):
     import json
     other = "it" if lang == "en" else "en"
     url, other_url = page_url(lang, doc), page_url(other, doc)
-    t = html.escape(title if doc == "index" else title + " · RecLink", quote=True)
+    t = html.escape(title + " · RecLink", quote=True)
     d = html.escape(desc, quote=True)
     loc, oloc = ("en_US", "it_IT") if lang == "en" else ("it_IT", "en_US")
     if doc == "index":
@@ -419,9 +418,9 @@ def build_doc(doc, lang):
 
 BOARD = {
     "en": dict(
-        title="The board", eyebrow="RecLink hardware", note="Work in progress: the design may still change. You do not need it: RecLink also runs on the ESP32-C3 SuperMini and the ESP32-S3-Zero.", pts=("Made for cinewhoops", "Just 0.68 g", "Essential board: no unnecessary components"),
+        title="The board", eyebrow="RecLink hardware", note="Work in progress: the design may still change. You do not need it: RecLink also runs on the ESP32-C3 SuperMini and the ESP32-S3-Zero.", pts=("Made for cinewhoops", "Just 0.68 g", "Essential board: no unnecessary components"),
         sub="The custom RecLink PCB: an ESP32-C3 with its own antenna, about the size of a fingernail, with four solder pads to the flight controller.",
-        desc="The RecLink board: made for cinewhoops, just 0.68 g, an essential 12 x 13 mm four-layer PCB with an ESP32-C3, chip antenna and four solder pads (GND, 5V, TX, RX). Currently in development.",
+        desc="The RecLink board: made for cinewhoops, just 0.68 g, an essential 12 x 13 mm four-layer PCB with an ESP32-C3, chip antenna and four solder pads (GND, 5V, TX, RX). Currently in development.",
         tag="In development",
         warn="The RecLink board is <b>currently in development</b>. What you see here is the work-in-progress design: dimensions, pad layout and components may still change, and it is not a finished product yet. Until then, an ESP32-C3 SuperMini or an ESP32-S3-Zero works (see the Quick start).",
         h3d="Explore the board", hint="Scroll to take the board apart. Drag to look around.", alt3d="The RecLink board",
@@ -450,9 +449,9 @@ BOARD = {
         hnext="Next steps", next=['Wiring step by step: <a href="quick-start.html">Quick start</a>.', 'Put the firmware on the board, or update it over Wi-Fi: <a href="../flash/">Install firmware</a>.'],
         foot="Dimensions and part list are taken from the current design files and may change while the board is in development."),
     "it": dict(
-        title="La scheda", eyebrow="Hardware RecLink", note="Progetto in corso: può ancora cambiare. Non è obbligatoria: RecLink funziona anche su ESP32-C3 SuperMini ed ESP32-S3-Zero.", pts=("Pensata per i cinewhoop", "Solo 0,68 g", "Scheda essenziale: nessun componente superfluo"),
+        title="La scheda", eyebrow="Hardware RecLink", note="Progetto in corso: può ancora cambiare. Non è obbligatoria: RecLink funziona anche su ESP32-C3 SuperMini ed ESP32-S3-Zero.", pts=("Pensata per i cinewhoop", "Solo 0,68 g", "Scheda essenziale: nessun componente superfluo"),
         sub="Il PCB personalizzato RecLink: un ESP32-C3 con la sua antenna, grande quanto un'unghia, con quattro pad da saldare al flight controller.",
-        desc="La scheda RecLink: pensata per i cinewhoop, solo 0,68 g, un PCB essenziale a quattro strati di 12 x 13 mm con ESP32-C3, antenna ceramica e quattro pad (GND, 5V, TX, RX). Attualmente in sviluppo.",
+        desc="La scheda RecLink: pensata per i cinewhoop, solo 0,68 g, un PCB essenziale a quattro strati di 12 x 13 mm con ESP32-C3, antenna ceramica e quattro pad (GND, 5V, TX, RX). Attualmente in sviluppo.",
         tag="In sviluppo",
         warn="La scheda RecLink è <b>attualmente in sviluppo</b>. Quello che vedi qui è il progetto in corso d'opera: dimensioni, disposizione dei pad e componenti possono ancora cambiare, e non è ancora un prodotto finito. Nel frattempo vanno bene una ESP32-C3 SuperMini o una ESP32-S3-Zero (vedi la Guida rapida).",
         h3d="Esplora la scheda", hint="Scorri per smontare la scheda. Trascina per guardarla da altre angolazioni.", alt3d="La scheda RecLink",
@@ -506,10 +505,27 @@ def build_board(lang):
 
 
 def build_index(lang):
-    c = rl_site.C[lang]
+    s = S[lang]
     other = "it" if lang == "en" else "en"
-    seo = seo_head(lang, "index", c["title"], c["desc"])
-    return rl_site.render_main(lang, seo)
+    cards = ""
+    for doc, t, d in (("qs", s["qs_t"], s["qs_d"]), ("guide", s["gd_t"], s["gd_d"])):
+        cards += (f'<article class="card"><span class="ico">{ICONS[doc]}</span><h2>{t}</h2><p>{d}</p><div class="actions"><a class="btn" href="{PAGES[(lang, doc)]}">{s["read"]}</a></div>'
+                  '</article>')
+    bd_t, bd_d, bd_b = (("The board", "The custom RecLink PCB: explore it in 3D, layer by layer. In development.", "Explore the board")
+                        if lang == "en" else
+                        ("La scheda", "Il PCB personalizzato RecLink: esplorala in 3D, strato per strato. In sviluppo.", "Esplora la scheda"))
+    cards += (f'<article class="card" id="bd"><span class="ico">{ICONS["board"]}</span><h2>{bd_t}</h2><p>{bd_d}</p>'
+              f'<div class="actions"><a class="btn" href="{PAGES[(lang, "board")]}">{bd_b}</a></div></article>')
+    fw_t, fw_d, fw_b = (("Install the firmware", "Pick your board, choose a version, then flash it by USB or update it over Wi-Fi.", "Open the installer")
+                        if lang == "en" else
+                        ("Installa il firmware", "Scegli la scheda e la versione, poi caricala via USB o aggiornala via Wi-Fi.", "Apri l'installer"))
+    cards += (f'<article class="card" id="fw"><span class="ico">{ICONS["fw"]}</span><h2>{fw_t}</h2><p>{fw_d}</p>'
+              f'<div class="actions"><a class="btn" href="../flash/">{fw_b}</a></div></article>')
+    ctx = dict(gh_url=GH_URL, gh_svg=GH_SVG, gh=s["gh"], mark=MARK, pre_tag=s["pre_tag"], pre=s["pre"], home_sub=s["home_sub"],
+               meta=s["meta"], icons=ICONS, pages={d: PAGES[(lang, d)] for d in ("qs", "guide", "board")})
+    main = rl_home.render(lang, ctx, cards)
+    alt_href = f"../{other}/index.html"
+    return page(lang, "index", s["site"], s["home_sub"], main, alt_href=alt_href)
 
 
 ROOT_INDEX = '''<!doctype html>
@@ -550,16 +566,84 @@ h1{font-size:2.4rem;margin:0 0 1rem}
 
 
 def build_home():
-    """Landing page of the whole site (https://fpvitt.github.io/): the FPVitt projects, on the design kit."""
-    desc = rl_site.HOME["desc"]
-    seo = (f'<link rel="canonical" href="{HOME}">\n<meta property="og:url" content="{HOME}">\n<meta property="og:site_name" content="FPVitt">\n'
-           f'<meta property="og:image" content="{OG_IMG}"><meta name="twitter:card" content="summary_large_image">')
-    open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(rl_site.render_home(seo))
+    """Landing page of the whole site (https://fpvitt.github.io/): one featured card per project."""
+    projects = [
+        dict(href="RecLink/", title="RecLink", img="RecLink/assets/board/board-iso.webp",
+             desc="Firmware that links your Betaflight flight controller to your GoPro or DJI Osmo, on a tiny custom board or any common ESP32 dev board: record control from your radio, camera status on the OSD and GPS clock sync. Guides, a 3D board explorer and the firmware installer.",
+             tags=("Betaflight", "GoPro", "DJI Osmo", "ESP32-C3 / S3"), src="https://github.com/FPVitt/RecLink"),
+    ]
+    cards = ""
+    for p in projects:
+        tags = "".join(f"<li>{t}</li>" for t in p["tags"])
+        cards += (f'<article class="proj"><div class="proj-txt"><p class="proj-k">Project</p><h3>{MARK}{p["title"]}</h3><p>{p["desc"]}</p><ul class="tags">{tags}</ul>'
+                  f'<div class="actions"><a class="btn" href="{p["href"]}">Open the guides &rarr;</a>'
+                  f'<a class="btn ghost" href="{p["src"]}" target="_blank" rel="noopener">{GH_SVG}Source code</a></div></div>'
+                  f'<a class="proj-img" href="{p["href"]}" tabindex="-1" aria-hidden="true"><img src="{p["img"]}" alt="" width="1000" height="739" loading="eager"></a></article>')
+    desc = "FPVitt: FPV and drone projects, guides and tools."
+    css = """
+.home .hero{padding:3.2rem 0 1.6rem;position:relative}
+.home .hero h1{font-size:clamp(3.4rem,10vw,6rem);margin:0 0 .5rem}
+.home .hero .sub{font-size:1.3rem;color:var(--mut);margin:0 0 1.3rem;max-width:34rem}
+.home .hero::before{content:"";position:absolute;inset:-4rem -40vw auto -40vw;height:22rem;z-index:-1;pointer-events:none;
+  background:radial-gradient(50% 100% at 25% 0,color-mix(in srgb,var(--acc) 20%,transparent),transparent 70%)}
+.home h2.plain{margin-top:2.2rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.proj{display:grid;grid-template-columns:1.05fr .95fr;gap:1rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-xl);overflow:hidden;transition:border-color .15s}
+.proj:hover{border-color:var(--acc)}
+.proj{position:relative;cursor:pointer}
+.proj .actions .btn:not(.ghost)::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
+.proj .actions .btn.ghost{position:relative;z-index:2}
+.proj .actions .btn:not(.ghost):focus-visible::after{outline:2px solid var(--acc-ink);outline-offset:2px}
+.proj-txt{padding:2rem 1.2rem 2rem 2rem}
+.proj-k{margin:0 0 .5rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink);font-weight:700}
+.proj h3{text-transform:none;color:var(--fg);display:flex;align-items:center;gap:.45rem;margin:0 0 .6rem;font:900 2.1rem/1 var(--font-brand);letter-spacing:-.02em}
+.proj h3 .mark{height:.7em;width:auto;color:var(--acc-ink)}
+.proj p{color:var(--mut);margin:0 0 1rem}
+.tags{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1.3rem;padding:0}
+.tags li{border:1px solid var(--line);border-radius:var(--radius-md);padding:.1rem .65rem;font-size:.82rem;color:var(--mut)}
+.proj .actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.proj-img{display:block;align-self:stretch;background:radial-gradient(70% 70% at 50% 50%,color-mix(in srgb,var(--acc) 18%,transparent),transparent 75%)}
+.proj-img img{display:block;width:100%;height:100%;object-fit:contain;padding:1.2rem}
+@media (max-width:760px){.proj{grid-template-columns:1fr}.proj-txt{padding:1.4rem}.proj-img{order:-1}.proj-img img{max-height:240px}}
+"""
+    page_html = f'''<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FPVitt</title>
+<meta name="description" content="{desc}">
+<meta name="theme-color" content="#0f1216">
+<link rel="canonical" href="{HOME}">
+<meta property="og:title" content="FPVitt"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:url" content="{HOME}">
+<meta property="og:site_name" content="FPVitt"><meta property="og:image" content="{OG_IMG}"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="RecLink/assets/favicon.svg">
+<script>try{{var t=localStorage.getItem('rl-theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
+<link rel="stylesheet" href="RecLink/assets/site.css">
+<style>{css}</style>
+</head>
+<body data-doc="home" class="home">
+<header class="topbar"><div class="bar"><a class="brand" href="./"><span>FPVitt</span></a>
+<div class="tools"><a class="icon gh-btn" href="https://github.com/FPVitt" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">{GH_SVG}</a>
+<button class="icon theme-btn" type="button" title="Switch light / dark theme" aria-label="Switch light / dark theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></div>
+</div></header>
+<div class="layout"><main id="main" class="content">
+<div class="hero"><h1>FPVitt</h1><p class="sub">FPV and drone projects, guides and tools.</p>
+<p><a class="btn ghost" href="https://github.com/FPVitt" target="_blank" rel="noopener">{GH_SVG}View on GitHub</a></p></div>
+<h2 class="plain">Projects</h2>
+{cards}
+</main></div>
+<footer class="site-foot"><div><span>FPVitt</span><a href="https://github.com/FPVitt">GitHub</a></div></footer>
+<script src="RecLink/assets/stats.js" defer></script>
+<script src="RecLink/assets/site.js" defer></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(page_html)
 
 
 def write_stats():
     import json as _j
-    js = "/* Anonymous visit statistics with GoatCounter (no cookies, no personal data). Generated by build_web.py.\n   rlTrack(name) records a custom event, e.g. rlTrack('flash/board/supermini'). */\n(function () {\n  var CODE = %CODE%;\n  var q = [], ready = false;\n  function off() { window.rlTrack = function () {}; }\n  if (!CODE || navigator.doNotTrack === '1' || window.doNotTrack === '1') { off(); return; }\n  function send(n, t) { try { window.goatcounter.count({ path: n, title: t || n, event: true }); } catch (e) {} }\n  window.rlTrack = function (n, t) { if (ready) send(n, t); else q.push([n, t]); };\n  var s = document.createElement('script');\n  s.async = true; s.src = 'https://gc.zgo.at/count.js';\n  s.setAttribute('data-goatcounter', 'https://' + CODE + '.goatcounter.com/count');\n  s.onload = function () { ready = true; q.forEach(function (a) { send(a[0], a[1]); }); q = []; };\n  document.head.appendChild(s);\n  document.addEventListener('DOMContentLoaded', function () {\n    var f = document.querySelector('.site-foot div, .footer__legal'); if (!f) return;\n    var m = document.createElement('span');\n    m.textContent = (document.documentElement.lang === 'it' ? 'Statistiche di visita anonime (GoatCounter), nessun cookie.' : 'Anonymous visit statistics (GoatCounter), no cookies.');\n    f.insertBefore(m, f.firstChild.nextSibling);\n  });\n})();\n".replace("%CODE%", _j.dumps(GC_CODE))
+    js = "/* Anonymous visit statistics with GoatCounter (no cookies, no personal data). Generated by build_web.py.\n   rlTrack(name) records a custom event, e.g. rlTrack('flash/board/supermini'). */\n(function () {\n  var CODE = %CODE%;\n  var q = [], ready = false;\n  function off() { window.rlTrack = function () {}; }\n  if (!CODE || navigator.doNotTrack === '1' || window.doNotTrack === '1') { off(); return; }\n  function send(n, t) { try { window.goatcounter.count({ path: n, title: t || n, event: true }); } catch (e) {} }\n  window.rlTrack = function (n, t) { if (ready) send(n, t); else q.push([n, t]); };\n  var s = document.createElement('script');\n  s.async = true; s.src = 'https://gc.zgo.at/count.js';\n  s.setAttribute('data-goatcounter', 'https://' + CODE + '.goatcounter.com/count');\n  s.onload = function () { ready = true; q.forEach(function (a) { send(a[0], a[1]); }); q = []; };\n  document.head.appendChild(s);\n  document.addEventListener('DOMContentLoaded', function () {\n    var f = document.querySelector('.site-foot div'); if (!f) return;\n    var m = document.createElement('span');\n    m.textContent = (document.documentElement.lang === 'it' ? 'Statistiche di visita anonime (GoatCounter), nessun cookie.' : 'Anonymous visit statistics (GoatCounter), no cookies.');\n    f.insertBefore(m, f.firstChild.nextSibling);\n  });\n})();\n".replace("%CODE%", _j.dumps(GC_CODE))
     open(os.path.join(ASSETS, "stats.js"), "w", encoding="utf-8").write(js)
 
 
@@ -571,11 +655,6 @@ def main():
         shutil.copy(os.path.join(HERE, "web", f), os.path.join(ASSETS, f))
     shutil.rmtree(os.path.join(ASSETS, "board"), ignore_errors=True)
     shutil.copytree(os.path.join(HERE, "web", "board"), os.path.join(ASSETS, "board"), dirs_exist_ok=True)
-    for f in ("home.css", "osd.js"):
-        shutil.copy(os.path.join(HERE, "web", f), os.path.join(ASSETS, f))
-    kit.publish(os.path.join(ASSETS, "kit"))
-    rl_site.make_hero(os.path.join(HERE, "web", "board"), os.path.join(ASSETS, "board", "fpvitt-hero.webp"))
-    rl_site.LINEUP = rl_site.make_lineup(os.path.join(HERE, "web", "board"), os.path.join(ASSETS, "board", "lineup.webp"))
     # drop images from a previous build so renamed/unused ones do not pile up
     used = set()
     for lang in ("en", "it"):
