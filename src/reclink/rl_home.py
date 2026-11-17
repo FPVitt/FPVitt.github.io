@@ -58,7 +58,7 @@ C = {
     "en": dict(
         cta_fw="Install the firmware", cta_qs="Quick start",
         stats=[("12", "camera models supported"), ("22", "custom OSD tokens"), ("6", "selectable camera presets, from one switch"), ("0.68 g", "custom board weight"), ("GPL-3.0", "open-source licence")],
-        act_h="In the air and on the ground", act_s="Record on arm, read the camera on your OSD, and set it all up from your phone.",
+        act_h="How it works", act_s="Record on arm, read the camera on your OSD, and set it all up from your phone.",
         acts=[("rec", "Arm to record", "Recording starts the moment you arm, or from a radio switch, or both. Every command is checked against what the camera actually reports."),
               ("osd", "Status in your goggles", "Recording state, timers, battery, SD space and settings drawn on your Betaflight OSD, on four lines you design."),
               ("wifi", "Configure from your phone", "The board opens its own Wi-Fi while you are disarmed. No app, no cloud, no account. It switches off the instant you arm.")],
@@ -113,9 +113,9 @@ C = {
              ("Pair the camera", "Open the configurator and pair your GoPro or DJI."),
              ("Set your switches", "Pick when to record, build your zones, lay out the OSD.")],
         brd_h="Runs on the board you have", brd_s="The same firmware runs on three kinds of board. You do not need the custom RecLink board to use RecLink.",
-        brds=[("ESP32-C3", "RecLink board", "dev", "In development", "The custom 0.68 g board made for cinewhoops: four solder pads (GND, 5V, TX, RX) and nothing else.", "Wire FC TX to RX and FC RX to TX. Updates over Wi-Fi."),
-              ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supported", "A tiny, cheap and easy to find dev board. Flash it from your browser over USB.", "FC TX to pin 7, FC RX to pin 6."),
-              ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supported", "The Waveshare ESP32-S3-Zero. Flash it from your browser over USB. Its RGB LED shows the status in colour.", "FC TX to pin 4, FC RX to pin 5.")],
+        brds=[("ESP32-C3", "RecLink board", "dev", "In development", "0.68 g and built to be light. Made for cinewhoops, small like a receiver, with four pads and nothing else."),
+              ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supported", "A tiny, cheap and easy to find dev board. Flash it from your browser over USB."),
+              ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supported", "The Waveshare ESP32-S3-Zero. Flash it from your browser over USB. Its RGB LED shows the status in colour.")],
         brd_cta="Open the installer",
         need_h="What you need", need_s="Four things.",
         needs=[("An ESP32 board", "The RecLink board (in development), an ESP32-C3 SuperMini, or a Waveshare ESP32-S3-Zero. They all run the same firmware."),
@@ -128,7 +128,7 @@ C = {
     "it": dict(
         cta_fw="Installa il firmware", cta_qs="Guida rapida",
         stats=[("12", "modelli di camera supportati"), ("22", "token OSD personalizzabili"), ("6", "preset camera selezionabili, da un interruttore"), ("0,68 g", "peso della scheda personalizzata"), ("GPL-3.0", "licenza open source")],
-        act_h="In volo e a terra", act_s="Registra all'arm, leggi la camera nell'OSD e configura tutto dal telefono.",
+        act_h="Come funziona", act_s="Registra all'arm, leggi la camera nell'OSD e configura tutto dal telefono.",
         acts=[("rec", "Arma e registra", "La registrazione parte quando armi, da un interruttore della radio, o con entrambi. Ogni comando viene verificato su ciò che la camera riporta davvero."),
               ("osd", "Lo stato nei goggles", "Stato di registrazione, tempi, batteria, spazio SD e impostazioni sull'OSD di Betaflight, su quattro righe che disegni tu."),
               ("wifi", "Configura dal telefono", "La scheda apre un suo Wi-Fi finché sei disarmato. Nessuna app, nessun cloud, nessun account. Si spegne appena armi.")],
@@ -183,9 +183,9 @@ C = {
              ("Abbina la camera", "Apri il configuratore e abbina la GoPro o la DJI."),
              ("Imposta gli interruttori", "Scegli quando registrare, crea le zone, disegna l'OSD.")],
         brd_h="Funziona sulla scheda che hai", brd_s="Lo stesso firmware funziona su tre tipi di scheda. Non ti serve la scheda RecLink personalizzata per usare RecLink.",
-        brds=[("ESP32-C3", "Scheda RecLink", "dev", "In sviluppo", "La scheda personalizzata da 0,68 g pensata per i cinewhoop: quattro pad (GND, 5V, TX, RX) e nient'altro.", "Collega TX della FC a RX e RX della FC a TX. Si aggiorna via Wi-Fi."),
-              ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supportata", "Una scheda di sviluppo minuscola, economica e facile da trovare. Caricala dal browser via USB.", "TX della FC al pin 7, RX della FC al pin 6."),
-              ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supportata", "La Waveshare ESP32-S3-Zero. Caricala dal browser via USB. Il suo LED RGB mostra lo stato a colori.", "TX della FC al pin 4, RX della FC al pin 5.")],
+        brds=[("ESP32-C3", "Scheda RecLink", "dev", "In sviluppo", "0,68 g e costruita per essere leggera. Pensata per i cinewhoop, piccola come un ricevitore, con quattro pad e nient'altro."),
+              ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supportata", "Una scheda di sviluppo minuscola, economica e facile da trovare. Caricala dal browser via USB."),
+              ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supportata", "La Waveshare ESP32-S3-Zero. Caricala dal browser via USB. Il suo LED RGB mostra lo stato a colori.")],
         brd_cta="Apri l'installer",
         need_h="Cosa ti serve", need_s="Quattro cose.",
         needs=[("Una scheda ESP32", "La scheda RecLink (in sviluppo), una ESP32-C3 SuperMini oppure una Waveshare ESP32-S3-Zero. Eseguono tutte lo stesso firmware."),
@@ -257,8 +257,8 @@ def render(lang, ctx, cards_html):
 
     brds = "".join(
         f'<article class="cam"><div class="cam-top"><span class="brand-t">{esc(chip)}</span><span class="badge {BADGE_CLS[k]}">{esc(bt)}</span></div>'
-        f'<h3>{esc(n)}</h3><p>{esc(d)}</p><p class="proto">{esc(w)}</p></article>'
-        for chip, n, k, bt, d, w in c["brds"])
+        f'<h3>{esc(n)}</h3><p>{esc(d)}</p></article>'
+        for chip, n, k, bt, d in c["brds"])
     brd = (f'<section class="rl-sec" id="boards"><h2 class="sec">{c["brd_h"]}</h2><p class="sec-s">{c["brd_s"]}</p>'
            f'<div class="cams">{brds}</div><p class="cta-row"><a class="btn" href="../flash/">{ctx["icons"]["fw"]}{c["brd_cta"]}</a></p></section>')
 
