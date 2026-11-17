@@ -117,10 +117,10 @@ C = {
               ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supported", "A tiny, cheap and easy to find dev board. Flash it from your browser over USB."),
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supported", "The Waveshare ESP32-S3-Zero. Flash it from your browser over USB. Its RGB LED shows the status in colour.")],
         brd_cta="Open the installer",
-        rid_h="Coming next: Remote ID", rid_tag="Planned",
+        rid_h="Coming next: Remote ID", rid_tag="Planned", soon_tag="Coming next", soon_text="Remote ID",
         rid_s="Support for Remote ID (drone remote identification, also called DRI) is planned: transmit and receive, plus control of the camera, all on one tiny, lightweight board.",
         rid=[("wifi", "Transmit", "Broadcast your drone's ID and position, to help you meet Remote ID regulations."),
-             ("eye", "Receive", "See other drones in the air around you."),
+             ("eye", "Receive", "See other drones in the air around you, and get warnings when it matters the most."),
              ("gps", "Uses your flight controller's GPS", "The position comes from the GPS you already have onboard, so no extra GPS module is needed.")],
         rid_note="Not in the current firmware. It will be added in a future version.",
         need_h="What you need", need_s="Four things.",
@@ -193,10 +193,10 @@ C = {
               ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supportata", "Una scheda di sviluppo minuscola, economica e facile da trovare. Caricala dal browser via USB."),
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supportata", "La Waveshare ESP32-S3-Zero. Caricala dal browser via USB. Il suo LED RGB mostra lo stato a colori.")],
         brd_cta="Apri l'installer",
-        rid_h="In arrivo: Remote ID", rid_tag="In programma",
+        rid_h="In arrivo: Remote ID", rid_tag="In programma", soon_tag="In arrivo", soon_text="Remote ID",
         rid_s="È in programma il supporto al Remote ID (identificazione remota dei droni, detta anche DRI): trasmissione e ricezione, più il controllo della camera, tutto su una sola scheda minuscola e leggera.",
         rid=[("wifi", "Trasmetti", "Trasmetti ID e posizione del tuo drone, per aiutarti a rispettare le norme sul Remote ID."),
-             ("eye", "Ricevi", "Vedi gli altri droni in volo intorno a te."),
+             ("eye", "Ricevi", "Vedi gli altri droni in volo intorno a te e ricevi avvisi quando conta di più."),
              ("gps", "Usa il GPS del flight controller", "La posizione arriva dal GPS che hai già a bordo, quindi non serve un modulo GPS in più.")],
         rid_note="Non è nel firmware attuale. Arriverà in una versione futura.",
         need_h="Cosa ti serve", need_s="Quattro cose.",
@@ -226,7 +226,7 @@ def render(lang, ctx, cards_html):
         f'loading="{"eager" if i == 0 else "lazy"}" decoding="async"><figcaption>{esc(cap)}</figcaption></figure>'
         for i, (f, cap) in enumerate(zip(files, caps)))
 
-    hero = (f'<div class="hero rl-hero"><div class="rl-hero-txt"><h1 class="logo-h1">{ctx["mark"]}RecLink</h1>'
+    hero = (f'<div class="hero rl-hero"><div class="rl-hero-txt"><a class="soon-pill" href="#remote-id"><b>{c["soon_tag"]}</b><span>{c["soon_text"]}</span><i aria-hidden="true">→</i></a><h1 class="logo-h1">{ctx["mark"]}RecLink</h1>'
             f'<p class="sub">{ctx["home_sub"]}</p><div class="meta">{meta}</div>'
             f'<p class="cta-row"><a class="btn lg" href="../flash/">{ctx["icons"]["fw"]}{c["cta_fw"]}</a>'
             f'<a class="btn lg alt" href="{p["qs"]}">{ctx["icons"]["qs"]}{c["cta_qs"]}</a>'
