@@ -163,7 +163,7 @@ u842|||Scegli il file del firmware.
 u843|||Guida rapida
 u844|||RecLink collega il tuo flight controller alla tua action cam. La camera registra quando armi e il suo stato compare sull'OSD. Questa pagina ti porta dalla scatola alla tua prima registrazione.
 u845|||Firmware pre-release
-u846|||Il firmware 0.2.1 è stato provato solo a banco e <b>non è stato provato in volo</b>. Esegui ogni passo qui sotto con le <b>eliche rimosse</b> e verifica che tutto funzioni prima di volare.
+u846|||Il firmware 0.2.1 è una <b>pre-release e può contenere bug</b>. Usalo a tuo rischio. Esegui ogni passo qui sotto con le <b>eliche rimosse</b> e verifica che tutto funzioni prima di volare.
 u847|||Ti serve
 u848|||La scheda RecLink
 u849|||Un flight controller con <b>Betaflight 2025.12 o successivo</b> e una UART libera
