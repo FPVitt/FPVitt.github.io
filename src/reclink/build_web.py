@@ -4,8 +4,7 @@
     python build_web.py            # rebuild every page + copy assets
 
 Needs: beautifulsoup4, pillow (see README.md). Reuses build2.py (the same
-pipeline that produces the PDFs) so the web text, translations and screenshots
-are always identical to the PDFs.
+guide-source pipeline) so the text, translations and screenshots come from one place.
 """
 import os, re, sys, shutil, hashlib, html
 
@@ -22,7 +21,6 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))   # repo root (the user s
 DOCS = os.path.join(ROOT, "RecLink")                     # the RecLink section: https://fpvitt.github.io/RecLink/
 ASSETS = os.path.join(DOCS, "assets")
 IMG = os.path.join(ASSETS, "img")
-PDFDIR = os.path.join(DOCS, "pdf")
 REPO_URL = "https://github.com/FPVitt/RecLink"
 FW = "0.2.1"
 SITE = "https://fpvitt.github.io/RecLink/"
@@ -39,30 +37,30 @@ PAGES = {  # (lang, doc) -> file name
 S = {
     "en": dict(
         lang_name="English", site="RecLink guides", qs="Quick start", guide="User guide",
-        toc="On this page", pdf="PDF", portrait="Portrait", landscape="Landscape",
+        toc="On this page",
         theme="Switch light / dark theme", menu="Contents", top="Back to top", skip="Skip to content",
         github="Source on GitHub", lic="Free software · GPL-3.0", fwline=f"Firmware {FW} (pre-release) · Betaflight 2025.12+",
         pre_tag="Pre-release", pre=f"Firmware {FW} is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Do every step with the <b>propellers removed</b>.",
         home_sub="RecLink links your Betaflight flight controller to your GoPro or DJI Osmo. It runs on its own tiny custom board or on a common ESP32 dev board you may already have. It starts and stops recording from your radio, shows the camera status in your OSD and syncs the camera clock from GPS, without ever affecting how your quad flies.",
         qs_t="Quick start", qs_d="From the box to your first recording in about 15 minutes. Seven short steps, in plain wording.",
         gd_t="User guide", gd_d="Every feature, setting and indicator, explained with diagrams and screenshots of the web configurator. 14 chapters and a reference.",
-        read="Read online", dl="Download PDF", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)", "ESP32-C3 / S3"],
-        lang_label="Language", on_page="On this page", pdf_title="Download this guide as a PDF", gh="View on GitHub", gh_t="Source code", gh_d="Browse the firmware, read the spec, report an issue or download releases.",
+        read="Read online", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)", "ESP32-C3 / S3"],
+        lang_label="Language", on_page="On this page", gh="View on GitHub", gh_t="Source code", gh_d="Browse the firmware, read the spec, report an issue or download releases.",
         which_h="Which one do I need?", which=["New to RecLink? Start with the <b>Quick start</b>.", "Want every detail, or something is not working? Open the <b>User guide</b>.", "Curious about the hardware? See <b>The board</b> (in development)."],
         desc_qs="RecLink quick start: wire the board, set up Betaflight, pair your GoPro or DJI camera, record from arm or a radio switch.",
         desc_gd="RecLink user guide: wiring, Betaflight setup, the web configurator, recording control, zones, OSD, clock sync, troubleshooting.",
     ),
     "it": dict(
         lang_name="Italiano", site="Guide RecLink", qs="Guida rapida", guide="Guida utente",
-        toc="In questa pagina", pdf="PDF", portrait="Verticale", landscape="Orizzontale",
+        toc="In questa pagina",
         theme="Passa al tema chiaro / scuro", menu="Indice", top="Torna su", skip="Vai al contenuto",
         github="Codice su GitHub", lic="Software libero · GPL-3.0", fwline=f"Firmware {FW} (pre-release) · Betaflight 2025.12+",
         pre_tag="Pre-release", pre=f"Il firmware {FW} è una <b>pre-release e può contenere bug</b>. Usalo a tuo rischio. Esegui ogni passaggio con le <b>eliche rimosse</b>.",
         home_sub="RecLink collega il flight controller Betaflight alla tua GoPro o DJI Osmo. Funziona sulla sua piccola scheda personalizzata oppure su una comune scheda di sviluppo ESP32 che magari hai già. Avvia e ferma la registrazione dalla radio, mostra lo stato della camera nell'OSD e sincronizza l'orologio dal GPS, senza mai influire sul volo del quad.",
         qs_t="Guida rapida", qs_d="Dalla scatola alla prima registrazione in circa 15 minuti. Sette passaggi brevi, in parole semplici.",
         gd_t="Guida utente", gd_d="Ogni funzione, impostazione e indicatore, spiegati con diagrammi e schermate del configuratore web. 14 capitoli e un riferimento.",
-        read="Leggi online", dl="Scarica il PDF", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)", "ESP32-C3 / S3"],
-        lang_label="Lingua", on_page="In questa pagina", pdf_title="Scarica questa guida in PDF", gh="Vedi su GitHub", gh_t="Codice sorgente", gh_d="Sfoglia il firmware, leggi le specifiche, segnala un problema o scarica le release.",
+        read="Leggi online", meta=["Betaflight 2025.12+", "GoPro HERO 9–13", "DJI Osmo (experimental)", "ESP32-C3 / S3"],
+        lang_label="Lingua", on_page="In questa pagina", gh="Vedi su GitHub", gh_t="Codice sorgente", gh_d="Sfoglia il firmware, leggi le specifiche, segnala un problema o scarica le release.",
         which_h="Quale mi serve?", which=["Sei nuovo con RecLink? Parti dalla <b>Guida rapida</b>.", "Vuoi ogni dettaglio, oppure qualcosa non funziona? Apri la <b>Guida utente</b>.", "Curioso dell'hardware? Guarda <b>La scheda</b> (in sviluppo)."],
         desc_qs="Guida rapida RecLink: cabla la scheda, configura Betaflight, abbina la GoPro o la DJI, registra con l'arm o con un interruttore della radio.",
         desc_gd="Guida utente RecLink: cablaggio, configurazione di Betaflight, configuratore web, controllo della registrazione, zone, OSD, sincronizzazione orologio, risoluzione dei problemi.",
@@ -148,7 +146,7 @@ def link_refs(root, lang, doc, ids):
 
 
 def structure(body, doc, lang):
-    """Split the PDF body into hero / intro / chapter groups and build the TOC."""
+    """Split the guide body into hero / intro / chapter groups and build the TOC."""
     hero, intro = {}, []
     groups = []
     for el in [c for c in body.children if isinstance(c, Tag)]:
@@ -250,16 +248,6 @@ def process_images(root, rel):
 
 
 # ------------------------------------------------------------------- templating
-def pdf_links(lang, doc, rel):
-    items = []
-    for orient, key in (("port", "portrait"), ("land", "landscape")):
-        fn = build2.NAMES[(doc, lang, orient)] + ".pdf"
-        p = os.path.join(PDFDIR, fn)
-        size = f" · {os.path.getsize(p) / 1048576:.1f} MB" if os.path.exists(p) else ""
-        items.append((S[lang][key], f"{rel}pdf/{fn}", size))
-    return items
-
-
 def header(lang, doc, rel, alt_href):
     s = S[lang]
     other = "it" if lang == "en" else "en"
@@ -274,15 +262,11 @@ def header(lang, doc, rel, alt_href):
         href = alt_href if code == other else "#"
         cur = ' aria-current="true"' if code == lang else ""
         langs += f'<a href="{href}" hreflang="{code}" lang="{code}" data-lang="{code}"{cur}>{code.upper()}</a>'
-    pdf = ""
-    if doc in ("qs", "guide"):
-        links = "".join(f'<a href="{h}" download>{t}<small>{sz}</small></a>' for t, h, sz in pdf_links(lang, doc, rel))
-        pdf = f'<details class="menu pdf"><summary title="{s["pdf_title"]}">{s["pdf"]}</summary><div class="menu-body">{links}</div></details>'
     toc_btn = f'<button class="icon toc-btn" type="button" aria-controls="toc" aria-expanded="false" title="{s["menu"]}"><span>{s["menu"]}</span></button>' if doc not in ("index", "board") else ""
     return f'''<header class="topbar"><div class="bar">
 <a class="brand" href="../../" aria-label="FPVitt"><span>FPVitt</span></a>
 <nav class="tabs" aria-label="Guides">{tabs}</nav>
-<div class="tools">{pdf}<a class="icon gh-btn" href="{GH_URL}" target="_blank" rel="noopener" title="{s["gh"]}" aria-label="{s["gh"]}">{GH_SVG}</a><div class="seg" role="group" aria-label="{s["lang_label"]}">{langs}</div>
+<div class="tools"><a class="icon gh-btn" href="{GH_URL}" target="_blank" rel="noopener" title="{s["gh"]}" aria-label="{s["gh"]}">{GH_SVG}</a><div class="seg" role="group" aria-label="{s["lang_label"]}">{langs}</div>
 <button class="icon theme-btn" type="button" title="{s["theme"]}" aria-label="{s["theme"]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>{toc_btn}</div>
 </div><div id="progress" aria-hidden="true"></div></header>'''
 

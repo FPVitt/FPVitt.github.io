@@ -1,4 +1,4 @@
-/* RecLink guides — web stylesheet. Same design tokens as the PDF guides (dark default, light on request). */
+/* RecLink guides — web stylesheet. Dark by default, light on request. */
 :root{
   --bg:#0f1216;--card:#161b22;--well:#11151b;--osd-bg:#05070a;--line:#2b333e;--fg:#f2f4f8;--mut:#a7b0be;
   --acc:#2ea043;--acc-fg:#ffffff;--acc-ink:#3fb950;--dng:#e5484d;--warn:#f2b45a;

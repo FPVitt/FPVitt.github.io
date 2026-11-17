@@ -68,7 +68,6 @@
   }
   if (cur) store.set('rl-lang', cur.dataset.lang);
 
-  /* ---- PDF menu: close on outside click / Escape ---- */
   /* small screens: the page tabs collapse into a menu so every page stays reachable */
   (function () {
     var tabs = $('.tabs'), tools = $('.tools');
