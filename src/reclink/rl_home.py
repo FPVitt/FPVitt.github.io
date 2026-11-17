@@ -255,12 +255,14 @@ def render(lang, ctx, cards_html):
            f'<h3 class="mx-h">{c["mx_h"]}</h3><div class="mx-wrap"><table class="mx"><thead><tr><th>{c["mx_cols"][0]}</th><th>{c["mx_cols"][1]}</th><th>{c["mx_cols"][2]}</th></tr></thead><tbody>{rows}</tbody></table></div>'
            f'<ul class="mx-leg">{legend}</ul></section>')
 
+    brd_imgs = ("board-iso.webp", "hero-supermini.webp", "hero-s3zero.webp")      # same order as c["brds"]
     brds = "".join(
-        f'<article class="cam"><div class="cam-top"><span class="brand-t">{esc(chip)}</span><span class="badge {BADGE_CLS[k]}">{esc(bt)}</span></div>'
+        f'<article class="cam"><div class="cam-img"><img src="../assets/board/{img}" alt="{esc(n)}" width="640" height="640" loading="lazy" decoding="async"></div>'
+        f'<div class="cam-top"><span class="brand-t">{esc(chip)}</span><span class="badge {BADGE_CLS[k]}">{esc(bt)}</span></div>'
         f'<h3>{esc(n)}</h3><p>{esc(d)}</p></article>'
-        for chip, n, k, bt, d in c["brds"])
+        for (chip, n, k, bt, d), img in zip(c["brds"], brd_imgs))
     brd = (f'<section class="rl-sec" id="boards"><h2 class="sec">{c["brd_h"]}</h2><p class="sec-s">{c["brd_s"]}</p>'
-           f'<div class="cams">{brds}</div><p class="cta-row"><a class="btn" href="../flash/">{ctx["icons"]["fw"]}{c["brd_cta"]}</a></p></section>')
+           f'<div class="cams brds">{brds}</div><p class="cta-row"><a class="btn" href="../flash/">{ctx["icons"]["fw"]}{c["brd_cta"]}</a></p></section>')
 
     safes = "".join(f'<article class="safe"><span class="ico">{I[k]}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></article>' for k, t, d in c["safes"])
     safe = f'<section class="rl-sec" id="safety"><h2 class="sec">{c["safe_h"]}</h2><p class="sec-s">{c["safe_s"]}</p><div class="safes">{safes}</div></section>'
