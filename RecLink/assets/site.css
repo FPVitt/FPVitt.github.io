@@ -489,3 +489,4 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 .brds .cam-img{display:flex;align-items:center;justify-content:center;height:11rem;margin:-.2rem -.2rem 1rem;border-radius:var(--radius-lg);background:radial-gradient(70% 90% at 50% 45%,color-mix(in srgb,var(--acc) 10%,var(--well)),var(--well))}
 .brds .cam-img img{display:block;width:100%;height:100%;object-fit:contain;padding:.5rem;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
 @media (max-width:640px){.brds .cam-img{height:9.5rem}}
+.rl-sec h2 .badge{vertical-align:middle;margin-left:.5rem;font-size:.72rem;position:relative;top:-.15em}
