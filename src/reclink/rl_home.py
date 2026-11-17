@@ -57,8 +57,8 @@ NO = '<span class="cm no" title="{t}"><svg viewBox="0 0 16 16" aria-hidden="true
 C = {
     "en": dict(
         cta_fw="Install the firmware", cta_qs="Quick start",
-        stats=[("0.68 g", "board weight"), ("3", "boards it runs on"), ("2", "camera brands"), ("≤100 ms", "Wi-Fi off after arming"), ("GPL-3.0", "open source")],
-        act_h="See it in action", act_s="What RecLink does while you fly, and what you set up on the ground.",
+        stats=[("12", "camera models supported"), ("22", "custom OSD tokens"), ("6", "selectable camera presets, from one switch"), ("0.68 g", "custom board weight"), ("GPL-3.0", "open-source licence")],
+        act_h="In the air and on the ground", act_s="Record on arm, read the camera on your OSD, and set it all up from your phone.",
         acts=[("rec", "Arm to record", "Recording starts the moment you arm, or from a radio switch, or both. Every command is checked against what the camera actually reports."),
               ("osd", "Status in your goggles", "Recording state, timers, battery, SD space and settings drawn on your Betaflight OSD, on four lines you design."),
               ("wifi", "Configure from your phone", "The board opens its own Wi-Fi while you are disarmed. No app, no cloud, no account. It switches off the instant you arm.")],
@@ -127,8 +127,8 @@ C = {
     ),
     "it": dict(
         cta_fw="Installa il firmware", cta_qs="Guida rapida",
-        stats=[("0,68 g", "peso della scheda"), ("3", "schede supportate"), ("2", "marchi di camere"), ("≤100 ms", "Wi-Fi spento dopo l'arm"), ("GPL-3.0", "open source")],
-        act_h="Guardalo in azione", act_s="Cosa fa RecLink mentre voli, e cosa imposti a terra.",
+        stats=[("12", "modelli di camera supportati"), ("22", "token OSD personalizzabili"), ("6", "preset camera selezionabili, da un interruttore"), ("0,68 g", "peso della scheda personalizzata"), ("GPL-3.0", "licenza open source")],
+        act_h="In volo e a terra", act_s="Registra all'arm, leggi la camera nell'OSD e configura tutto dal telefono.",
         acts=[("rec", "Arma e registra", "La registrazione parte quando armi, da un interruttore della radio, o con entrambi. Ogni comando viene verificato su ciò che la camera riporta davvero."),
               ("osd", "Lo stato nei goggles", "Stato di registrazione, tempi, batteria, spazio SD e impostazioni sull'OSD di Betaflight, su quattro righe che disegni tu."),
               ("wifi", "Configura dal telefono", "La scheda apre un suo Wi-Fi finché sei disarmato. Nessuna app, nessun cloud, nessun account. Si spegne appena armi.")],
