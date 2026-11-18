@@ -63,22 +63,22 @@
 <!-- ================= 15 REMOTE ID ================= -->
 <section class="chapter np">
 <p class="chno">Chapter 15</p>
-<h1 class="ch">Remote ID: see other aircraft</h1>
-<p class="lead">RecLink listens for the Remote ID broadcasts of other aircraft nearby, and warns you on your OSD when one gets close, with its distance and direction. It is new in firmware 0.3.0 and it is off until you switch it on.</p>
+<h1 class="ch">Remote ID: see other drones</h1>
+<p class="lead">RecLink listens for the Remote ID broadcasts of other drones nearby, and warns you on your OSD when one gets close, with its distance and direction. It is new in firmware 0.3.0 and it is off until you switch it on.</p>
 
 <div class="callout warn"><span class="tag">New, and not yet proven in flight</span>
 <p>Remote ID is part of the 0.3.0 <b>pre-release</b>. It has not yet been validated in flight, nor for how it shares the radio with the camera link. Try it on the bench first, and watch your camera link closely the first times you fly with it.</p>
 </div>
 
 <div class="callout danger"><span class="tag">Information, not collision avoidance</span>
-<p>Many aircraft broadcast nothing, a Bluetooth receiver only hears Bluetooth transmitters, and range is limited. A quiet OSD never means the sky is clear. Keep your eyes on the sky.</p>
+<p>Many drones broadcast nothing, a Bluetooth receiver only hears Bluetooth transmitters, and range is limited. A quiet OSD never means the sky is clear. Keep your eyes on the sky.</p>
 </div>
 
 <h2>What it does</h2>
-<p>Remote ID is the identity and position broadcast that many drones send while flying. RecLink receives those broadcasts, works out how far away each aircraft is and in which direction using the GPS of your own flight controller, and puts one short warning line on your OSD.</p>
+<p>Remote ID is the identity and position broadcast that many drones send while flying. RecLink receives those broadcasts, works out how far away each drone is and in which direction using the GPS of your own flight controller, and puts one short warning line on your OSD.</p>
 [[svg:rid_overview]]
 <ul>
-<li><b>Receive only.</b> RecLink never transmits Remote ID. It is not a Remote ID module and does not make your own aircraft compliant with any regulation.</li>
+<li><b>Receive only.</b> RecLink never transmits Remote ID. It is not a Remote ID module and does not make your own drone compliant with any regulation.</li>
 <li><b>It uses the GPS you already have.</b> There is no extra GPS to add. RecLink reads the position from your flight controller.</li>
 <li><b>Off by default.</b> Nothing changes until you switch it on in the web configurator.</li>
 <li><b>Still a passenger.</b> RecLink adds two reads from the flight controller, its heading and its altitude, and still only writes OSD text. Nothing it hears can reach arming, motors or the flight controller's own alarms.</li>
@@ -101,7 +101,7 @@
 </ol>
 <div class="cols">
 <div style="width:66mm;flex:none">
-[[shot name="rid_receiver" cap="The Receiver card in the Remote ID tab." legend="1|Turns the receiver on. Turning on needs Save and a reboot.;2|Listen on Bluetooth, Wi-Fi or both.;3|How hard Bluetooth listens. More effort finds aircraft sooner but takes more airtime from the camera link.;4|The GPS needs this many satellites before Remote ID runs.;5|How old an aircraft's position may get before it is dropped."]]
+[[shot name="rid_receiver" cap="The Receiver card in the Remote ID tab." legend="1|Turns the receiver on. Turning on needs Save and a reboot.;2|Listen on Bluetooth, Wi-Fi or both.;3|How hard Bluetooth listens. More effort finds drones sooner but takes more airtime from the camera link.;4|The GPS needs this many satellites before Remote ID runs.;5|How old a drone's position may get before it is dropped."]]
 </div>
 <div style="width:66mm;flex:none">
 [[shot name="osd_rid" cap="The OSD preview with a Remote ID warning on the line that holds %rp. The small label is only in the preview." legend="1|The preview cycles through sample warnings so you can see what each level looks like on your own layout."]]
@@ -128,8 +128,8 @@
 <h2>How it listens</h2>
 <div class="tbl"><table>
 <tr><th>Listen on</th><th>Hears</th><th>When it listens</th></tr>
-<tr><td>Bluetooth (default)</td><td class="wrap">Aircraft that broadcast Remote ID over Bluetooth</td><td class="wrap">Whenever Remote ID is active, armed or not</td></tr>
-<tr><td>Wi-Fi</td><td class="wrap">Aircraft that broadcast Remote ID over Wi-Fi</td><td class="wrap">Only while armed</td></tr>
+<tr><td>Bluetooth (default)</td><td class="wrap">Drones that broadcast Remote ID over Bluetooth</td><td class="wrap">Whenever Remote ID is active, armed or not</td></tr>
+<tr><td>Wi-Fi</td><td class="wrap">Drones that broadcast Remote ID over Wi-Fi</td><td class="wrap">Only while armed</td></tr>
 <tr><td>Bluetooth + Wi-Fi</td><td class="wrap">Both kinds</td><td class="wrap">Bluetooth whenever active, Wi-Fi only while armed</td></tr>
 </table></div>
 [[svg:rid_radio]]
@@ -139,18 +139,18 @@
 <div class="callout"><span class="tag">One radio, shared</span>
 <p>The ESP32-C3 has one radio for Bluetooth and Wi-Fi, and the camera link must not suffer. How well Wi-Fi listening shares the radio with the camera link has not been proven yet. Start with Bluetooth, and move to Wi-Fi only if you need it and your camera link stays solid.</p>
 </div>
-<p>The <b>Bluetooth scan effort</b> setting is how much of the time RecLink listens. More listening finds aircraft sooner but takes more airtime from the camera link.</p>
+<p>The <b>Bluetooth scan effort</b> setting is how much of the time RecLink listens. More listening finds drones sooner but takes more airtime from the camera link.</p>
 <div class="tbl"><table>
 <tr><th>Effort</th><th>Listening</th><th>Notes</th></tr>
 <tr><td>Low</td><td class="wrap">About 10%</td><td class="wrap">Least load on the camera link. Position expiry must be 10 seconds or more.</td></tr>
 <tr><td>Normal (default)</td><td class="wrap">About 25%</td><td class="wrap">A good balance.</td></tr>
-<tr><td>High</td><td class="wrap">About 50%</td><td class="wrap">Finds aircraft fastest. Uses the most airtime.</td></tr>
+<tr><td>High</td><td class="wrap">About 50%</td><td class="wrap">Finds drones fastest. Uses the most airtime.</td></tr>
 </table></div>
 
 <h2>Reading the warning</h2>
 <p>The warning is one line of up to 16 characters.</p>
 [[svg:rid_osd]]
-<p>Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units (OSD tab, <b>Units</b>) they are in feet up to 1000 ft, then miles. The warning gets more urgent as the aircraft gets closer.</p>
+<p>Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units (OSD tab, <b>Units</b>) they are in feet up to 1000 ft, then miles. The warning gets more urgent as the drone gets closer.</p>
 [[svg:rid_levels]]
 <div class="tbl"><table>
 <tr><th>Level</th><th>Default distance</th><th>What you see</th></tr>
@@ -160,25 +160,25 @@
 </table></div>
 <div class="cols">
 <div style="width:66mm;flex:none">
-[[shot name="rid_warning" cap="The Proximity warning card." legend="1|Shows or hides the warnings. The receiver keeps running.;2|The distances for Notice, Warn and Alert. They change to feet when the OSD uses imperial units.;3|Bearing style: arrow, compass letters or degrees.;4|Blink the ! as the warning rises.;5|Also warn about aircraft that say they are on the ground.;6|A preview of each level with your settings, and of the failure text."]]
+[[shot name="rid_warning" cap="The Proximity warning card." legend="1|Shows or hides the warnings. The receiver keeps running.;2|The distances for Notice, Warn and Alert. They change to feet when the OSD uses imperial units.;3|Bearing style: arrow, compass letters or degrees.;4|Blink the ! as the warning rises.;5|Also warn about drones that say they are on the ground.;6|A preview of each level with your settings, and of the failure text."]]
 </div>
 <div style="width:66mm;flex:none">
 <ul>
-<li><b>One aircraft at a time.</b> If several are close, Alerts come first, one after another for 2 seconds each, each taking the whole line. Otherwise Warn and Notice messages take turns, highest level first, 2 seconds each, with your normal line shown for 2 seconds between rounds.</li>
-<li><b>Above or below.</b> A <code>+</code> after the direction means the aircraft is above you, a <code>-</code> below you. Within 15 m of your height it shows nothing.</li>
-<li><b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the aircraft is clearly farther than the limit.</li>
-<li><b>Aircraft on the ground</b> never go above Notice, unless you tick the box.</li>
+<li><b>One drone at a time.</b> If several are close, Alerts come first, one after another for 2 seconds each, each taking the whole line. Otherwise Warn and Notice messages take turns, highest level first, 2 seconds each, with your normal line shown for 2 seconds between rounds.</li>
+<li><b>Above or below.</b> A <code>+</code> after the direction means the drone is above you, a <code>-</code> below you. Within 15 m of your height it shows nothing.</li>
+<li><b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the drone is clearly farther than the limit.</li>
+<li><b>Drones on the ground</b> never go above Notice, unless you tick the box.</li>
 </ul>
 </div>
 </div>
 <ul>
-<li><b>Old positions are dropped.</b> If an aircraft's position is older than <b>Position expires after</b> (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.</li>
+<li><b>Old positions are dropped.</b> If a drone's position is older than <b>Position expires after</b> (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.</li>
 <li><b>Blinking needs a fast OSD.</b> If your OSD refresh is too slow to show the blink, the <code>!</code> stays steady instead. It needs at least 2 updates a second for Warn and 4 for Alert.</li>
 <li>GPS is only accurate to a few metres on each side, so nothing finer than about 10 m is claimed. The Alert distance cannot be set below 20 m.</li>
 </ul>
 
 <h2>The direction arrow</h2>
-<p>The arrow shows where the other aircraft is <b>relative to your nose</b>, in the same way as Betaflight's home arrow: up means straight ahead. For that RecLink needs to know which way your aircraft is facing.</p>
+<p>The arrow shows where the other drones is <b>relative to your nose</b>, in the same way as Betaflight's home arrow: up means straight ahead. For that RecLink needs to know which way your drone is facing.</p>
 [[svg:rid_heading]]
 <p>This works with a GPS only, with or without a compass. Once you have flown at 5 m/s or faster for 5 seconds with 5 or more satellites, RecLink knows its heading well enough to draw the arrow. Until then, it shows compass letters (N, NE, E and so on) instead. A compass does not shorten the wait, because RecLink cannot tell whether the flight controller is actually using it. The <b>Heading</b> row in Health shows whether the heading comes from the <b>FC compass</b> or is <b>GPS-aligned</b>, or is <b>none</b> yet.</p>
 <div class="tbl"><table>
@@ -198,31 +198,31 @@
 <li>If the Remote ID part stops responding, RecLink switches only that feature off until the next reboot. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.</li>
 </ul>
 
-<h2>Your own aircraft</h2>
-<p>If your own aircraft carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new aircraft whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
+<h2>Your own drones</h2>
+<p>If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
 <div class="cols">
 <div style="width:66mm;flex:none">
-[[shot name="rid_mine" cap="The My aircraft card." legend="1|One box per aircraft ID, up to four. A Remote ID module shows its ID in its own app or manual."]]
+[[shot name="rid_mine" cap="The My aircraft card." legend="1|One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual."]]
 </div>
 <div style="width:66mm;flex:none">
-[[shot name="rid_near" cap="The Nearby now card, with sample aircraft." legend="1|One row per aircraft heard: number, ID, distance, direction, height difference, source and how long ago.;2|The level it would raise. Ignore adds it to My aircraft after you confirm."]]
+[[shot name="rid_near" cap="The Nearby now card, with sample drones." legend="1|One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.;2|The level it would raise. Ignore adds it to My aircraft after you confirm."]]
 </div>
 </div>
 
 <h2>Check what it hears</h2>
-<p><b>Nearby now</b> lists up to eight aircraft heard right now. It only shows aircraft heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good. <b>None heard</b> is not the same as clear.</p>
+<p><b>Nearby now</b> lists up to eight drones heard right now. It only shows drones heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good. <b>None heard</b> is not the same as clear.</p>
 <p>The <b>Health</b> card shows whether Remote ID is active, where the heading comes from, how many frames Bluetooth and Wi-Fi received and dropped, and any fault.</p>
 <div class="cols">
 <div style="width:66mm;flex:none">
 [[shot name="rid_health" cap="The Health card." legend="1|Remote ID state, heading, Bluetooth and Wi-Fi counters, and any fault."]]
 </div>
 <div style="width:66mm;flex:none">
-[[shot name="rid_test" cap="The Test reception card, after a test." legend="1|Starts a 30 second test. It needs the receiver on and the aircraft disarmed.;2|The result of the last test: frames counted and aircraft heard.;3|Each aircraft heard: ID, source, how long ago, and range and direction when there is a GPS fix."]]
+[[shot name="rid_test" cap="The Test reception card, after a test." legend="1|Starts a 30 second test. It needs the receiver on and the drone disarmed.;2|The result of the last test: frames counted and drones heard.;3|Each drone heard: ID, source, how long ago, and range and direction when there is a GPS fix."]]
 </div>
 </div>
 
 <h2>Test the reception</h2>
-<p><b>Test reception (30 s)</b> listens for 30 seconds and lists every aircraft it hears. It works indoors with no GPS. Without a GPS fix it shows the ID and source only, with no range or direction.</p>
+<p><b>Test reception (30 s)</b> listens for 30 seconds and lists every drone it hears. It works indoors with no GPS. Without a GPS fix it shows the ID and source only, with no range or direction.</p>
 <ul>
 <li>It only runs while disarmed, and only with the receiver on and saved. Arming stops it at once.</li>
 <li>With Bluetooth only, the configurator stays connected.</li>
@@ -235,8 +235,8 @@
 <tr><th>Card</th><th>Setting (default)</th></tr>
 <tr><td>Receiver</td><td class="wrap">Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi or Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal or High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, 5 to 12) · Position expires after (<b>5 s</b>, 2 to 30)</td></tr>
 <tr><td>Proximity warning</td><td class="wrap">Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)</td></tr>
-<tr><td>My aircraft</td><td class="wrap">Up to four aircraft IDs to ignore</td></tr>
-<tr><td>Nearby now</td><td class="wrap">A live list of aircraft heard, with an <b>Ignore</b> button on each row</td></tr>
+<tr><td>My aircraft</td><td class="wrap">Up to four drone IDs to ignore</td></tr>
+<tr><td>Nearby now</td><td class="wrap">A live list of drones heard, with an <b>Ignore</b> button on each row</td></tr>
 <tr><td>Health</td><td class="wrap">State, heading, Bluetooth and Wi-Fi counters, faults</td></tr>
 <tr><td>Test reception</td><td class="wrap">A 30 second listening test</td></tr>
 </table></div>
@@ -244,7 +244,7 @@
 
 <h2>Privacy and rules</h2>
 <ul>
-<li>RecLink keeps only an aircraft's ID, range, direction and whether it is above or below you. Everything else in the broadcast, such as the operator's ID, free text and location, is thrown away.</li>
+<li>RecLink keeps only a drone's ID, range, direction and whether it is above or below you. Everything else in the broadcast, such as the operator's ID, free text and location, is thrown away.</li>
 <li>What it keeps lives in memory only. It is never written to flash and never appears in the log.</li>
 <li>Data leaves the board only through the Remote ID tab, while the configurator is open.</li>
 <li>RecLink makes no claim about regulation. Whether receiving or showing other people's Remote ID data is restricted where you fly has not been researched, so check your local rules.</li>
@@ -253,10 +253,10 @@
 <h2>Limits to know</h2>
 <div class="tbl"><table>
 <tr><th>Limit</th><th>What it means</th></tr>
-<tr><td class="wrap">Only aircraft that broadcast</td><td class="wrap">Aircraft with no Remote ID, or a kind RecLink is not listening for, are invisible.</td></tr>
-<tr><td class="wrap">Range and tracking</td><td class="wrap">Radio range is limited. RecLink tracks aircraft up to 20 km away and up to 8 at a time. The farthest are dropped first.</td></tr>
+<tr><td class="wrap">Only drones that broadcast</td><td class="wrap">Drones with no Remote ID, or a kind RecLink is not listening for, are invisible.</td></tr>
+<tr><td class="wrap">Range and tracking</td><td class="wrap">Radio range is limited. RecLink tracks drones up to 20 km away and up to 8 at a time. The farthest are dropped first.</td></tr>
 <tr><td class="wrap">Position accuracy</td><td class="wrap">A few metres on each side. Do not read anything under about 10 m.</td></tr>
-<tr><td class="wrap">Spoofing</td><td class="wrap">Remote ID can be faked. A fake aircraft could trigger a warning. Treat the line as a hint.</td></tr>
+<tr><td class="wrap">Spoofing</td><td class="wrap">Remote ID can be faked. A fake drone could trigger a warning. Treat the line as a hint.</td></tr>
 <tr><td class="wrap">Camera link</td><td class="wrap">More listening means less airtime for the camera link. Start with Normal, and raise it only if you need it.</td></tr>
 </table></div>
 
@@ -267,7 +267,7 @@
 <tr><td class="wrap">Health says reboot required</td><td class="wrap">You saved with the receiver on. Tap Reboot now.</td></tr>
 <tr><td class="wrap">The test hears nothing</td><td class="wrap">Move the transmitter close. Its Remote ID may be Wi-Fi only, so set Listen on to Wi-Fi or Bluetooth + Wi-Fi.</td></tr>
 <tr><td class="wrap">Compass letters, no arrow</td><td class="wrap">Fly forward at 5 m/s or more for 5 seconds with 5 or more satellites. Losing the flight controller link restarts the wait.</td></tr>
-<tr><td class="wrap">It warns about my own aircraft</td><td class="wrap">Add its ID to My aircraft.</td></tr>
+<tr><td class="wrap">It warns about my own drone</td><td class="wrap">Add its ID to My aircraft.</td></tr>
 <tr><td class="wrap">RID RX FAIL</td><td class="wrap">Open Health to see which way of listening is failing. Switch Listen on to Bluetooth only, or reboot the board.</td></tr>
 <tr><td class="wrap">The <code>!</code> does not blink</td><td class="wrap">The OSD refresh rate is too low to show the blink. It needs at least 2 updates a second for Warn and 4 for Alert.</td></tr>
 <tr><td class="wrap">No warning line on the OSD</td><td class="wrap">Add the Remote ID proximity warning (<code>%rp</code>) to one of the four OSD lines and save.</td></tr>
@@ -326,7 +326,7 @@
 <tr><td>OSD warnings</td><td class="wrap">Battery 15 % · SD 3 min · blink on · show lost on</td></tr>
 <tr><td>Clock sync</td><td class="wrap">On · needs GPS · 6 satellites · 10 s tolerance · UTC · GoPro check every 5 min · DJI resync every 60 min · 2 retries</td></tr>
 <tr><td>DJI GPS push</td><td class="wrap">Off · 1 Hz</td></tr>
-<tr><td>Remote ID</td><td class="wrap">Off · Bluetooth · Normal scan effort · 6 satellites · positions expire after 5 s · warnings on · 1000 / 300 / 100 m · bearing Auto · blink on · ground aircraft off</td></tr>
+<tr><td>Remote ID</td><td class="wrap">Off · Bluetooth · Normal scan effort · 6 satellites · positions expire after 5 s · warnings on · 1000 / 300 / 100 m · bearing Auto · blink on · drones on the ground off</td></tr>
 <tr><td>Wi-Fi</td><td class="wrap">SSID RECLINK-XXXX · password reclinkfpv · channel auto · open while disarmed · auto-close 15 min · Max power</td></tr>
 <tr><td>Bluetooth power</td><td class="wrap">Max (+9 dBm)</td></tr>
 <tr><td>Flight controller link</td><td class="wrap">115200 baud · pins not swapped</td></tr>

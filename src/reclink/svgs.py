@@ -91,7 +91,7 @@ def _head(i):
 def rid_overview():
     s='<div class="diagram"><svg viewBox="0 0 700 262" role="img" aria-label="How Remote ID reception works">'+_head("ro1")
     s+='<rect x="10" y="34" width="150" height="96" rx="10" fill="var(--well)" stroke="var(--line)" stroke-width="1.3"/>'
-    s+='<text x="85" y="72" text-anchor="middle" class="b t14">Other aircraft</text><text x="85" y="94" text-anchor="middle" class="m t11">send Remote ID</text><text x="85" y="110" text-anchor="middle" class="m t11">with a position</text>'
+    s+='<text x="85" y="72" text-anchor="middle" class="b t14">Other drones</text><text x="85" y="94" text-anchor="middle" class="m t11">send Remote ID</text><text x="85" y="110" text-anchor="middle" class="m t11">with a position</text>'
     s+='<g class="ln"><path d="M164 66 H334" marker-end="url(#ro1)"/><path d="M164 104 H334" marker-end="url(#ro1)"/></g>'
     s+='<text x="249" y="58" text-anchor="middle" class="t12">Bluetooth</text><text x="249" y="124" text-anchor="middle" class="t12">Wi-Fi, armed only</text>'
     s+='<rect x="338" y="22" width="150" height="120" rx="10" fill="var(--card)" stroke="var(--acc)" stroke-width="2.4"/>'
@@ -102,8 +102,8 @@ def rid_overview():
     s+='<rect x="544" y="34" width="146" height="96" rx="10" fill="var(--osd-bg)" stroke="var(--line)" stroke-width="1.3"/>'
     s+='<text x="560" y="78" class="b" font-family="var(--font-mono)" font-size="16" fill="var(--warn)">!RID1 240M</text>'+_arr(662,74,45,0.9,"var(--warn)")
     s+='<text x="617" y="152" text-anchor="middle" class="m t11">Your goggles</text>'
-    s+='<text x="35" y="236" class="m t11">Distance and direction come from the</text><text x="35" y="252" class="m t11">other aircraft and your own GPS.</text>'
-    s+='</svg><p class="cap">What happens: RecLink hears other aircraft, compares their position with yours and shows one short warning line.</p></div>'
+    s+='<text x="35" y="236" class="m t11">Distance and direction come from the</text><text x="35" y="252" class="m t11">other drones and your own GPS.</text>'
+    s+='</svg><p class="cap">What happens: RecLink hears other drones, compares their position with yours and shows one short warning line.</p></div>'
     return s
 def rid_gate():
     X0,PX=190,12.0   # 40 s window
@@ -157,7 +157,7 @@ def rid_osd():
     s+=_arr(462,50,45,1.9,"var(--warn)")
     s+=f'<text x="500" y="62" {f}>+</text>'
     cols=[(160,"!",["Attention mark","Blinks faster as","it gets closer"]),
-          (230,"RID1",["Aircraft number","1 to 9, stays the","same while tracked"]),
+          (230,"RID1",["Drone number","1 to 9, stays the","same while tracked"]),
           (345,"240M",["Distance","M or KM, or FT","and MI if imperial"]),
           (462,"arrow",["Direction","Relative to your","nose, like home"]),
           (507,"+",["Height","+ above you","- below you"])]

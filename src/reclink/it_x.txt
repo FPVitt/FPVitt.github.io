@@ -81,16 +81,16 @@ GPIO number on each board|||Numero GPIO su ogni scheda
 If you have the <b>RecLink board</b>, you can skip this part, but make sure its firmware is up to date: update it over Wi-Fi from the web installer (System tab → Firmware update).|||Se hai la <b>scheda RecLink</b> puoi saltare questa parte, ma controlla che il firmware sia aggiornato: aggiornalo via Wi-Fi dall'installer web (scheda Sistema → Aggiornamento firmware).
 A <b>SuperMini</b> or <b>S3</b> board must be flashed once, from the web installer. Follow the steps below.|||Una scheda <b>SuperMini</b> o <b>S3</b> va caricata una volta con l'installer web. Segui i passi qui sotto.
 TX, with a 470 Ω resistor on the board|||TX, con resistenza da 470 Ω sulla scheda
-<b>15</b><span>Remote ID: see other aircraft (planned)</span>|||<b>15</b><span>Remote ID: vedere gli altri aerei (prevista)</span>
+<b>15</b><span>Remote ID: see other drones (planned)</span>|||<b>15</b><span>Remote ID: vedere gli altri droni (prevista)</span>
 Chapter 15|||Capitolo 15
-Remote ID: see other aircraft (planned)|||Remote ID: vedere gli altri aerei (prevista)
-RecLink will listen for the Remote ID broadcasts of other aircraft nearby, and warn you on your OSD when one gets close, with its distance and direction.|||RecLink ascolterà le trasmissioni Remote ID degli altri aerei nelle vicinanze e ti avviserà nell'OSD quando uno si avvicina, con distanza e direzione.
+Remote ID: see other drones (planned)|||Remote ID: vedere gli altri droni (prevista)
+RecLink will listen for the Remote ID broadcasts of other drones nearby, and warn you on your OSD when one gets close, with its distance and direction.|||RecLink ascolterà le trasmissioni Remote ID degli altri droni nelle vicinanze e ti avviserà nell'OSD quando uno si avvicina, con distanza e direzione.
 Planned, not in this firmware|||Prevista, non in questo firmware
 Remote ID is <b>not in firmware 0.2.1</b>. This chapter describes the design for a coming release, so you know what to expect and what to prepare. Names, defaults and details may still change before it ships. The Remote ID tab and the <code>%rp</code> token described here do not exist yet.|||Il Remote ID <b>non è nel firmware 0.2.1</b>. Questo capitolo descrive il progetto per una versione futura, così sai cosa aspettarti e cosa preparare. Nomi, valori predefiniti e dettagli possono ancora cambiare prima del rilascio. La scheda Remote ID e il token <code>%rp</code> descritti qui non esistono ancora.
 Information, not collision avoidance|||Informazione, non anticollisione
-Many aircraft broadcast nothing, a Bluetooth receiver only hears Bluetooth transmitters, and range is limited. A quiet OSD never means the sky is clear. Keep your eyes on the sky.|||Molti aerei non trasmettono nulla, un ricevitore Bluetooth sente solo i trasmettitori Bluetooth e la portata è limitata. Un OSD silenzioso non significa mai che il cielo sia libero. Tieni gli occhi sul cielo.
-Remote ID is the identity and position broadcast that many drones send while flying. RecLink receives those broadcasts, works out how far away each aircraft is and in which direction using the GPS of your own flight controller, and puts one short warning line on your OSD.|||Il Remote ID è la trasmissione di identità e posizione che molti droni inviano mentre volano. RecLink riceve quelle trasmissioni, calcola a che distanza e in quale direzione si trova ogni aereo usando il GPS del tuo flight controller e mostra nell'OSD una breve riga di avviso.
-Other aircraft|||Altri aerei
+Many drones broadcast nothing, a Bluetooth receiver only hears Bluetooth transmitters, and range is limited. A quiet OSD never means the sky is clear. Keep your eyes on the sky.|||Molti droni non trasmettono nulla, un ricevitore Bluetooth sente solo i trasmettitori Bluetooth e la portata è limitata. Un OSD silenzioso non significa mai che il cielo sia libero. Tieni gli occhi sul cielo.
+Remote ID is the identity and position broadcast that many drones send while flying. RecLink receives those broadcasts, works out how far away each drone is and in which direction using the GPS of your own flight controller, and puts one short warning line on your OSD.|||Il Remote ID è la trasmissione di identità e posizione che molti droni inviano mentre volano. RecLink riceve quelle trasmissioni, calcola a che distanza e in quale direzione si trova ogni drone usando il GPS del tuo flight controller e mostra nell'OSD una breve riga di avviso.
+Other drones|||Altri droni
 send Remote ID|||trasmettono il Remote ID
 with a position|||con una posizione
 Bluetooth|||Bluetooth
@@ -101,9 +101,9 @@ Your flight controller|||Il tuo flight controller
 GPS position and heading|||posizione GPS e direzione
 Your goggles|||I tuoi occhiali
 Distance and direction come from the|||Distanza e direzione derivano dall'altro
-other aircraft and your own GPS.|||aereo e dal tuo GPS.
-What happens: RecLink hears other aircraft, compares their position with yours and shows one short warning line.|||Cosa succede: RecLink sente gli altri aerei, confronta la loro posizione con la tua e mostra una breve riga di avviso.
-<b>Receive only.</b> RecLink never transmits Remote ID. It is not a Remote ID module and does not make your own aircraft compliant with any regulation.|||<b>Solo ricezione.</b> RecLink non trasmette mai il Remote ID. Non è un modulo Remote ID e non rende il tuo aereo conforme a nessuna normativa.
+other drones and your own GPS.|||drone e dal tuo GPS.
+What happens: RecLink hears other drones, compares their position with yours and shows one short warning line.|||Cosa succede: RecLink sente gli altri droni, confronta la loro posizione con la tua e mostra una breve riga di avviso.
+<b>Receive only.</b> RecLink never transmits Remote ID. It is not a Remote ID module and does not make your own drone compliant with any regulation.|||<b>Solo ricezione.</b> RecLink non trasmette mai il Remote ID. Non è un modulo Remote ID e non rende il tuo drone conforme a nessuna normativa.
 <b>It uses the GPS you already have.</b> There is no extra GPS to add. RecLink reads the position from your flight controller.|||<b>Usa il GPS che hai già.</b> Non serve un altro GPS. RecLink legge la posizione dal tuo flight controller.
 <b>Off by default.</b> Nothing changes until you switch it on in the web configurator.|||<b>Spento per impostazione predefinita.</b> Non cambia nulla finché non lo attivi nel configuratore web.
 <b>Still a passenger.</b> RecLink adds one read from the flight controller, its heading, and still only writes OSD text. Nothing it hears can reach arming, motors or the flight controller's own alarms.|||<b>Sempre un passeggero.</b> RecLink aggiunge una lettura dal flight controller, la sua direzione, e continua a scrivere solo testo OSD. Niente di ciò che sente può arrivare ad arm, motori o agli allarmi del flight controller.
@@ -134,9 +134,9 @@ How it listens|||Come ascolta
 Hears|||Sente
 When it listens|||Quando ascolta
 Bluetooth (default)|||Bluetooth (predefinito)
-Aircraft that broadcast Remote ID over Bluetooth|||Aerei che trasmettono il Remote ID via Bluetooth
+Drones that broadcast Remote ID over Bluetooth|||Droni che trasmettono il Remote ID via Bluetooth
 Whenever Remote ID is active, armed or not|||Ogni volta che il Remote ID è attivo, armato o no
-Aircraft that broadcast Remote ID over Wi-Fi|||Aerei che trasmettono il Remote ID via Wi-Fi
+Drones that broadcast Remote ID over Wi-Fi|||Droni che trasmettono il Remote ID via Wi-Fi
 Only while armed|||Solo da armato
 Both|||Both
 Both kinds|||Entrambi i tipi
@@ -159,7 +159,7 @@ Wi-Fi never transmits in flight|||Il Wi-Fi non trasmette mai in volo
 While armed, the Wi-Fi radio is either off or only listening. RecLink sends nothing: no network, no connection, no scan, no frames. The configurator's own network still only exists while you are disarmed.|||Da armato, la radio Wi-Fi è spenta oppure solo in ascolto. RecLink non invia nulla: nessuna rete, nessuna connessione, nessuna scansione, nessun frame. La rete del configuratore esiste comunque solo da disarmato.
 One radio, shared|||Una radio, condivisa
 The ESP32-C3 has one radio for Bluetooth and Wi-Fi, and the camera link must not suffer. Wi-Fi listening will ship only if bench tests show no camera link drops with it on. If it does not pass, it is dropped and Remote ID stays Bluetooth only. Start with Bluetooth.|||L'ESP32-C3 ha una sola radio per Bluetooth e Wi-Fi, e il collegamento con la camera non deve peggiorare. L'ascolto Wi-Fi verrà rilasciato solo se i test al banco non mostrano cadute del collegamento con la camera quando è attivo. Se non li supera, viene tolto e il Remote ID resta solo Bluetooth. Comincia con il Bluetooth.
-The <b>Bluetooth duty</b> setting is how much of the time RecLink listens. More listening finds aircraft sooner but takes more airtime from the camera link.|||L'impostazione <b>Bluetooth duty</b> indica per quanto tempo RecLink ascolta. Più ascolto trova gli aerei prima, ma toglie più tempo radio al collegamento con la camera.
+The <b>Bluetooth duty</b> setting is how much of the time RecLink listens. More listening finds drones sooner but takes more airtime from the camera link.|||L'impostazione <b>Bluetooth duty</b> indica per quanto tempo RecLink ascolta. Più ascolto trova i droni prima, ma toglie più tempo radio al collegamento con la camera.
 Duty|||Duty
 Listening|||Ascolto
 About 10%|||Circa 10%
@@ -169,13 +169,13 @@ About 25%|||Circa 25%
 A good balance.|||Un buon equilibrio.
 High|||High
 About 50%|||Circa 50%
-Finds aircraft fastest. Uses the most airtime.|||Trova gli aerei più in fretta. Usa più tempo radio.
+Finds drones fastest. Uses the most airtime.|||Trova i droni più in fretta. Usa più tempo radio.
 Reading the warning|||Leggere l'avviso
 The warning is one line of up to 16 characters.|||L'avviso è una riga di al massimo 16 caratteri.
 Attention mark|||Segno di attenzione
 Blinks faster as|||Lampeggia sempre più
 it gets closer|||veloce se si avvicina
-Aircraft number|||Numero dell'aereo
+Drone number|||Numero del drone
 1 to 9, stays the|||Da 1 a 9, resta uguale
 same while tracked|||finché è seguito
 Distance|||Distanza
@@ -187,7 +187,7 @@ Height|||Altezza
 + above you|||+ sopra di te
 - below you|||- sotto di te
 The warning is at most 16 characters, the size of one OSD custom message.|||L'avviso è lungo al massimo 16 caratteri, la dimensione di un messaggio personalizzato OSD.
-Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units they are in feet up to 1000 ft, then miles. The warning gets more urgent as the aircraft gets closer.|||Le distanze sono in metri fino a 1 km, poi in chilometri. Se il tuo OSD usa unità imperiali sono in piedi fino a 1000 ft, poi in miglia. L'avviso diventa più urgente man mano che l'aereo si avvicina.
+Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units they are in feet up to 1000 ft, then miles. The warning gets more urgent as the drone gets closer.|||Le distanze sono in metri fino a 1 km, poi in chilometri. Se il tuo OSD usa unità imperiali sono in piedi fino a 1000 ft, poi in miglia. L'avviso diventa più urgente man mano che il drone si avvicina.
 Rings are not to scale|||Anelli non in scala
 Notice|||Avviso
 within 1000 m|||entro 1000 m
@@ -208,14 +208,14 @@ Within 300 m|||Entro 300 m
 The <code>!</code> blinks slowly, once a second|||Il <code>!</code> lampeggia piano, una volta al secondo
 Within 100 m|||Entro 100 m
 The <code>!</code> blinks fast, twice a second, and the warning takes the whole line|||Il <code>!</code> lampeggia veloce, due volte al secondo, e l'avviso occupa tutta la riga
-<b>One aircraft at a time.</b> If several are close, Alerts come first, one after another for 2 seconds each, each taking the whole line. Otherwise Warn and Notice messages take turns, highest level first, 2 seconds each, with your normal line shown for 2 seconds between rounds.|||<b>Un aereo alla volta.</b> Se ce ne sono diversi vicini, prima gli Allarmi, uno dopo l'altro per 2 secondi ciascuno, ognuno su tutta la riga. Altrimenti i messaggi di Attenzione e Avviso si alternano, dal livello più alto, 2 secondi ciascuno, con la tua riga normale mostrata per 2 secondi tra un giro e l'altro.
-<b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the aircraft is clearly farther than the limit, so the text does not flicker at the edge.|||<b>Veloce a salire, lento a scendere.</b> Un livello sale subito, ma un Allarme richiede due aggiornamenti di posizione entro la distanza di Allarme, così un singolo errore del GPS non lo fa scattare. Un livello scende solo quando l'aereo è chiaramente oltre il limite, così il testo non sfarfalla al confine.
-<b>Aircraft on the ground</b> never go above Notice, unless you turn that on.|||<b>Gli aerei a terra</b> non superano mai l'Avviso, a meno che tu non lo attivi.
-<b>Old positions are dropped.</b> If an aircraft's position is older than the forget time (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.|||<b>Le posizioni vecchie vengono scartate.</b> Se la posizione di un aereo è più vecchia del tempo di dimenticanza (5 secondi per impostazione predefinita), sparisce dall'avviso. RecLink non mostra mai una distanza vecchia, né una inventata.
+<b>One drone at a time.</b> If several are close, Alerts come first, one after another for 2 seconds each, each taking the whole line. Otherwise Warn and Notice messages take turns, highest level first, 2 seconds each, with your normal line shown for 2 seconds between rounds.|||<b>Un drone alla volta.</b> Se ce ne sono diversi vicini, prima gli Allarmi, uno dopo l'altro per 2 secondi ciascuno, ognuno su tutta la riga. Altrimenti i messaggi di Attenzione e Avviso si alternano, dal livello più alto, 2 secondi ciascuno, con la tua riga normale mostrata per 2 secondi tra un giro e l'altro.
+<b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the drone is clearly farther than the limit, so the text does not flicker at the edge.|||<b>Veloce a salire, lento a scendere.</b> Un livello sale subito, ma un Allarme richiede due aggiornamenti di posizione entro la distanza di Allarme, così un singolo errore del GPS non lo fa scattare. Un livello scende solo quando il drone è chiaramente oltre il limite, così il testo non sfarfalla al confine.
+<b>Drones on the ground</b> never go above Notice, unless you turn that on.|||<b>I droni a terra</b> non superano mai l'Avviso, a meno che tu non lo attivi.
+<b>Old positions are dropped.</b> If a drone's position is older than the forget time (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.|||<b>Le posizioni vecchie vengono scartate.</b> Se la posizione di un drone è più vecchia del tempo di dimenticanza (5 secondi per impostazione predefinita), sparisce dall'avviso. RecLink non mostra mai una distanza vecchia, né una inventata.
 <b>Blinking needs a fast OSD.</b> If your OSD refresh is too slow to show the blink, the <code>!</code> stays steady instead.|||<b>Il lampeggio richiede un OSD veloce.</b> Se l'aggiornamento dell'OSD è troppo lento per mostrare il lampeggio, il <code>!</code> resta fisso.
 GPS is only accurate to a few metres on each side, so nothing finer than about 10 m is claimed. The Alert distance cannot be set below 20 m.|||Il GPS è preciso solo entro qualche metro per lato, quindi non si dichiara nulla sotto i 10 m circa. La distanza di Allarme non può essere impostata sotto i 20 m.
 The direction arrow|||La freccia di direzione
-The arrow shows where the other aircraft is <b>relative to your nose</b>, in the same way as Betaflight's home arrow: up means straight ahead. For that RecLink needs to know which way your aircraft is facing.|||La freccia mostra dove si trova l'altro aereo <b>rispetto al tuo muso</b>, come la freccia home di Betaflight: in alto significa dritto davanti. Per questo RecLink deve sapere da che parte è rivolto il tuo aereo.
+The arrow shows where the other drones is <b>relative to your nose</b>, in the same way as Betaflight's home arrow: up means straight ahead. For that RecLink needs to know which way your drone is facing.|||La freccia mostra dove si trova l'altro drone <b>rispetto al tuo muso</b>, come la freccia home di Betaflight: in alto significa dritto davanti. Per questo RecLink deve sapere da che parte è rivolto il tuo drone.
 Letters while the heading is unknown|||Lettere finché la direzione è sconosciuta
 Arrow|||Freccia
 Flying 5 m/s or faster for 5 s|||Volo a 5 m/s o più per 5 s
@@ -239,23 +239,23 @@ It appears when the Bluetooth scan is not running, when Wi-Fi listening did not 
 An Alert from a path that still works outranks the failure text, and the failure text outranks Warn and Notice.|||Un Allarme da un percorso che funziona ancora ha la precedenza sul testo di guasto, e il testo di guasto ha la precedenza su Attenzione e Avviso.
 A missing GPS is not a failure: the feature is just inactive and shows nothing.|||Un GPS mancante non è un guasto: la funzione è semplicemente inattiva e non mostra nulla.
 If the Remote ID part hangs, RecLink switches only that feature off. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.|||Se la parte Remote ID si blocca, RecLink spegne solo quella funzione. <b>Non</b> riavvia il bridge in volo, quindi controllo della camera e OSD continuano a funzionare.
-Your own aircraft|||Il tuo aereo
-If your own aircraft carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new aircraft whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.|||Se il tuo aereo porta un modulo Remote ID, RecLink ti avviserebbe di esso. Aggiungi il suo ID a <b>My aircraft</b> (fino a quattro). Un nuovo aereo il cui ID non è ancora stato sentito può mostrare al massimo un Avviso nei suoi primi 15 secondi, così il tuo modulo non può far scattare un Allarme prima che l'elenco possa riconoscerlo.
+Your own drones|||Il tuo drone
+If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.|||Se il tuo drone porta un modulo Remote ID, RecLink ti avviserebbe di esso. Aggiungi il suo ID a <b>My aircraft</b> (fino a quattro). Un nuovo drone il cui ID non è ancora stato sentito può mostrare al massimo un Avviso nei suoi primi 15 secondi, così il tuo modulo non può far scattare un Allarme prima che l'elenco possa riconoscerlo.
 Settings: the Remote ID tab|||Impostazioni: la scheda Remote ID
 Setting (default)|||Impostazione (predefinito)
 Receiver|||Receiver
 Remote ID on or off (<b>off</b>) · Mode: Bluetooth, Wi-Fi or Both (<b>Bluetooth</b>) · Bluetooth duty: Low, Normal or High (<b>Normal</b>) · Minimum satellites (<b>6</b>, 5 to 12) · Forget time (<b>5 s</b>, 2 to 30)|||Remote ID on/off (<b>off</b>) · Mode: Bluetooth, Wi-Fi o Both (<b>Bluetooth</b>) · Bluetooth duty: Low, Normal o High (<b>Normal</b>) · Minimum satellites (<b>6</b>, da 5 a 12) · Forget time (<b>5 s</b>, da 2 a 30)
 Proximity warning|||Proximity warning
-Warnings on or off (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show aircraft on the ground (<b>off</b>). A live preview shows the line as it will look, including the failure text.|||Warnings on/off (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show aircraft on the ground (<b>off</b>). Un'anteprima dal vivo mostra la riga come apparirà, compreso il testo di guasto.
+Warnings on or off (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show drones on the ground (<b>off</b>). A live preview shows the line as it will look, including the failure text.|||Warnings on/off (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show aircraft on the ground (<b>off</b>). Un'anteprima dal vivo mostra la riga come apparirà, compreso il testo di guasto.
 My aircraft|||My aircraft
-Up to four aircraft IDs to ignore|||Fino a quattro ID di aerei da ignorare
+Up to four drone IDs to ignore|||Fino a quattro ID di droni da ignorare
 Nearby now|||Nearby now
-A live list of up to eight aircraft: ID, type, status, distance, direction, altitude, source, signal strength and age, with an <b>Ignore</b> button on each row|||Un elenco dal vivo di fino a otto aerei: ID, tipo, stato, distanza, direzione, altitudine, sorgente, intensità del segnale ed età, con un pulsante <b>Ignore</b> su ogni riga
+A live list of up to eight drones: ID, type, status, distance, direction, altitude, source, signal strength and age, with an <b>Ignore</b> button on each row|||Un elenco dal vivo di fino a otto droni: ID, tipo, stato, distanza, direzione, altitudine, sorgente, intensità del segnale ed età, con un pulsante <b>Ignore</b> su ogni riga
 Health|||Health
 Whether it is active and why not, where the heading comes from, counters of frames received and dropped, the last test result, and which listening path is failing|||Se è attivo e perché no, da dove arriva la direzione, i contatori di frame ricevuti e scartati, l'ultimo risultato del test e quale percorso di ascolto sta fallendo
 Changes are saved like every other setting. The Bluetooth part applies at once, and the Wi-Fi part at the next arming.|||Le modifiche si salvano come ogni altra impostazione. La parte Bluetooth si applica subito, quella Wi-Fi al successivo arm.
-The list in <b>Nearby now</b> only shows aircraft heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good.|||L'elenco in <b>Nearby now</b> mostra solo gli aerei sentiti via Bluetooth mentre il configuratore è aperto, perché l'ascolto Wi-Fi funziona solo da armato. Si riempie solo quando il GPS è buono.
-The <b>Ignore</b> button asks you to confirm, because it stores another aircraft's ID. The list is meant for your own aircraft.|||Il pulsante <b>Ignore</b> chiede conferma, perché memorizza l'ID di un altro aereo. L'elenco è pensato per i tuoi aerei.
+The list in <b>Nearby now</b> only shows drones heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good.|||L'elenco in <b>Nearby now</b> mostra solo i droni sentiti via Bluetooth mentre il configuratore è aperto, perché l'ascolto Wi-Fi funziona solo da armato. Si riempie solo quando il GPS è buono.
+The <b>Ignore</b> button asks you to confirm, because it stores another drones's ID. The list is meant for your own drone.|||Il pulsante <b>Ignore</b> chiede conferma, perché memorizza l'ID di un altro drone. L'elenco è pensato per i tuoi droni.
 Test the reception|||Prova la ricezione
 The <b>Test reception</b> button listens for 30 seconds on the bench and shows how many Remote ID frames it heard. It works indoors with no GPS, and it only counts frames: no warnings, no distances.|||Il pulsante <b>Test reception</b> ascolta per 30 secondi sul banco e mostra quanti frame Remote ID ha sentito. Funziona al chiuso senza GPS e conta solo i frame: niente avvisi, niente distanze.
 It only runs while disarmed. Arming stops it at once.|||Funziona solo da disarmato. L'arm lo ferma subito.
@@ -266,25 +266,25 @@ Setting it up|||Configurazione
 <b>Check your GPS.</b> In Betaflight Configurator's GPS tab, make sure you get a fix with 6 or more satellites outdoors.|||<b>Controlla il GPS.</b> Nella scheda GPS di Betaflight Configurator, verifica di avere un fix con 6 o più satelliti all'aperto.
 <b>Open the Remote ID tab</b> and switch it on. Leave the mode on Bluetooth to begin with.|||<b>Apri la scheda Remote ID</b> e attivalo. All'inizio lascia la modalità su Bluetooth.
 <b>Add <code>%rp</code></b> to one of your OSD lines (chapter 10) and place that custom message prominently in Betaflight's OSD tab (chapter 4).|||<b>Aggiungi <code>%rp</code></b> a una delle tue righe OSD (capitolo 10) e metti quel messaggio personalizzato in evidenza nella scheda OSD di Betaflight (capitolo 4).
-<b>Add your own aircraft's IDs</b> to My aircraft, if you carry a Remote ID module.|||<b>Aggiungi gli ID dei tuoi aerei</b> a My aircraft, se porti un modulo Remote ID.
+<b>Add your own drone's IDs</b> to My aircraft, if you carry a Remote ID module.|||<b>Aggiungi gli ID dei tuoi droni</b> a My aircraft, se porti un modulo Remote ID.
 <b>Test the reception</b> on the bench, then outdoors with propellers removed and a known Remote ID transmitter nearby. Check the distance and direction make sense.|||<b>Prova la ricezione</b> sul banco, poi all'aperto con le eliche rimosse e un trasmettitore Remote ID noto nelle vicinanze. Controlla che distanza e direzione abbiano senso.
 <b>Fly with it</b> as an extra, not as your eyes.|||<b>Vola con il Remote ID</b> come un extra, non come i tuoi occhi.
 Privacy and rules|||Privacy e regole
 Received Remote ID data lives in memory only. It is never written to flash and never appears in the log.|||I dati Remote ID ricevuti vivono solo in memoria. Non vengono mai scritti nella flash e non compaiono mai nel log.
-Operator ID, free-text, operator location and authentication data are thrown away without being read. The only identifying value kept is an aircraft's ID, and only so you can ignore your own.|||L'ID operatore, il testo libero, la posizione dell'operatore e i dati di autenticazione vengono scartati senza essere letti. L'unico valore identificativo conservato è l'ID dell'aereo, e solo per poter ignorare il tuo.
+Operator ID, free-text, operator location and authentication data are thrown away without being read. The only identifying value kept is a drone's ID, and only so you can ignore your own.|||L'ID operatore, il testo libero, la posizione dell'operatore e i dati di autenticazione vengono scartati senza essere letti. L'unico valore identificativo conservato è l'ID del drone, e solo per poter ignorare il tuo.
 Data leaves the board only through the Remote ID tab, while the configurator is open.|||I dati lasciano la scheda solo attraverso la scheda Remote ID, mentre il configuratore è aperto.
 RecLink makes no claim about regulation. Whether receiving or showing other people's Remote ID data is restricted where you fly has not been researched, so check your local rules.|||RecLink non dichiara nulla sulla conformità normativa. Se ricevere o mostrare i dati Remote ID di altre persone sia limitato dove voli non è stato verificato, quindi controlla le regole locali.
 Limits to know|||Limiti da conoscere
 Limit|||Limite
 What it means|||Cosa significa
-Only aircraft that broadcast|||Solo gli aerei che trasmettono
-Aircraft with no Remote ID, or a kind RecLink is not listening for, are invisible.|||Gli aerei senza Remote ID, o di un tipo che RecLink non ascolta, sono invisibili.
+Only drones that broadcast|||Solo i droni che trasmettono
+Drones with no Remote ID, or a kind RecLink is not listening for, are invisible.|||I droni senza Remote ID, o di un tipo che RecLink non ascolta, sono invisibili.
 Range and tracking|||Portata e tracciamento
-Radio range is limited. RecLink tracks aircraft up to 20 km away and up to 8 at a time. The farthest are dropped first.|||La portata radio è limitata. RecLink segue aerei fino a 20 km di distanza e fino a 8 alla volta. I più lontani vengono scartati per primi.
+Radio range is limited. RecLink tracks drones up to 20 km away and up to 8 at a time. The farthest are dropped first.|||La portata radio è limitata. RecLink segue droni fino a 20 km di distanza e fino a 8 alla volta. I più lontani vengono scartati per primi.
 Position accuracy|||Precisione della posizione
 A few metres on each side. Do not read anything under about 10 m.|||Qualche metro per lato. Non leggere nulla sotto i 10 m circa.
 Spoofing|||Falsificazione
-Remote ID can be faked. A fake aircraft could trigger a warning. Treat the line as a hint.|||Il Remote ID si può falsificare. Un aereo finto potrebbe far scattare un avviso. Considera la riga un indizio.
+Remote ID can be faked. A fake drone could trigger a warning. Treat the line as a hint.|||Il Remote ID si può falsificare. Un drone finto potrebbe far scattare un avviso. Considera la riga un indizio.
 More listening means less airtime for the camera link. Start with Normal, and raise it only if you need it.|||Più ascolto significa meno tempo radio per il collegamento con la camera. Parti da Normal e alzalo solo se ti serve.
 If something looks wrong|||Se qualcosa non va
 Nothing ever shows|||Non compare mai niente
@@ -293,7 +293,7 @@ The test hears nothing|||Il test non sente nulla
 Move the transmitter close. Its Remote ID may be Wi-Fi only, so set the mode to Wi-Fi or Both.|||Avvicina il trasmettitore. Il suo Remote ID potrebbe essere solo Wi-Fi, quindi imposta la modalità su Wi-Fi o Both.
 Compass letters, no arrow|||Lettere della bussola, niente freccia
 Fly forward at 5 m/s or more for 5 seconds with 5 or more satellites. Losing the flight controller link restarts the wait.|||Vola in avanti a 5 m/s o più per 5 secondi con 5 o più satelliti. Perdere il collegamento con il flight controller fa ripartire l'attesa.
-It warns about my own aircraft|||Avvisa del mio stesso aereo
+It warns about my own drone|||Avvisa del mio stesso drone
 Add its ID to My aircraft.|||Aggiungi il suo ID a My aircraft.
 Open Health to see which way of listening is failing. Switch the mode to Bluetooth only, or reboot the board.|||Apri Health per vedere quale modo di ascolto sta fallendo. Porta la modalità solo su Bluetooth, oppure riavvia la scheda.
 The <code>!</code> does not blink|||Il <code>!</code> non lampeggia
@@ -303,12 +303,12 @@ M or KM, or FT|||M o KM, o FT
 Low|||Low
 Why|||Perché
 You|||Tu
-<b>15</b><span>Remote ID: see other aircraft</span>|||<b>15</b><span>Remote ID: vedere gli altri aerei</span>
-<b>Remote ID warnings</b> (new in 0.3.0, off by default). Hears other aircraft over Bluetooth or Wi-Fi and warns you on the OSD with distance and direction. It only listens, and it is not collision avoidance (chapter 15).|||<b>Avvisi Remote ID</b> (novità della 0.3.0, spento per impostazione predefinita). Sente gli altri aerei via Bluetooth o Wi-Fi e ti avvisa nell'OSD con distanza e direzione. Si limita ad ascoltare e non è un sistema anticollisione (capitolo 15).
+<b>15</b><span>Remote ID: see other drones</span>|||<b>15</b><span>Remote ID: vedere gli altri droni</span>
+<b>Remote ID warnings</b> (new in 0.3.0, off by default). Hears other drones over Bluetooth or Wi-Fi and warns you on the OSD with distance and direction. It only listens, and it is not collision avoidance (chapter 15).|||<b>Avvisi Remote ID</b> (novità della 0.3.0, spento per impostazione predefinita). Sente gli altri droni via Bluetooth o Wi-Fi e ti avvisa nell'OSD con distanza e direzione. Si limita ad ascoltare e non è un sistema anticollisione (capitolo 15).
 Below the bar, one tab per zone shows a row for every setting a zone can change. <b>Tick a row to push that setting; leave it unticked and the camera keeps its own value.</b> Unticked rows are not stored. The builder works only while the camera is connected: until then it says "Connect the camera to edit zone settings" and stays greyed out.|||Sotto la barra, una scheda per zona mostra una riga per ogni impostazione che una zona può cambiare. <b>Spunta una riga per inviare quell'impostazione; se la lasci senza spunta la camera mantiene il suo valore.</b> Le righe senza spunta non vengono memorizzate. Il builder funziona solo con la camera collegata: finché non lo è, dice «Connect the camera to edit zone settings» e resta in grigio.
-The token <code>%rp</code> shows the Remote ID warning (chapter 15). The line that holds it is replaced by the warning while an aircraft is close.|||Il token <code>%rp</code> mostra l'avviso Remote ID (capitolo 15). La riga che lo contiene viene sostituita dall'avviso mentre un aereo è vicino.
-Remote ID: see other aircraft|||Remote ID: vedere gli altri aerei
-RecLink listens for the Remote ID broadcasts of other aircraft nearby, and warns you on your OSD when one gets close, with its distance and direction. It is new in firmware 0.3.0 and it is off until you switch it on.|||RecLink ascolta le trasmissioni Remote ID degli altri aerei nelle vicinanze e ti avvisa nell'OSD quando uno si avvicina, con distanza e direzione. È una novità del firmware 0.3.0 ed è spento finché non lo attivi.
+The token <code>%rp</code> shows the Remote ID warning (chapter 15). The line that holds it is replaced by the warning while a drone is close.|||Il token <code>%rp</code> mostra l'avviso Remote ID (capitolo 15). La riga che lo contiene viene sostituita dall'avviso mentre un drone è vicino.
+Remote ID: see other drones|||Remote ID: vedere gli altri droni
+RecLink listens for the Remote ID broadcasts of other drones nearby, and warns you on your OSD when one gets close, with its distance and direction. It is new in firmware 0.3.0 and it is off until you switch it on.|||RecLink ascolta le trasmissioni Remote ID degli altri droni nelle vicinanze e ti avvisa nell'OSD quando uno si avvicina, con distanza e direzione. È una novità del firmware 0.3.0 ed è spento finché non lo attivi.
 New, and not yet proven in flight|||Nuovo e non ancora provato in volo
 Remote ID is part of the 0.3.0 <b>pre-release</b>. It has not yet been validated in flight, nor for how it shares the radio with the camera link. Try it on the bench first, and watch your camera link closely the first times you fly with it.|||Il Remote ID fa parte della <b>pre-release</b> 0.3.0. Non è ancora stato validato in volo, né per come condivide la radio con il collegamento con la camera. Provalo prima al banco e tieni d'occhio il collegamento con la camera le prime volte che voli.
 <b>Still a passenger.</b> RecLink adds two reads from the flight controller, its heading and its altitude, and still only writes OSD text. Nothing it hears can reach arming, motors or the flight controller's own alarms.|||<b>Sempre un passeggero.</b> RecLink aggiunge due letture dal flight controller, la direzione e la quota, e continua a scrivere solo testo OSD. Niente di ciò che sente può arrivare ad arm, motori o agli allarmi del flight controller.
@@ -338,14 +338,14 @@ Listening, and warnings can appear.|||Ascolta e possono comparire avvisi.
 Listen on|||Listen on
 Bluetooth + Wi-Fi|||Bluetooth + Wi-Fi
 The ESP32-C3 has one radio for Bluetooth and Wi-Fi, and the camera link must not suffer. How well Wi-Fi listening shares the radio with the camera link has not been proven yet. Start with Bluetooth, and move to Wi-Fi only if you need it and your camera link stays solid.|||L'ESP32-C3 ha una sola radio per Bluetooth e Wi-Fi, e il collegamento con la camera non deve peggiorare. Non è ancora stato provato quanto bene l'ascolto Wi-Fi condivida la radio con il collegamento con la camera. Comincia con il Bluetooth e passa al Wi-Fi solo se ti serve e il collegamento con la camera resta solido.
-The <b>Bluetooth scan effort</b> setting is how much of the time RecLink listens. More listening finds aircraft sooner but takes more airtime from the camera link.|||L'impostazione <b>Bluetooth scan effort</b> indica per quanto tempo RecLink ascolta. Più ascolto trova gli aerei prima, ma toglie più tempo radio al collegamento con la camera.
+The <b>Bluetooth scan effort</b> setting is how much of the time RecLink listens. More listening finds drones sooner but takes more airtime from the camera link.|||L'impostazione <b>Bluetooth scan effort</b> indica per quanto tempo RecLink ascolta. Più ascolto trova i droni prima, ma toglie più tempo radio al collegamento con la camera.
 Effort|||Effort
 Least load on the camera link. Position expiry must be 10 seconds or more.|||Meno carico sul collegamento con la camera. La scadenza della posizione deve essere di almeno 10 secondi.
-Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units (OSD tab, <b>Units</b>) they are in feet up to 1000 ft, then miles. The warning gets more urgent as the aircraft gets closer.|||Le distanze sono in metri fino a 1 km, poi in chilometri. Se il tuo OSD usa unità imperiali (scheda OSD, <b>Units</b>) sono in piedi fino a 1000 ft, poi in miglia. L'avviso diventa più urgente man mano che l'aereo si avvicina.
-<b>Above or below.</b> A <code>+</code> after the direction means the aircraft is above you, a <code>-</code> below you. Within 15 m of your height it shows nothing.|||<b>Sopra o sotto.</b> Un <code>+</code> dopo la direzione significa che l'aereo è sopra di te, un <code>-</code> sotto di te. Entro 15 m dalla tua quota non mostra nulla.
-<b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the aircraft is clearly farther than the limit.|||<b>Veloce a salire, lento a scendere.</b> Un livello sale subito, ma un Allarme richiede due aggiornamenti di posizione entro la distanza di Allarme, così un singolo errore del GPS non lo fa scattare. Un livello scende solo quando l'aereo è chiaramente oltre il limite.
-<b>Aircraft on the ground</b> never go above Notice, unless you tick the box.|||<b>Gli aerei a terra</b> non superano mai l'Avviso, a meno che tu non spunti la casella.
-<b>Old positions are dropped.</b> If an aircraft's position is older than <b>Position expires after</b> (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.|||<b>Le posizioni vecchie vengono scartate.</b> Se la posizione di un aereo è più vecchia di <b>Position expires after</b> (5 secondi per impostazione predefinita), sparisce dall'avviso. RecLink non mostra mai una distanza vecchia, né una inventata.
+Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units (OSD tab, <b>Units</b>) they are in feet up to 1000 ft, then miles. The warning gets more urgent as the drone gets closer.|||Le distanze sono in metri fino a 1 km, poi in chilometri. Se il tuo OSD usa unità imperiali (scheda OSD, <b>Units</b>) sono in piedi fino a 1000 ft, poi in miglia. L'avviso diventa più urgente man mano che il drone si avvicina.
+<b>Above or below.</b> A <code>+</code> after the direction means the drone is above you, a <code>-</code> below you. Within 15 m of your height it shows nothing.|||<b>Sopra o sotto.</b> Un <code>+</code> dopo la direzione significa che il drone è sopra di te, un <code>-</code> sotto di te. Entro 15 m dalla tua quota non mostra nulla.
+<b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the drone is clearly farther than the limit.|||<b>Veloce a salire, lento a scendere.</b> Un livello sale subito, ma un Allarme richiede due aggiornamenti di posizione entro la distanza di Allarme, così un singolo errore del GPS non lo fa scattare. Un livello scende solo quando il drone è chiaramente oltre il limite.
+<b>Drones on the ground</b> never go above Notice, unless you tick the box.|||<b>I droni a terra</b> non superano mai l'Avviso, a meno che tu non spunti la casella.
+<b>Old positions are dropped.</b> If a drone's position is older than <b>Position expires after</b> (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.|||<b>Le posizioni vecchie vengono scartate.</b> Se la posizione di un drone è più vecchia di <b>Position expires after</b> (5 secondi per impostazione predefinita), sparisce dall'avviso. RecLink non mostra mai una distanza vecchia, né una inventata.
 <b>Blinking needs a fast OSD.</b> If your OSD refresh is too slow to show the blink, the <code>!</code> stays steady instead. It needs at least 2 updates a second for Warn and 4 for Alert.|||<b>Il lampeggio richiede un OSD veloce.</b> Se l'aggiornamento dell'OSD è troppo lento per mostrare il lampeggio, il <code>!</code> resta fisso. Servono almeno 2 aggiornamenti al secondo per Attenzione e 4 per Allarme.
 This works with a GPS only, with or without a compass. Once you have flown at 5 m/s or faster for 5 seconds with 5 or more satellites, RecLink knows its heading well enough to draw the arrow. Until then, it shows compass letters (N, NE, E and so on) instead. A compass does not shorten the wait, because RecLink cannot tell whether the flight controller is actually using it. The <b>Heading</b> row in Health shows whether the heading comes from the <b>FC compass</b> or is <b>GPS-aligned</b>, or is <b>none</b> yet.|||Funziona con il solo GPS, con o senza bussola. Dopo che hai volato a 5 m/s o più per 5 secondi con 5 o più satelliti, RecLink conosce la sua direzione abbastanza bene da disegnare la freccia. Fino ad allora mostra invece le lettere della bussola (N, NE, E e così via). Una bussola non accorcia l'attesa, perché RecLink non può sapere se il flight controller la sta davvero usando. La riga <b>Heading</b> in Health indica se la direzione arriva dalla <b>FC compass</b>, se è <b>GPS-aligned</b> o se è ancora <b>none</b>.
 Bearing style|||Bearing style
@@ -356,21 +356,21 @@ Degrees (045)|||Degrees (045)
 It appears when the Bluetooth scan is not running, when Wi-Fi listening did not start while armed, or when the Remote ID part itself stopped responding. The <b>Faults</b> row in Health names which one.|||Compare quando la scansione Bluetooth non è in funzione, quando l'ascolto Wi-Fi non è partito da armato, oppure quando la parte Remote ID stessa ha smesso di rispondere. La riga <b>Faults</b> in Health dice quale.
 If the Remote ID part stops responding, RecLink switches only that feature off until the next reboot. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.|||Se la parte Remote ID smette di rispondere, RecLink spegne solo quella funzione fino al riavvio successivo. <b>Non</b> riavvia il bridge in volo, quindi controllo della camera e OSD continuano a funzionare.
 Check what it hears|||Controlla cosa sente
-<b>Nearby now</b> lists up to eight aircraft heard right now. It only shows aircraft heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good. <b>None heard</b> is not the same as clear.|||<b>Nearby now</b> elenca fino a otto aerei sentiti in questo momento. Mostra solo gli aerei sentiti via Bluetooth mentre il configuratore è aperto, perché l'ascolto Wi-Fi funziona solo da armato. Si riempie solo quando il GPS è buono. <b>None heard</b> non vuol dire che il cielo sia libero.
+<b>Nearby now</b> lists up to eight drones heard right now. It only shows drones heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good. <b>None heard</b> is not the same as clear.|||<b>Nearby now</b> elenca fino a otto droni sentiti in questo momento. Mostra solo i droni sentiti via Bluetooth mentre il configuratore è aperto, perché l'ascolto Wi-Fi funziona solo da armato. Si riempie solo quando il GPS è buono. <b>None heard</b> non vuol dire che il cielo sia libero.
 The <b>Health</b> card shows whether Remote ID is active, where the heading comes from, how many frames Bluetooth and Wi-Fi received and dropped, and any fault.|||La scheda <b>Health</b> mostra se il Remote ID è attivo, da dove arriva la direzione, quanti frame Bluetooth e Wi-Fi sono stati ricevuti e scartati e l'eventuale guasto.
-<b>Test reception (30 s)</b> listens for 30 seconds and lists every aircraft it hears. It works indoors with no GPS. Without a GPS fix it shows the ID and source only, with no range or direction.|||<b>Test reception (30 s)</b> ascolta per 30 secondi ed elenca ogni aereo che sente. Funziona al chiuso senza GPS. Senza fix GPS mostra solo ID e sorgente, senza distanza né direzione.
+<b>Test reception (30 s)</b> listens for 30 seconds and lists every drone it hears. It works indoors with no GPS. Without a GPS fix it shows the ID and source only, with no range or direction.|||<b>Test reception (30 s)</b> ascolta per 30 secondi ed elenca ogni drone che sente. Funziona al chiuso senza GPS. Senza fix GPS mostra solo ID e sorgente, senza distanza né direzione.
 It only runs while disarmed, and only with the receiver on and saved. Arming stops it at once.|||Funziona solo da disarmato e solo con il ricevitore acceso e salvato. L'arm lo ferma subito.
 With Bluetooth only, the configurator stays connected.|||Solo con il Bluetooth, il configuratore resta connesso.
 If the mode includes Wi-Fi, RecLink asks first: the board's Wi-Fi drops for about 30 seconds and your phone disconnects. Reconnect after about 40 seconds and open the page again.|||Se la modalità comprende il Wi-Fi, RecLink chiede conferma: il Wi-Fi della scheda cade per circa 30 secondi e il telefono si disconnette. Riconnettiti dopo circa 40 secondi e riapri la pagina.
 Card|||Scheda
 Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi or Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal or High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, 5 to 12) · Position expires after (<b>5 s</b>, 2 to 30)|||Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi o Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal o High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, da 5 a 12) · Position expires after (<b>5 s</b>, da 2 a 30)
 Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)|||Show warnings on the OSD (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>, ciascuna da 20 a 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)
-A live list of aircraft heard, with an <b>Ignore</b> button on each row|||Un elenco dal vivo degli aerei sentiti, con un pulsante <b>Ignore</b> su ogni riga
+A live list of drones heard, with an <b>Ignore</b> button on each row|||Un elenco dal vivo dei droni sentiti, con un pulsante <b>Ignore</b> su ogni riga
 State, heading, Bluetooth and Wi-Fi counters, faults|||Stato, direzione, contatori Bluetooth e Wi-Fi, guasti
 Test reception|||Test reception
 A 30 second listening test|||Un test di ascolto di 30 secondi
 Changes are saved like every other setting. Turning the receiver on needs a reboot. The warning options apply after saving.|||Le modifiche si salvano come ogni altra impostazione. Attivare il ricevitore richiede un riavvio. Le opzioni degli avvisi si applicano dopo il salvataggio.
-RecLink keeps only an aircraft's ID, range, direction and whether it is above or below you. Everything else in the broadcast, such as the operator's ID, free text and location, is thrown away.|||RecLink conserva solo l'ID dell'aereo, la distanza, la direzione e se è sopra o sotto di te. Tutto il resto della trasmissione, come l'ID dell'operatore, il testo libero e la posizione, viene scartato.
+RecLink keeps only a drone's ID, range, direction and whether it is above or below you. Everything else in the broadcast, such as the operator's ID, free text and location, is thrown away.|||RecLink conserva solo l'ID del drone, la distanza, la direzione e se è sopra o sotto di te. Tutto il resto della trasmissione, come l'ID dell'operatore, il testo libero e la posizione, viene scartato.
 What it keeps lives in memory only. It is never written to flash and never appears in the log.|||Quello che conserva vive solo in memoria. Non viene mai scritto nella flash e non compare mai nel log.
 Remote ID may be off or inactive. Open the Health card to see why. A quiet OSD is not a clear sky.|||Il Remote ID potrebbe essere spento o inattivo. Apri la scheda Health per vedere perché. Un OSD silenzioso non è un cielo libero.
 Health says reboot required|||Health dice reboot required
@@ -380,14 +380,14 @@ Open Health to see which way of listening is failing. Switch Listen on to Blueto
 No warning line on the OSD|||Nessuna riga di avviso sull'OSD
 Add the Remote ID proximity warning (<code>%rp</code>) to one of the four OSD lines and save.|||Aggiungi il Remote ID proximity warning (<code>%rp</code>) a una delle quattro righe OSD e salva.
 Remote ID proximity warning (chapter 15)|||Remote ID proximity warning (capitolo 15)
-Off · Bluetooth · Normal scan effort · 6 satellites · positions expire after 5 s · warnings on · 1000 / 300 / 100 m · bearing Auto · blink on · ground aircraft off|||Spento · Bluetooth · scan effort Normal · 6 satelliti · posizioni scadute dopo 5 s · avvisi attivi · 1000 / 300 / 100 m · bearing Auto · blink attivo · aerei a terra spenti
+Off · Bluetooth · Normal scan effort · 6 satellites · positions expire after 5 s · warnings on · 1000 / 300 / 100 m · bearing Auto · blink on · drones on the ground off|||Spento · Bluetooth · scan effort Normal · 6 satelliti · posizioni scadute dopo 5 s · avvisi attivi · 1000 / 300 / 100 m · bearing Auto · blink attivo · droni a terra spenti
 The bar splits the 900–2100 µs range into coloured zones. Drag the handles to move the edges. The zone the stick is in is tinted green.|||La barra divide l'intervallo 900–2100 µs in zone colorate. Trascina le maniglie per spostare i bordi. La zona in cui si trova lo stick è evidenziata in verde.
 The Receiver card in the Remote ID tab.|||La scheda Receiver nella scheda Remote ID.
 Turns the receiver on. Turning on needs Save and a reboot.|||Attiva il ricevitore. Attivarlo richiede Save e un riavvio.
 Listen on Bluetooth, Wi-Fi or both.|||Ascolta su Bluetooth, Wi-Fi o entrambi.
-How hard Bluetooth listens. More effort finds aircraft sooner but takes more airtime from the camera link.|||Quanto ascolta il Bluetooth. Più impegno trova gli aerei prima ma toglie più tempo radio al collegamento con la camera.
+How hard Bluetooth listens. More effort finds drones sooner but takes more airtime from the camera link.|||Quanto ascolta il Bluetooth. Più impegno trova i droni prima ma toglie più tempo radio al collegamento con la camera.
 The GPS needs this many satellites before Remote ID runs.|||Il GPS deve avere questo numero di satelliti prima che il Remote ID parta.
-How old an aircraft's position may get before it is dropped.|||Quanto può invecchiare la posizione di un aereo prima di essere scartata.
+How old a drone's position may get before it is dropped.|||Quanto può invecchiare la posizione di un drone prima di essere scartata.
 The OSD preview with a Remote ID warning on the line that holds %rp. The small label is only in the preview.|||L'anteprima OSD con un avviso Remote ID sulla riga che contiene %rp. La piccola etichetta è solo nell'anteprima.
 The preview cycles through sample warnings so you can see what each level looks like on your own layout.|||L'anteprima passa in rassegna avvisi di esempio, così vedi come appare ogni livello sul tuo layout.
 The Proximity warning card.|||La scheda Proximity warning.
@@ -395,16 +395,16 @@ Shows or hides the warnings. The receiver keeps running.|||Mostra o nasconde gli
 The distances for Notice, Warn and Alert. They change to feet when the OSD uses imperial units.|||Le distanze per Avviso, Attenzione e Allarme. Diventano piedi quando l'OSD usa unità imperiali.
 Bearing style: arrow, compass letters or degrees.|||Bearing style: freccia, lettere della bussola o gradi.
 Blink the ! as the warning rises.|||Fa lampeggiare il ! man mano che l'avviso sale.
-Also warn about aircraft that say they are on the ground.|||Avvisa anche per gli aerei che dichiarano di essere a terra.
+Also warn about drones that say they are on the ground.|||Avvisa anche per i droni che dichiarano di essere a terra.
 A preview of each level with your settings, and of the failure text.|||Un'anteprima di ogni livello con le tue impostazioni, e del testo di guasto.
 The My aircraft card.|||La scheda My aircraft.
-One box per aircraft ID, up to four. A Remote ID module shows its ID in its own app or manual.|||Una casella per ogni ID di aereo, fino a quattro. Un modulo Remote ID mostra il suo ID nella sua app o nel manuale.
-The Nearby now card, with sample aircraft.|||La scheda Nearby now, con aerei di esempio.
-One row per aircraft heard: number, ID, distance, direction, height difference, source and how long ago.|||Una riga per ogni aereo sentito: numero, ID, distanza, direzione, differenza di quota, sorgente e da quanto tempo.
+One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual.|||Una casella per ogni ID di drone, fino a quattro. Un modulo Remote ID mostra il suo ID nella sua app o nel manuale.
+The Nearby now card, with sample drones.|||La scheda Nearby now, con droni di esempio.
+One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.|||Una riga per ogni drone sentito: numero, ID, distanza, direzione, differenza di quota, sorgente e da quanto tempo.
 The level it would raise. Ignore adds it to My aircraft after you confirm.|||Il livello che raggiungerebbe. Ignore lo aggiunge a My aircraft dopo la tua conferma.
 The Health card.|||La scheda Health.
 Remote ID state, heading, Bluetooth and Wi-Fi counters, and any fault.|||Stato del Remote ID, direzione, contatori Bluetooth e Wi-Fi ed eventuali guasti.
 The Test reception card, after a test.|||La scheda Test reception, dopo un test.
-Starts a 30 second test. It needs the receiver on and the aircraft disarmed.|||Avvia un test di 30 secondi. Richiede il ricevitore acceso e l'aereo disarmato.
-The result of the last test: frames counted and aircraft heard.|||Il risultato dell'ultimo test: frame contati e aerei sentiti.
-Each aircraft heard: ID, source, how long ago, and range and direction when there is a GPS fix.|||Ogni aereo sentito: ID, sorgente, da quanto tempo, e distanza e direzione quando c'è un fix GPS.
+Starts a 30 second test. It needs the receiver on and the drone disarmed.|||Avvia un test di 30 secondi. Richiede il ricevitore acceso e il drone disarmato.
+The result of the last test: frames counted and drones heard.|||Il risultato dell'ultimo test: frame contati e droni sentiti.
+Each drone heard: ID, source, how long ago, and range and direction when there is a GPS fix.|||Ogni drone sentito: ID, sorgente, da quanto tempo, e distanza e direzione quando c'è un fix GPS.
