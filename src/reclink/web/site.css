@@ -497,3 +497,5 @@ body[data-doc="index"] .layout:not(.has-toc) .content{max-width:1080px}
 .soon-pill i{font-style:normal;color:var(--acc-ink);transition:transform .15s}
 .soon-pill:hover{text-decoration:none;background:color-mix(in srgb,var(--acc) 20%,transparent)}
 .soon-pill:hover i{transform:translateX(3px)}
+
+.rl-sec .feats+.callout{margin-top:1.1rem}

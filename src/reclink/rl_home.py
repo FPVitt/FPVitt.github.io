@@ -118,13 +118,14 @@ C = {
               ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supported", "A tiny, cheap and easy to find dev board. Flash it from your browser over USB."),
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supported", "The Waveshare ESP32-S3-Zero. Flash it from your browser over USB. Its RGB LED shows the status in colour.")],
         brd_cta="Open the installer",
-        rid_h="Remote ID: see other aircraft", rid_tag="New in 0.3.0", soon_tag="New in 0.3.0", soon_text="Remote ID",
+        rid_h="Remote ID: see other aircraft", rid_tag="New in 0.3.0", soon_tag="New in 0.3.0", soon_text="Remote ID · ⚠︎ Receive only",
         rid_s="The same tiny, lightweight board now also listens for the Remote ID of other aircraft in the air and warns you on your OSD, next to the camera control it already does. It is off until you switch it on.",
         rid=[("eye", "Receive", "See other drones in the air around you, and get warnings when it matters the most."),
              ("osd", "A warning in your goggles", "One short line gives the distance and the direction of the aircraft, and blinks faster as it gets closer."),
              ("gps", "Uses your flight controller's GPS", "The position comes from the GPS you already have onboard, so no extra GPS module is needed.")],
         rid_cta="Read the Remote ID chapter",
-        rid_note="Pre-release: off by default and not yet proven in flight. Receive only: RecLink does not transmit Remote ID, and it is an aid, not collision avoidance.",
+        rid_warn_t="Receive only", rid_warn="This does not transmit Remote ID and won't make you compliant with regulations.",
+        rid_note="Pre-release: off by default and not yet proven in flight. It is an aid, not collision avoidance.",
         need_h="What you need", need_s="Four things.",
         needs=[("An ESP32 board", "The RecLink board (in development), an ESP32-C3 SuperMini, or a Waveshare ESP32-S3-Zero. They all run the same firmware."),
                ("Betaflight 2025.12 or newer", "MSP API 1.47 or later, for custom OSD messages."),
@@ -196,13 +197,14 @@ C = {
               ("ESP32-C3", "ESP32-C3 SuperMini", "sup", "Supportata", "Una scheda di sviluppo minuscola, economica e facile da trovare. Caricala dal browser via USB."),
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supportata", "La Waveshare ESP32-S3-Zero. Caricala dal browser via USB. Il suo LED RGB mostra lo stato a colori.")],
         brd_cta="Apri l'installer",
-        rid_h="Remote ID: vedere gli altri aerei", rid_tag="Novità 0.3.0", soon_tag="Novità 0.3.0", soon_text="Remote ID",
+        rid_h="Remote ID: vedere gli altri aerei", rid_tag="Novità 0.3.0", soon_tag="Novità 0.3.0", soon_text="Remote ID · ⚠︎ Solo ricezione",
         rid_s="La stessa scheda minuscola e leggera ora ascolta anche il Remote ID degli altri aerei in volo e ti avvisa nell'OSD, oltre al controllo della camera che già fa. Resta spento finché non lo attivi.",
         rid=[("eye", "Ricevi", "Vedi gli altri droni in volo intorno a te e ricevi avvisi quando conta di più."),
              ("osd", "Un avviso nei tuoi occhiali", "Una breve riga indica distanza e direzione dell'aereo e lampeggia più in fretta man mano che si avvicina."),
              ("gps", "Usa il GPS del flight controller", "La posizione arriva dal GPS che hai già a bordo, quindi non serve un modulo GPS in più.")],
         rid_cta="Leggi il capitolo sul Remote ID",
-        rid_note="Pre-release: spento per impostazione predefinita e non ancora provato in volo. Solo ricezione: RecLink non trasmette il Remote ID ed è un aiuto, non un sistema anticollisione.",
+        rid_warn_t="Solo ricezione", rid_warn="Non trasmette il Remote ID e non ti rende conforme alle normative.",
+        rid_note="Pre-release: spento per impostazione predefinita e non ancora provato in volo. È un aiuto, non un sistema anticollisione.",
         need_h="Cosa ti serve", need_s="Quattro cose.",
         needs=[("Una scheda ESP32", "La scheda RecLink (in sviluppo), una ESP32-C3 SuperMini oppure una Waveshare ESP32-S3-Zero. Eseguono tutte lo stesso firmware."),
                ("Betaflight 2025.12 o successivo", "MSP API 1.47 o superiore, per i messaggi OSD personalizzati."),
@@ -214,6 +216,9 @@ C = {
 }
 
 BADGE_CLS = {"bench": "good", "unv": "warn", "exp": "warn", "sup": "good", "dev": "warn"}
+
+
+WARN = "\u26a0\ufe0e"
 
 
 def render(lang, ctx, cards_html):
@@ -282,7 +287,7 @@ def render(lang, ctx, cards_html):
 
     rids = "".join(f'<article class="feat"><span class="ico">{I[k]}</span><div><h3>{esc(t)}</h3><p>{esc(d)}</p></div></article>' for k, t, d in c["rid"])
     rid = (f'<section class="rl-sec" id="remote-id"><h2 class="sec">{c["rid_h"]} <span class="badge warn">{c["rid_tag"]}</span></h2><p class="sec-s">{c["rid_s"]}</p>'
-           f'<div class="feats">{rids}</div><p class="cta-row"><a class="btn" href="{p["guide"]}#ch15">{c["rid_cta"]}</a></p><p class="fine">{c["rid_note"]}</p></section>')
+           f'<div class="feats">{rids}</div><div class="callout warn"><span class="tag">{WARN}\u00a0{c["rid_warn_t"]}</span><p>{c["rid_warn"]}</p></div><p class="cta-row"><a class="btn" href="{p["guide"]}#ch15">{c["rid_cta"]}</a></p><p class="fine">{c["rid_note"]}</p></section>')
 
     safes = "".join(f'<article class="safe"><span class="ico">{I[k]}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></article>' for k, t, d in c["safes"])
     safe = f'<section class="rl-sec" id="safety"><h2 class="sec">{c["safe_h"]}</h2><p class="sec-s">{c["safe_s"]}</p><div class="safes">{safes}</div></section>'
