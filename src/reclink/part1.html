@@ -18,7 +18,7 @@
   <p class="kick">User guide</p>
   <h1>RecLink</h1>
   <h2>Set up and use the camera bridge for your Betaflight quad: wiring, pairing, recording control, OSD and the web configurator.</h2>
-  <div class="meta"><span>Firmware 0.3.0 (pre-release)</span><span>Betaflight 2025.12+</span><span>GoPro HERO 9–13 · DJI Osmo (experimental)</span></div>
+  <div class="meta"><span>Firmware 0.3.1 (pre-release)</span><span>Betaflight 2025.12+</span><span>GoPro HERO 9–13 · DJI Osmo (experimental)</span></div>
 </div>
 </div>
 
@@ -46,7 +46,7 @@
 </div>
 
 <div class="callout danger"><span class="tag">Read first: pre-release status</span>
-<p>This firmware (0.3.0) is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Some camera protocol values are still being verified against live captures. Treat every flight as a test flight. Do all setup and testing on the bench <b>with propellers removed</b>, and check every behaviour in this guide before you fly with it.</p>
+<p>This firmware (0.3.1) is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Some camera protocol values are still being verified against live captures. Treat every flight as a test flight. Do all setup and testing on the bench <b>with propellers removed</b>, and check every behaviour in this guide before you fly with it.</p>
 </div>
 
 <div class="callout"><span class="tag">Passenger, not pilot</span>
@@ -101,11 +101,12 @@
 <h2>What it does</h2>
 <div class="cols">
 <ul class="grow">
-<li><b>Camera info on the OSD.</b> Recording state, elapsed and remaining time, camera battery, SD space, resolution, frame rate and link status, as 23 tokens across four 16-character lines you design yourself.</li>
+<li><b>Camera info on the OSD.</b> Recording state, elapsed and remaining time, camera battery, SD space, resolution, frame rate, Protune settings and link status, as 31 tokens across four 16-character lines you design yourself.</li>
 <li><b>Recording that follows the drone.</b> Start and stop on arm, on a radio switch, or on a combination. Every command is checked against what the camera reports.</li>
 <li><b>Camera settings from a switch.</b> A 2–6 position switch or knob selects zones. On a GoPro each zone pushes its own resolution, frame rate, lens, HyperSmooth and Protune values. On a DJI each zone selects a camera mode.</li>
 </ul>
 <ul class="grow">
+<li><b>Settings for each camera.</b> With several cameras paired, the Cam control, OSD, Remote ID and Clock settings are saved per camera and follow the one that connects (chapter 5).</li>
 <li><b>Highlight tags</b> from a momentary switch (GoPro HiLight, DJI Quick-Switch).</li>
 <li><b>Remote ID warnings</b> (new in 0.3.0, off by default). Hears other drones over Bluetooth or Wi-Fi and warns you on the OSD with distance and direction. It only listens, and it is not collision avoidance (chapter 15).</li>
 <li><b>Up to four paired cameras</b>, any mix of GoPro and DJI. At power-up it connects to the strongest one in range.</li>

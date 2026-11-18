@@ -9,9 +9,10 @@ JS="""(a)=>{const r=(e)=>{const b=e.getBoundingClientRect();return [b.left+scrol
          m:a.m.map(s=>{const e=document.querySelector(s);return e?r(e):null})}}"""
 with sync_playwright() as p:
     br=p.chromium.launch(channel="chrome")
-    def page(sc="ready", adv=False, tab=None, rec=1, nosticky=True, w=400, h=860, wait=900):
+    def page(sc="ready", adv=False, tab=None, rec=1, nosticky=True, w=400, h=860, wait=900, sel=True):
         mock(f"/mock/set?name={sc}"); mock(f"/mock/adv?on={1 if adv else 0}"); mock(f"/mock/rec?mode={rec}")
         ctx=br.new_context(viewport={"width":w,"height":h},device_scale_factor=2,is_mobile=True,has_touch=True,locale="en-US")
+        if sel: ctx.add_init_script("try{localStorage.setItem('camsel','d45e1a7c029b')}catch(e){}")   # the camera pages stay grayed out until a camera is chosen
         pg=ctx.new_page(); pg.goto(B+"/"); pg.wait_for_timeout(wait)
         if tab: pg.click(f'nav#tabs button[data-t="{tab}"]'); pg.wait_for_timeout(700)
         if nosticky: pg.add_style_tag(content=NOSTICKY)
@@ -58,6 +59,10 @@ with sync_playwright() as p:
     pg=page(tab="system"); cap(pg,"system","#system",[(1,"#advmode"),(2,"#identify"),(3,"#factory"),(4,"#otafile")]); done(pg)
     pg=page(adv=True,tab="clock"); cap(pg,"clock","#clock",[(1,"[name='clock.enabled']"),(2,"[name='clock.min_sats']"),(3,"#syncnow")]); done(pg)
     pg=page("nag",nosticky=False); pg.wait_for_timeout(900); cap(pg,"pw_modal","#setup .modal-card"); done(pg)
+    # per-camera settings, camera names, no-camera message (firmware 0.3.1)
+    pg=page(tab="osd",sel=False); pg.wait_for_timeout(900); cap(pg,"camsel_locked","#camsel"); pg.select_option("#camsel-s",index=1); pg.wait_for_timeout(900); cap(pg,"camsel","#camsel"); done(pg)
+    pg=page(tab="camera"); pg.evaluate("nickOpen(camList()[0], true)"); pg.wait_for_timeout(300); cap(pg,"nick_modal","#nick .modal-card",[(1,"#nick-in"),(2,"#nick-save")]); done(pg)
+    pg=page("nocam",tab="osd"); pg.wait_for_timeout(1500); cap(pg,"nocam","#nocam",[(1,"#nocam-go")]); done(pg)
     # Remote ID tab (firmware 0.3.0)
     mock("/mock/rid?on=1&test=done")
     pg=page(tab="rid")

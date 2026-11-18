@@ -62,6 +62,7 @@
 <tr><td>Status</td><td class="wrap">Live view: drone, camera, recording, warnings, camera settings</td></tr>
 <tr><td>Cam control</td><td class="wrap">Recording mode, radio switch, zones and camera settings, highlight</td></tr>
 <tr><td>OSD</td><td class="wrap">The four OSD lines, preview, warning thresholds</td></tr>
+<tr><td>Remote ID</td><td class="wrap">Switch the Remote ID receiver on, set the warnings, see nearby drones</td></tr>
 <tr><td>Clock</td><td class="wrap">Camera clock sync (advanced mode only)</td></tr>
 <tr><td>Binding</td><td class="wrap">Pair, list and forget cameras</td></tr>
 <tr><td>Network</td><td class="wrap">Wi-Fi, flight controller link, radio power, AUX scan</td></tr>
@@ -79,6 +80,27 @@
 <li><b>Two settings need a reboot</b>: the flight controller baud rate / pin swap, and Bluetooth power. After saving one of them a <b>Reboot now</b> button appears in the bar.</li>
 <li><b>The portal is a bench tool.</b> The page polls the board every 1.5 seconds. Keep one browser tab open, and close the portal before flying.</li>
 </ul>
+</section>
+
+<section>
+<h2>Settings for each camera</h2>
+<p>The <b>Cam control</b>, <b>OSD</b>, <b>Remote ID</b> and <b>Clock</b> tabs hold settings that belong to one camera. Each paired camera keeps its own copy, and RecLink uses the copy of whichever camera is connected. Everything else (Wi-Fi, the flight controller link, LED, GPS push) is shared by all cameras.</p>
+<div class="cols">
+<div style="width:62mm;flex:none">
+[[shot name="camsel_locked" cap="Nothing chosen yet: the four tabs are grayed out." legend="1|The Camera list at the top of those tabs. It starts on Select a camera."]]
+</div>
+<div style="width:62mm;flex:none">
+[[shot name="camsel" cap="A camera chosen: its settings load and can be edited." legend="1|The chosen camera. The word in brackets says whether it is connected."]]
+</div>
+</div>
+<ul>
+<li><b>Choose a camera first.</b> Until you pick one in the <b>Camera</b> list, those four tabs are grayed out. The page remembers your choice in the browser.</li>
+<li><b>Edit any paired camera</b>, connected or not. Its settings are saved with it and apply as soon as it connects. The zone camera settings and <b>Sync now</b> need that camera to be connected.</li>
+<li><b>A newly paired camera starts as a copy</b> of the settings in use, so you only change what is different.</li>
+<li><b>(connected)</b> means the camera is linked now. <b>(active)</b> means RecLink is using that camera but it is still connecting.</li>
+<li><b>With no camera paired</b>, those tabs only ask you to pair one on the <b>Binding</b> tab.</li>
+</ul>
+<div class="callout"><span class="tag">If another camera takes over</span><p>If your usual camera is off and another paired one connects, its settings take over right away, even in flight: its OSD lines, record mode, zones, Remote ID and clock. RecLink always prefers the camera it used last, so this only happens when that one is missing.</p></div>
 </section>
 
 <!-- ================= 6 PAIRING ================= -->
@@ -99,6 +121,7 @@
 <li><div>When the camera shows that it is pairing, press <b>Scan now</b> in the portal. RecLink listens for up to 45 seconds. It does not connect to anything until you pick.</div></li>
 <li><div>Tap your camera in the list. If more than one GoPro is in pairing mode, check the name and signal strength first.</div></li>
 <li><div>A green check confirms the pairing. The camera appears under <b>Paired cameras</b> and its link goes to Connected.</div></li>
+<li><div>RecLink then asks you to <b>name the camera</b>. Type a name you will recognise, such as "Cinewhoop", and press <b>Save name</b>. You can press <b>Skip</b> and rename it later.</div></li>
 </ol>
 <div class="callout tip"><span class="tag">If no camera shows up</span><p>The portal says "No GoPro found. Make sure it is in remote-pairing mode, then press Scan now again". Check that the camera is awake and showing its pairing screen. If it is connected to a phone app, disconnect it there first.</p></div>
 </div>
@@ -109,6 +132,7 @@
 <li><div>On the <b>Binding</b> tab press <b>Pair DJI</b>. The portal shows "pairing… put the DJI into pairing mode now".</div></li>
 <li><div>Put the Osmo into its pairing mode. On a first pairing the camera shows a confirmation prompt on its screen. <b>Accept it.</b></div></li>
 <li><div>RecLink connects to the first matching DJI it hears. After this, reconnecting is automatic and needs no confirmation.</div></li>
+<li><div>As with a GoPro, RecLink asks you to name the camera.</div></li>
 </ol>
 </section>
 
@@ -124,6 +148,7 @@
 <li><b>One at a time.</b> At power-up RecLink scans for every paired camera and connects to the strongest signal after about 2.5 seconds, or at once to one stronger than −50 dBm.</li>
 <li><b>Badges:</b> <span class="ok">● Connected · −52 dBm</span>, <span class="wn">Connecting…</span>, or <span class="mut">Standby</span> for a paired camera that is not in use.</li>
 <li><b>3 s test recording</b> starts the connected camera for three seconds. Use it to prove the whole chain works. It only runs while disarmed.</li>
+<li><b>Rename</b> changes the name you gave a camera. The name is used in the Camera list, on this tab and on the Status tab. The camera's own name stays under it, next to its address.</li>
 <li><b>Forget</b> removes one camera. <b>Forget all cameras</b> appears when two or more are paired and asks twice.</li>
 <li><b>Telemetry poll</b> (advanced mode) sets how often a GoPro is asked for status: Fast 0.5 s, Normal 1 s or Slow 1.5 s. Normal is right for most setups.</li>
 </ul>
@@ -131,6 +156,7 @@
 </div>
 </div>
 [[shot name="binding_empty" w="62mm" cap="A fresh board has no cameras. Pair one to begin."]]
+<div class="callout tip"><span class="tag">The name is only a label</span><p>The name is stored on the RecLink board and used in this configurator. It is not written to the camera, and RecLink still finds and reconnects to the camera by its own name and address.</p></div>
 </section>
 
 <!-- ================= 7 STATUS ================= -->
@@ -152,6 +178,7 @@
 <tr><td>Recording</td><td class="wrap"><b>stopped</b>, or <b>REC</b> with elapsed time.</td></tr>
 <tr><td>Warnings</td><td class="wrap">The active warning, or <span class="ok">none</span>. Same list as the OSD (see chapter 10).</td></tr>
 </table></div>
+<p><b>Test record (3 s)</b> sits under the Now card. It starts the connected camera for three seconds, the same as the button on the Binding tab. It is grayed out until a camera is connected, and it only works while the drone is disarmed.</p>
 <h3>Fault flags</h3>
 <div class="tbl"><table>
 <tr><td>FC_OFFLINE</td><td class="wrap">No MSP link. Check wiring, UART, baud.</td></tr>

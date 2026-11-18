@@ -6,6 +6,7 @@ with sync_playwright() as p:
     br=p.chromium.launch(channel="chrome")
     mock("/mock/set?name=lost"); mock("/mock/adv?on=0"); mock("/mock/rec?mode=1")
     ctx=br.new_context(viewport={"width":400,"height":860},device_scale_factor=2,is_mobile=True,has_touch=True,locale="en-US")
+    ctx.add_init_script("try{localStorage.setItem('camsel','d45e1a7c029b')}catch(e){}")
     pg=ctx.new_page(); pg.goto(B+"/"); pg.wait_for_timeout(900); pg.click('nav#tabs button[data-t="osd"]'); pg.wait_for_timeout(700)
     pg.add_style_tag(content="nav#tabs{position:static!important} footer{position:static!important}")
     pg.locator("#osdscreen").first.screenshot(path="shots/osd_lost.png")

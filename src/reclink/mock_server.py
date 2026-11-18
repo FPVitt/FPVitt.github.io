@@ -52,8 +52,8 @@ def status(sc):
     aux = list(AUX)
     if sc == "recording": aux[3+5] = 1900
     cams = [] if sc in ("nocam","pairing") else [
-        {**CAM, "active":True, "connected":ready, "poll_ds":10},
-        {**CAM2,"active":False,"connected":False,"poll_ds":10}]
+        {**CAM, "model":CAM["name"], "active":True, "connected":ready, "poll_ds":10},
+        {**CAM2,"model":CAM2["name"],"active":False,"connected":False,"poll_ds":10}]
     camera = {"brand":"gopro","link":"READY" if ready else ("LOST" if sc=="lost" else "IDLE"),
       "name":CAM["name"] if ready else "", "addr":CAM["addr"], "rssi":-52 if ready else 0,
       "bonded": sc not in ("nocam","pairing"), "last_rx_ms":120, "count":len(cams), "cameras":cams}
@@ -81,7 +81,7 @@ def status(sc):
            "test":{"state":STATE.get("rtest","idle"),"wifi":False,"aborted":False,"secs_left":18 if STATE.get("rtest")=="run" else 0,
                    "ble_frames":214 if STATE.get("rtest")=="done" else 0,"wifi_frames":0,"beacon":0,"nan":0,"aircraft":2 if STATE.get("rtest")=="done" else 0}}
     if rid_on: rid["nearest"]={"dist_m":240,"level":"warn"}
-    return {"fw":"0.3.0","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
+    return {"fw":"0.3.1","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
       "msp":{"connected":sc!="fcdown","api":"1.47","variant":"BTFL","armed":armed,"canvas":"30x16",
              "aux":aux,"gps":{"present":True,"fix":3,"sats":14,"good":True},"fc_utc":1793560000,"last_rx_ms":18,
              "debug":{"rc_period_ms":100,"rc_hz":10.0,"rc_age_ms":42,"rc_channels":18,"status_period_ms":50,"status_hz":20.0,
@@ -114,6 +114,9 @@ class H(BaseHTTPRequestHandler):
         if p=="/api/status": return self._j(status(STATE["sc"]))
         if p=="/api/config": 
             c=copy.deepcopy(CONFIG)
+            cam=parse_qs(u.query).get("cam",[""])[0].replace(":","").lower()
+            if cam and cam!=CAM["addr"].replace(":","").lower():   # another paired camera: its own copy of the camera pages
+                c["osd"]["lines"][0]="B %st %et"; c["record"]["mode"]=2; c["clock"]["min_sats"]=9
             if STATE["sc"]=="nocam": c["camera"]["bonded"]=False
             c["ui_flags"]=(3 if STATE["adv"] else 2) if STATE["sc"]!="nag" else (1 if STATE["adv"] else 0)
             return self._j(c)

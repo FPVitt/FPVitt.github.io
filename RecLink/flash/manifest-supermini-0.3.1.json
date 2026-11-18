@@ -1,0 +1,16 @@
+{
+ "name": "RecLink",
+ "version": "0.3.1",
+ "new_install_prompt_erase": true,
+ "builds": [
+  {
+   "chipFamily": "ESP32-C3",
+   "parts": [
+    {
+     "path": "reclink-supermini-esp32c3-0.3.1.bin",
+     "offset": 0
+    }
+   ]
+  }
+ ]
+}
