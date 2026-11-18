@@ -14,7 +14,7 @@ def modes():
         for a,b in segs:
             if col=="var(--acc)": s+=f'<rect x="{x(a):.1f}" y="{y}" width="{x(b)-x(a):.1f}" height="16" rx="3" fill="var(--acc)"/>'
             else: s+=f'<path d="M{x(a):.1f} {y+16} V{y+2} H{x(b):.1f} V{y+16}" fill="none" stroke="var(--fg)" stroke-width="2"/>'
-    s+='</svg><p class="cap">Example: the aircraft arms at 2, the switch goes on at 4, the aircraft disarms at 8 and the switch goes off at 10. Start and stop delays are left out.</p></div>'
+    s+='</svg><p class="cap">Example: the drone arms at 2, the switch goes on at 4, the drone disarms at 8 and the switch goes off at 10. Start and stop delays are left out.</p></div>'
     return s
 def zones():
     X=lambda us:40+(us-900)/1200*620

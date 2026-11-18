@@ -74,7 +74,7 @@
 <section class="chapter np">
 <p class="chno">Chapter 1</p>
 <h1 class="ch">What RecLink is</h1>
-<p class="lead">A small ESP32 board that sits between your flight controller and your action camera, so the camera is controlled by the aircraft and reports back on your OSD.</p>
+<p class="lead">A small ESP32 board that sits between your flight controller and your action camera, so the camera is controlled by the drone and reports back on your OSD.</p>
 
 <div class="diagram"><svg viewBox="0 0 700 262" role="img" aria-label="System overview">
   <defs>
@@ -96,13 +96,13 @@
   <path class="lnd" d="M540 160 L585 198" marker-start="url(#a1s)" marker-end="url(#a1)"/><text x="528" y="200" text-anchor="middle" class="m t9">Wi-Fi</text><text x="528" y="212" text-anchor="middle" class="m t8">disarmed only</text>
   <path class="ln" d="M260 161 V196" marker-end="url(#a1)"/><text x="270" y="182" class="m t9">video + OSD</text>
 </svg>
-<p class="cap">RecLink listens to the flight controller over a three-wire serial link and talks to the camera over Bluetooth. The Wi-Fi network exists only while the aircraft is disarmed, for configuration.</p></div>
+<p class="cap">RecLink listens to the flight controller over a three-wire serial link and talks to the camera over Bluetooth. The Wi-Fi network exists only while the drone is disarmed, for configuration.</p></div>
 
 <h2>What it does</h2>
 <div class="cols">
 <ul class="grow">
 <li><b>Camera info on the OSD.</b> Recording state, elapsed and remaining time, camera battery, SD space, resolution, frame rate and link status, as 23 tokens across four 16-character lines you design yourself.</li>
-<li><b>Recording that follows the aircraft.</b> Start and stop on arm, on a radio switch, or on a combination. Every command is checked against what the camera reports.</li>
+<li><b>Recording that follows the drone.</b> Start and stop on arm, on a radio switch, or on a combination. Every command is checked against what the camera reports.</li>
 <li><b>Camera settings from a switch.</b> A 2–6 position switch or knob selects zones. On a GoPro each zone pushes its own resolution, frame rate, lens, HyperSmooth and Protune values. On a DJI each zone selects a camera mode.</li>
 </ul>
 <ul class="grow">
@@ -118,7 +118,7 @@
 <div class="callout"><span class="tag">Hard limits</span>
 <ul style="margin:0">
 <li>Never sends RC, GPS, clock, display or reboot commands to the flight controller, and never changes its configuration.</li>
-<li>Never arms or disarms the aircraft.</li>
+<li>Never arms or disarms the drone.</li>
 <li>Never runs Wi-Fi while armed. The access point is shut down within 100 ms of arming.</li>
 <li>Never powers the camera, and never formats a card or deletes files from automation.</li>
 <li>Never shows a value the camera has not confirmed. An unknown value renders blank, not <code>0</code> and not a guess.</li>

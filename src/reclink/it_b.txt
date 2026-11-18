@@ -126,7 +126,7 @@ u475|||Per una GoPro legge prima l'orologio della camera e scrive solo se è sfa
 u476|||Imposta <b>UTC offset</b> in minuti (e <b>Daylight saving</b>) se vuoi i filmati in ora locale. Lascialo a 0 per UTC.
 u477|||Se l'orologio non si riesce a correggere dopo i tentativi, l'OSD mostra <b>CLK FAIL</b> e la scheda Clock riporta FAILED. Ne risente solo la marca temporale.
 u478|||GPS push per DJI
-u479|||Solo per camera DJI. Con <b>System → Send aircraft GPS position to the camera</b>, RecLink invia la posizione GPS del velivolo all'Osmo a 1 o 2 Hz per l'overlay o i metadati della camera. Richiede un buon fix GPS e un'ora valida. Una GoPro ignora questa impostazione.
+u479|||Solo per camera DJI. Con <b>System → Send drone GPS position to the camera</b>, RecLink invia la posizione GPS del drone all'Osmo a 1 o 2 Hz per l'overlay o i metadati della camera. Richiede un buon fix GPS e un'ora valida. Una GoPro ignora questa impostazione.
 u480|||Tag highlight
 u482|||Un interruttore libero può inserire un segnaposto nel filmato in un momento che vuoi ritrovare dopo. Scegli il suo <b>canale AUX</b> (usa <b>Set AUX</b>). Quando il canale supera <b>1700 µs</b>, RecLink invia un tag <b>HiLight</b> a una GoPro. Una DJI non ha il tag highlight, quindi RecLink preme invece il suo pulsante <b>Quick-Switch</b>.
 u483|||Funziona solo con il collegamento alla camera pronto. Un pulsante momentaneo è l'ideale.
@@ -173,7 +173,7 @@ u528|||Premi <b>Upload &amp; flash</b> e conferma. Una barra di avanzamento most
 u529|||La scheda si riavvia da sola e la pagina si ricarica. Impostazioni e abbinamenti vengono mantenuti, a meno che tu non abbia scelto di cancellarli.
 u530|||Un'immagine difettosa viene rifiutata e resta il firmware attuale. Il nuovo firmware deve avviarsi correttamente una volta prima di essere accettato, così un aggiornamento difettoso non resta installato.
 u531|||Ripristino di fabbrica
-u532|||Cancella <b>tutte le impostazioni e tutti gli abbinamenti delle camere</b>, poi riavvia. Usa il pulsante nella scheda System (chiede conferma due volte) oppure tieni premuto il pulsante della scheda per 10 secondi. Viene rifiutato se il velivolo è armato. Un normale riavvio non cancella mai nulla.
+u532|||Cancella <b>tutte le impostazioni e tutti gli abbinamenti delle camere</b>, poi riavvia. Usa il pulsante nella scheda System (chiede conferma due volte) oppure tieni premuto il pulsante della scheda per 10 secondi. Viene rifiutato se il drone è armato. Un normale riavvio non cancella mai nulla.
 u533|||Capitolo 13
 u534|||Volare con RecLink
 u535|||Una volta configurato, RecLink fa il suo lavoro senza che tu lo tocchi. Questo capitolo è la routine: cosa controllare prima, cosa stai vedendo durante il volo e cosa succede se qualcosa cade.
@@ -185,7 +185,7 @@ u540|||Dovresti vedere
 u541|||Accendi il quad. Aspetta qualche secondo.
 u542|||LED: un breve lampeggio ogni 3 s quando la camera è pronta.
 u543|||Apri il portale. Guarda la scheda Status.
-u544|||Aircraft: disarmed. Camera link: READY, in verde. Le letture di batteria e SD sono compilate.
+u544|||Drone: disarmed. Camera link: READY, in verde. Le letture di batteria e SD sono compilate.
 u545|||Guarda il visore.
 u546|||Le quattro righe mostrano lo stato della camera, non <b>CAM LOST</b>.
 u547|||Scheda Binding: 3 s test recording.
@@ -207,7 +207,7 @@ u562|||<b>Il LED</b> è fisso mentre registra.
 u563|||Premere il pulsante in volo non causa danni.
 u564|||Se qualcosa cade
 u565|||<b>Collegamento con la camera perso</b> (fuori portata, camera spenta, interruzione radio): l'OSD mostra <b>CAM LOST</b>, il LED lampeggia veloce e RecLink continua a provare con pause crescenti (1, 2, 4, 8, 16, poi ogni 30 secondi). Quando si ricollega controlla cosa sta facendo la camera e invia al massimo un comando correttivo.
-u566|||<b>Collegamento con il flight controller perso:</b> RecLink smette di scrivere testo. Il velivolo non ne risente.
+u566|||<b>Collegamento con il flight controller perso:</b> RecLink smette di scrivere testo. Il drone non ne risente.
 u567|||<b>RecLink si riavvia</b> (brown-out o blocco): il testo OSD si blocca per circa 0,3 secondi, poi si riprende. La camera si ricollega da sola.
 u573|||attendi 1, 2, 4, 8, 16, poi 30 s, e cerca di nuovo
 u574|||OSD: CAM ? (lampeggiante)
@@ -235,7 +235,7 @@ u595|||Wi-Fi e configuratore
 u596|||Problema
 u597|||Prova
 u598|||Non vedo la rete RECLINK
-u599|||Il portale funziona solo da <b>disarmato</b> e con il collegamento con il flight controller attivo. Controlla che il velivolo sia disarmato e che il LED non faccia due brevi lampeggi ogni 2 secondi (nessun collegamento con il flight controller). Tieni premuto il pulsante della scheda per 3 secondi per aprirlo a mano. Si chiude anche dopo 15 minuti di inattività, quindi tieni premuto di nuovo se è sparito.
+u599|||Il portale funziona solo da <b>disarmato</b> e con il collegamento con il flight controller attivo. Controlla che il drone sia disarmato e che il LED non faccia due brevi lampeggi ogni 2 secondi (nessun collegamento con il flight controller). Tieni premuto il pulsante della scheda per 3 secondi per aprirlo a mano. Si chiude anche dopo 15 minuti di inattività, quindi tieni premuto di nuovo se è sparito.
 u600|||Mi sono collegato, ma la pagina non si carica
 u601|||Scrivi <code>http://10.0.0.1</code> nella barra degli indirizzi. Resta collegato anche se il telefono avvisa che non c'è internet. Disattiva i dati mobili se il telefono continua a cambiare rete. Si possono collegare fino a tre dispositivi insieme.
 u602|||La password viene rifiutata
@@ -269,7 +269,7 @@ u629|||I valori in Status sono vuoti
 u630|||La camera non li ha ancora confermati. Premi <b>Refresh camera state</b>. Vuoto significa sconosciuto, di proposito.
 u631|||Registrazione e zone
 u632|||Non registra con l'arm
-u633|||Controlla che <b>Start / stop recording</b> sia impostato su una modalità che comprende l'arm e che la scheda Status mostri il velivolo come armato. Controlla che la camera abbia una scheda e sia collegata (READY).
+u633|||Controlla che <b>Start / stop recording</b> sia impostato su una modalità che comprende l'arm e che la scheda Status mostri il drone come armato. Controlla che la camera abbia una scheda e sia collegata (READY).
 u634|||REC FAIL sull'OSD
 u635|||La camera non ha confermato la registrazione. Controlla la scheda SD e che la camera non sia occupata. In modalità avanzata aumenta <b>Wait for camera to confirm</b> o <b>Retries</b>. Apri il pannello Record trigger debug per vedere l'ultimo comando.
 u636|||L'interruttore non fa nulla

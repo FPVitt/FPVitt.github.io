@@ -59,7 +59,7 @@
 </section></div><section class="chapter" id="ch1">
 <p class="chno">Chapter 1</p>
 <h1 class="ch">What RecLink is<a aria-label="link" class="anchor" href="#ch1">#</a></h1>
-<p class="lead">A small ESP32 board that sits between your flight controller and your action camera, so the camera is controlled by the aircraft and reports back on your OSD.</p>
+<p class="lead">A small ESP32 board that sits between your flight controller and your action camera, so the camera is controlled by the drone and reports back on your OSD.</p>
 <div class="diagram"><svg aria-label="System overview" role="img" viewbox="0 0 700 262">
 <defs>
 <marker id="a1" markerheight="7" markerwidth="7" orient="auto" refx="7" refy="4" viewbox="0 0 8 8"><path d="M0,0 L8,4 L0,8 z" fill="var(--mut)"></path></marker>
@@ -80,12 +80,12 @@
 <path class="lnd" d="M540 160 L585 198" marker-end="url(#a1)" marker-start="url(#a1s)"></path><text class="m t9" text-anchor="middle" x="528" y="200">Wi-Fi</text><text class="m t8" text-anchor="middle" x="528" y="212">disarmed only</text>
 <path class="ln" d="M260 161 V196" marker-end="url(#a1)"></path><text class="m t9" x="270" y="182">video + OSD</text>
 </svg>
-<p class="cap">RecLink listens to the flight controller over a three-wire serial link and talks to the camera over Bluetooth. The Wi-Fi network exists only while the aircraft is disarmed, for configuration.</p></div>
+<p class="cap">RecLink listens to the flight controller over a three-wire serial link and talks to the camera over Bluetooth. The Wi-Fi network exists only while the drone is disarmed, for configuration.</p></div>
 <h2 id="ch1-1">What it does<a aria-label="link" class="anchor" href="#ch1-1">#</a></h2>
 <div class="cols">
 <ul class="grow">
 <li><b>Camera info on the OSD.</b> Recording state, elapsed and remaining time, camera battery, SD space, resolution, frame rate and link status, as 23 tokens across four 16-character lines you design yourself.</li>
-<li><b>Recording that follows the aircraft.</b> Start and stop on arm, on a radio switch, or on a combination. Every command is checked against what the camera reports.</li>
+<li><b>Recording that follows the drone.</b> Start and stop on arm, on a radio switch, or on a combination. Every command is checked against what the camera reports.</li>
 <li><b>Camera settings from a switch.</b> A 2–6 position switch or knob selects zones. On a GoPro each zone pushes its own resolution, frame rate, lens, HyperSmooth and Protune values. On a DJI each zone selects a camera mode.</li>
 </ul>
 <ul class="grow">
@@ -100,7 +100,7 @@
 <div class="callout"><span class="tag">Hard limits</span>
 <ul style="margin:0">
 <li>Never sends RC, GPS, clock, display or reboot commands to the flight controller, and never changes its configuration.</li>
-<li>Never arms or disarms the aircraft.</li>
+<li>Never arms or disarms the drone.</li>
 <li>Never runs Wi-Fi while armed. The access point is shut down within 100 ms of arming.</li>
 <li>Never powers the camera, and never formats a card or deletes files from automation.</li>
 <li>Never shows a value the camera has not confirmed. An unknown value renders blank, not <code>0</code> and not a guess.</li>
@@ -307,7 +307,7 @@
 <div class="grow">
 <ol class="steps">
 <li><div><b>Remove the propellers</b>, then power the flight controller from a battery or USB. The RecLink LED lights solid while it boots.</div></li>
-<li><div><b>Wait for the portal.</b> When the board sees the flight controller and the aircraft is <b>disarmed</b>, it starts its own Wi-Fi network.</div></li>
+<li><div><b>Wait for the portal.</b> When the board sees the flight controller and the drone is <b>disarmed</b>, it starts its own Wi-Fi network.</div></li>
 <li><div><b>Join the network</b> named <code>RECLINK-XXXX</code> (the last two bytes of the board's address) on your phone or laptop. The factory password is <code>reclinkfpv</code>.</div></li>
 <li><div><b>Open <code>http://10.0.0.1</code></b> in a browser. Your phone may warn that the network has no internet. Stay connected. RecLink does not force a login sheet, so you open the address yourself.</div></li>
 <li><div><b>Change the Wi-Fi password</b> when asked (below). Up to three devices can be connected at once.</div></li>
@@ -339,9 +339,9 @@
 <path class="ln" d="M605 104 V150 H95 V104" marker-end="url(#a5)"></path><text class="m t9" text-anchor="middle" x="350" y="166">disarm: the portal can open again</text>
 <path class="ln" d="M350 40 V16 H95 V40" marker-end="url(#a5)"></path><text class="m t8" text-anchor="middle" x="222" y="11">auto-close, or a 3 s button hold</text>
 </svg>
-<p class="cap">The portal never runs while the aircraft is armed.</p></div>
+<p class="cap">The portal never runs while the drone is armed.</p></div>
 <ul>
-<li><b>Opens automatically</b> when the aircraft is disarmed and the flight controller link is up. On the SuperMini and S3 boards you can change this to "only after holding the button" in <b>Network → Open the portal</b>. The RecLink board has no such option: its portal is always on while disarmed.</li>
+<li><b>Opens automatically</b> when the drone is disarmed and the flight controller link is up. On the SuperMini and S3 boards you can change this to "only after holding the button" in <b>Network → Open the portal</b>. The RecLink board has no such option: its portal is always on while disarmed.</li>
 <li><b>Closes</b> after 15 minutes (adjustable from 1 to 120) once there has also been 60 seconds without activity, or when you hold the button for 3 seconds.</li>
 <li><b>Never opens in flight.</b> If the board reboots mid-flight, it waits until it knows the arm state before it will turn Wi-Fi on.</li>
 </ul>
@@ -350,7 +350,7 @@
 <div class="grow">
 <div class="tbl"><table>
 <tr><th>Tab</th><th>What it does</th></tr>
-<tr><td>Status</td><td class="wrap">Live view: aircraft, camera, recording, warnings, camera settings</td></tr>
+<tr><td>Status</td><td class="wrap">Live view: drone, camera, recording, warnings, camera settings</td></tr>
 <tr><td>Cam control</td><td class="wrap">Recording mode, radio switch, zones and camera settings, highlight</td></tr>
 <tr><td>OSD</td><td class="wrap">The four OSD lines, preview, warning thresholds</td></tr>
 <tr><td>Clock</td><td class="wrap">Camera clock sync (advanced mode only)</td></tr>
@@ -420,13 +420,13 @@
 <p class="lead">Status is read-only and tells you, at a glance, whether the chain flight controller → RecLink → camera is healthy.</p>
 <div class="cols">
 <div style="width:62mm;flex:none">
-<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The Now card." href="../assets/img/status_now-ff3a44dd.webp"><img alt="The Now card." decoding="async" height="344" loading="lazy" src="../assets/img/status_now-ff3a44dd.webp" width="736"/></a></div><figcaption>The Now card.</figcaption><ol class="legend"><li><i class="lgd"></i><span>Aircraft, camera link, recording and warnings.</span></li><li><i class="lgd"></i><span>Fault flags appear below as chips, if any.</span></li></ol></figure>
+<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The Now card." href="../assets/img/status_now-ff3a44dd.webp"><img alt="The Now card." decoding="async" height="344" loading="lazy" src="../assets/img/status_now-ff3a44dd.webp" width="736"/></a></div><figcaption>The Now card.</figcaption><ol class="legend"><li><i class="lgd"></i><span>Drone, camera link, recording and warnings.</span></li><li><i class="lgd"></i><span>Fault flags appear below as chips, if any.</span></li></ol></figure>
 <figure class="shot" style="width:62mm"><div class="imgwrap"><a class="zoom" data-caption="The same card while recording. The logo dot is red and pulses." href="../assets/img/status_rec-b2b2ba7a.webp"><img alt="The same card while recording. The logo dot is red and pulses." decoding="async" height="344" loading="lazy" src="../assets/img/status_rec-b2b2ba7a.webp" width="736"/></a></div><figcaption>The same card while recording. The logo dot is red and pulses.</figcaption></figure>
 </div>
 <div class="grow">
 <h3>Now</h3>
 <div class="tbl"><table>
-<tr><td>Aircraft</td><td class="wrap"><b>armed</b> or <b>disarmed</b>, or <b>FC offline</b> if the flight controller link is down.</td></tr>
+<tr><td>Drone</td><td class="wrap"><b>armed</b> or <b>disarmed</b>, or <b>FC offline</b> if the flight controller link is down.</td></tr>
 <tr><td>Camera link</td><td class="wrap">Brand, state and name, e.g. <span class="ok">GOPRO · READY · GoPro HERO11 Black</span>. States: IDLE, SCAN, CONNECTING, BONDING, SYNCING, READY, LOST.</td></tr>
 <tr><td>Recording</td><td class="wrap"><b>stopped</b>, or <b>REC</b> with elapsed time.</td></tr>
 <tr><td>Warnings</td><td class="wrap">The active warning, or <span class="ok">none</span>. Same list as the OSD (see <a class="xref" href="#ch10">chapter 10</a>).</td></tr>
@@ -473,11 +473,11 @@
 <h1 class="ch">Recording control<a aria-label="link" class="anchor" href="#ch8">#</a></h1>
 <p class="lead">Decide what starts and stops the camera. Everything here is on the <b>Cam control</b> tab, in the Recording card.</p>
 <h2 id="ch8-1">Choose a recording mode<a aria-label="link" class="anchor" href="#ch8-1">#</a></h2>
-<div class="diagram"><svg aria-label="Recording modes over time" role="img" viewbox="0 0 700 290"><text class="m t9 b" style="letter-spacing:.08em" x="10" y="14">INPUTS</text><text class="m t9 b" style="letter-spacing:.08em" x="10" y="108">RECORDING MODE → CAMERA RECORDS</text><path d="M238.3 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="238.3" y="278">arm</text><path d="M326.7 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="326.7" y="278">switch on</text><path d="M503.4 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="503.4" y="278">disarm</text><path d="M591.7 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="591.7" y="278">switch off</text><text class="t10" x="10" y="42">Armed</text><path d="M150 46 H680.0" stroke="var(--line)" stroke-width="1.2"></path><path d="M238.3 46 V32 H503.4 V46" fill="none" stroke="var(--fg)" stroke-width="2"></path><text class="t10" x="10" y="76">Radio switch</text><path d="M150 80 H680.0" stroke="var(--line)" stroke-width="1.2"></path><path d="M326.7 80 V66 H591.7 V80" fill="none" stroke="var(--fg)" stroke-width="2"></path><text class="t10" x="10" y="138">When armed</text><path d="M150 142 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="265.0" x="238.3" y="126"></rect><text class="t10" x="10" y="172">From a switch</text><path d="M150 176 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="265.0" x="326.7" y="160"></rect><text class="t10" x="10" y="206">Armed OR switch</text><path d="M150 210 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="353.4" x="238.3" y="194"></rect><text class="t10" x="10" y="240">Armed AND switch</text><path d="M150 244 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="176.7" x="326.7" y="228"></rect></svg><p class="cap">Example: the aircraft arms at 2, the switch goes on at 4, the aircraft disarms at 8 and the switch goes off at 10. Start and stop delays are left out.</p></div>
+<div class="diagram"><svg aria-label="Recording modes over time" role="img" viewbox="0 0 700 290"><text class="m t9 b" style="letter-spacing:.08em" x="10" y="14">INPUTS</text><text class="m t9 b" style="letter-spacing:.08em" x="10" y="108">RECORDING MODE → CAMERA RECORDS</text><path d="M238.3 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="238.3" y="278">arm</text><path d="M326.7 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="326.7" y="278">switch on</text><path d="M503.4 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="503.4" y="278">disarm</text><path d="M591.7 22 V262" stroke="var(--line)" stroke-dasharray="3 4" stroke-width="1"></path><text class="m t9" text-anchor="middle" x="591.7" y="278">switch off</text><text class="t10" x="10" y="42">Armed</text><path d="M150 46 H680.0" stroke="var(--line)" stroke-width="1.2"></path><path d="M238.3 46 V32 H503.4 V46" fill="none" stroke="var(--fg)" stroke-width="2"></path><text class="t10" x="10" y="76">Radio switch</text><path d="M150 80 H680.0" stroke="var(--line)" stroke-width="1.2"></path><path d="M326.7 80 V66 H591.7 V80" fill="none" stroke="var(--fg)" stroke-width="2"></path><text class="t10" x="10" y="138">When armed</text><path d="M150 142 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="265.0" x="238.3" y="126"></rect><text class="t10" x="10" y="172">From a switch</text><path d="M150 176 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="265.0" x="326.7" y="160"></rect><text class="t10" x="10" y="206">Armed OR switch</text><path d="M150 210 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="353.4" x="238.3" y="194"></rect><text class="t10" x="10" y="240">Armed AND switch</text><path d="M150 244 H680.0" stroke="var(--line)" stroke-width="1.2"></path><rect fill="var(--acc)" height="16" rx="3" width="176.7" x="326.7" y="228"></rect></svg><p class="cap">Example: the drone arms at 2, the switch goes on at 4, the drone disarms at 8 and the switch goes off at 10. Start and stop delays are left out.</p></div>
 <div class="tbl"><table>
 <tr><th>Mode</th><th>Records when</th><th>Good for</th></tr>
 <tr><td>Never (manual only)</td><td class="wrap">Never. You start the camera by hand.</td><td class="wrap">Bench work, or if you use the camera's own controls</td></tr>
-<tr><td>When the aircraft is armed</td><td class="wrap">From arm to disarm.</td><td class="wrap">The simple default: every flight is recorded</td></tr>
+<tr><td>When the drone is armed</td><td class="wrap">From arm to disarm.</td><td class="wrap">The simple default: every flight is recorded</td></tr>
 <tr><td>From a radio switch</td><td class="wrap">While the switch is on, or toggled by a button.</td><td class="wrap">Choosing exactly when to film</td></tr>
 <tr><td>Armed OR switch on</td><td class="wrap">Armed, or the switch is on. While armed, turning the switch off cuts the clip, and turning it on again starts a new one.</td><td class="wrap">Always film flights, but cut dead time</td></tr>
 <tr><td>Armed AND switch on</td><td class="wrap">Only when both are true. Releasing either one stops the clip at once.</td><td class="wrap">Film only when armed <i>and</i> you want it</td></tr>
@@ -489,7 +489,7 @@
 </div>
 <div class="grow">
 <ol class="steps">
-<li><div>Pick <b>From a radio switch</b>, <b>Armed OR switch on</b> or <b>Armed AND switch on</b>. The Radio switch box becomes active. With <i>Never</i> or <i>When the aircraft is armed</i> it is greyed out and marked "not applicable".</div></li>
+<li><div>Pick <b>From a radio switch</b>, <b>Armed OR switch on</b> or <b>Armed AND switch on</b>. The Radio switch box becomes active. With <i>Never</i> or <i>When the drone is armed</i> it is greyed out and marked "not applicable".</div></li>
 <li><div><b>Find the channel.</b> Press <b>Set AUX</b>, then flip the switch on your transmitter. The label changes to "push button or switch" while it listens. RecLink watches the live channel data, picks whichever channel moves by 200 µs or more, and fills in the AUX field. It gives up after 15 seconds. This needs the flight controller link to be up.</div></li>
 <li><div><b>Choose Trigger type.</b> <b>Switch</b> mirrors the switch: on means recording, off means stop. <b>Button</b> is for a spring-loaded control: each press toggles recording and releasing does nothing.</div></li>
 <li><div><b>Check the threshold.</b> The bar shows the control's live position as an amber line. The default of <b>1700 µs</b> suits most 3-position switches (the top position counts as on). Adjust it by dragging the handle or typing a value from 900 to 2100.</div></li>
@@ -670,7 +670,7 @@
 </div>
 </div>
 <h2 id="ch11-2">DJI GPS position push<a aria-label="link" class="anchor" href="#ch11-2">#</a></h2>
-<p>For a DJI camera only. On <b>System → Send aircraft GPS position to the camera</b>, RecLink streams the aircraft's GPS position to the Osmo at 1 or 2 Hz for the camera's own overlay or metadata. It needs a good GPS fix and valid time. A GoPro ignores this setting.</p>
+<p>For a DJI camera only. On <b>System → Send drone GPS position to the camera</b>, RecLink streams the drone's GPS position to the Osmo at 1 or 2 Hz for the camera's own overlay or metadata. It needs a good GPS fix and valid time. A GoPro ignores this setting.</p>
 <h2 id="ch11-3">Highlight tag<a aria-label="link" class="anchor" href="#ch11-3">#</a></h2>
 <div class="cols">
 <div style="width:62mm;flex:none">
@@ -741,7 +741,7 @@
 </div>
 </div>
 <div class="callout danger"><span class="tag">Factory reset</span>
-<p>Erases <b>all settings and all camera pairings</b>, then reboots. Use the button on the System tab (it asks twice), or hold the board's button for 10 seconds. It is refused while the aircraft is armed. A normal reboot never clears anything.</p></div>
+<p>Erases <b>all settings and all camera pairings</b>, then reboots. Use the button on the System tab (it asks twice), or hold the board's button for 10 seconds. It is refused while the drone is armed. A normal reboot never clears anything.</p></div>
 </section><section class="chapter" id="ch13">
 <p class="chno">Chapter 13</p>
 <h1 class="ch">Flying with RecLink<a aria-label="link" class="anchor" href="#ch13">#</a></h1>
@@ -751,7 +751,7 @@
 <div class="tbl long"><table>
 <tr><th style="width:9mm"></th><th>Step</th><th>You should see</th></tr>
 <tr><td>☐</td><td class="wrap">Power the quad. Wait a few seconds.</td><td class="wrap">LED: a short blink every 3 s once the camera is ready.</td></tr>
-<tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">Aircraft: disarmed. Camera link: READY, in green. Battery and SD readouts are filled in.</td></tr>
+<tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">Drone: disarmed. Camera link: READY, in green. Battery and SD readouts are filled in.</td></tr>
 <tr><td>☐</td><td class="wrap">Look at the goggles.</td><td class="wrap">The four lines show the camera's state, not <b>CAM LOST</b>.</td></tr>
 <tr><td>☐</td><td class="wrap">Binding tab: 3 s test recording.</td><td class="wrap">The camera records for 3 seconds. OSD shows REC.</td></tr>
 <tr><td>☐</td><td class="wrap">Flip the zone switch through every position.</td><td class="wrap">Status shows "Zone N: applied" and the OSD resolution and fps change.</td></tr>
@@ -774,7 +774,7 @@
 <h3>If something drops</h3>
 <ul>
 <li><b>Camera link lost</b> (out of range, camera off, radio dropout): OSD shows <b>CAM LOST</b>, the LED blinks fast, and RecLink keeps trying with growing pauses (1, 2, 4, 8, 16, then every 30 seconds). When it reconnects it checks what the camera is doing and sends at most one corrective command.</li>
-<li><b>Flight controller link lost:</b> RecLink stops writing text. The aircraft is unaffected.</li>
+<li><b>Flight controller link lost:</b> RecLink stops writing text. The drone is unaffected.</li>
 <li><b>RecLink restarts</b> (brown-out or stall): the OSD text freezes for about 0.3 seconds, then recovers. The camera reconnects by itself.</li>
 </ul>
 </div>
@@ -812,7 +812,7 @@
 <h2 id="ch14-2">Wi-Fi and the configurator<a aria-label="link" class="anchor" href="#ch14-2">#</a></h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the aircraft is disarmed and the LED is not showing two short blinks every 2 seconds (no flight controller link). Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
+<tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the drone is disarmed and the LED is not showing two short blinks every 2 seconds (no flight controller link). Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
 <tr><td class="wrap">I joined, but the page will not load</td><td class="wrap">Type <code>http://10.0.0.1</code> in the address bar. Stay connected even if the phone warns about no internet. Turn off mobile data if the phone keeps switching away. Up to three devices can connect at once.</td></tr>
 <tr><td class="wrap">The password is rejected</td><td class="wrap">The factory password is <code>reclinkfpv</code>. If you changed it and lost it, hold the button for 10 seconds to factory reset. That also erases camera pairings.</td></tr>
 <tr><td class="wrap">My changes disappeared</td><td class="wrap">Press <b>Save settings</b>. Changes apply and persist only after saving. The bar says "unsaved changes" until you do.</td></tr>
@@ -840,7 +840,7 @@
 <h2 id="ch14-5">Recording and zones<a aria-label="link" class="anchor" href="#ch14-5">#</a></h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">It does not record on arm</td><td class="wrap">Check <b>Start / stop recording</b> is set to a mode that includes arm, and the Status tab shows the aircraft as armed. Check the camera has a card and is connected (READY).</td></tr>
+<tr><td class="wrap">It does not record on arm</td><td class="wrap">Check <b>Start / stop recording</b> is set to a mode that includes arm, and the Status tab shows the drone as armed. Check the camera has a card and is connected (READY).</td></tr>
 <tr><td class="wrap">REC FAIL on the OSD</td><td class="wrap">The camera did not confirm recording. Check the SD card and that the camera is not busy. In advanced mode, raise <b>Wait for camera to confirm</b> or <b>Retries</b>. Open the Record trigger debug panel to see the last command.</td></tr>
 <tr><td class="wrap">The switch does nothing</td><td class="wrap">Use <b>Set AUX</b> again. Check the amber cursor on the bar moves when you flip it, and that the threshold sits between the off and on positions. For a push-button choose Trigger type: Button.</td></tr>
 <tr><td class="wrap">Zones do not change the camera</td><td class="wrap">Check Enable zone control, the right AUX channel, and that the camera is in a <b>video</b> preset and not recording. Wait for the hold time (400 ms). Read the Zone settings row on Status.</td></tr>
@@ -975,13 +975,13 @@
 <li>If the Remote ID part stops responding, RecLink switches only that feature off until the next reboot. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.</li>
 </ul>
 <h2 id="ch15-9">Your own drones<a aria-label="link" class="anchor" href="#ch15-9">#</a></h2>
-<p>If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
+<p>If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My drones</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
 <div class="cols">
 <div style="width:66mm;flex:none">
-<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The My aircraft card." href="../assets/img/rid_mine-9f0f9825.webp"><img alt="The My aircraft card." decoding="async" height="906" loading="lazy" src="../assets/img/rid_mine-9f0f9825.webp" width="736"/></a></div><figcaption>The My aircraft card.</figcaption><ol class="legend"><li><i class="lgd"></i><span>One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual.</span></li></ol></figure>
+<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The My drones card." href="../assets/img/rid_mine-9f0f9825.webp"><img alt="The My drones card." decoding="async" height="906" loading="lazy" src="../assets/img/rid_mine-9f0f9825.webp" width="736"/></a></div><figcaption>The My drones card.</figcaption><ol class="legend"><li><i class="lgd"></i><span>One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual.</span></li></ol></figure>
 </div>
 <div style="width:66mm;flex:none">
-<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The Nearby now card, with sample drones." href="../assets/img/rid_near-782e1adf.webp"><img alt="The Nearby now card, with sample drones." decoding="async" height="726" loading="lazy" src="../assets/img/rid_near-782e1adf.webp" width="736"/></a></div><figcaption>The Nearby now card, with sample drones.</figcaption><ol class="legend"><li><i class="lgd"></i><span>One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.</span></li><li><i class="lgd"></i><span>The level it would raise. Ignore adds it to My aircraft after you confirm.</span></li></ol></figure>
+<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The Nearby now card, with sample drones." href="../assets/img/rid_near-782e1adf.webp"><img alt="The Nearby now card, with sample drones." decoding="async" height="726" loading="lazy" src="../assets/img/rid_near-782e1adf.webp" width="736"/></a></div><figcaption>The Nearby now card, with sample drones.</figcaption><ol class="legend"><li><i class="lgd"></i><span>One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.</span></li><li><i class="lgd"></i><span>The level it would raise. Ignore adds it to My drones after you confirm.</span></li></ol></figure>
 </div>
 </div>
 <h2 id="ch15-10">Check what it hears<a aria-label="link" class="anchor" href="#ch15-10">#</a></h2>
@@ -1007,8 +1007,8 @@
 <div class="tbl"><table>
 <tr><th>Card</th><th>Setting (default)</th></tr>
 <tr><td>Receiver</td><td class="wrap">Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi or Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal or High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, 5 to 12) · Position expires after (<b>5 s</b>, 2 to 30)</td></tr>
-<tr><td>Proximity warning</td><td class="wrap">Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)</td></tr>
-<tr><td>My aircraft</td><td class="wrap">Up to four drone IDs to ignore</td></tr>
+<tr><td>Proximity warning</td><td class="wrap">Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about drones on the ground (<b>off</b>)</td></tr>
+<tr><td>My drones</td><td class="wrap">Up to four drone IDs to ignore</td></tr>
 <tr><td>Nearby now</td><td class="wrap">A live list of drones heard, with an <b>Ignore</b> button on each row</td></tr>
 <tr><td>Health</td><td class="wrap">State, heading, Bluetooth and Wi-Fi counters, faults</td></tr>
 <tr><td>Test reception</td><td class="wrap">A 30 second listening test</td></tr>
@@ -1037,7 +1037,7 @@
 <tr><td class="wrap">Health says reboot required</td><td class="wrap">You saved with the receiver on. Tap Reboot now.</td></tr>
 <tr><td class="wrap">The test hears nothing</td><td class="wrap">Move the transmitter close. Its Remote ID may be Wi-Fi only, so set Listen on to Wi-Fi or Bluetooth + Wi-Fi.</td></tr>
 <tr><td class="wrap">Compass letters, no arrow</td><td class="wrap">Fly forward at 5 m/s or more for 5 seconds with 5 or more satellites. Losing the flight controller link restarts the wait.</td></tr>
-<tr><td class="wrap">It warns about my own drone</td><td class="wrap">Add its ID to My aircraft.</td></tr>
+<tr><td class="wrap">It warns about my own drone</td><td class="wrap">Add its ID to My drones.</td></tr>
 <tr><td class="wrap">RID RX FAIL</td><td class="wrap">Open Health to see which way of listening is failing. Switch Listen on to Bluetooth only, or reboot the board.</td></tr>
 <tr><td class="wrap">The <code>!</code> does not blink</td><td class="wrap">The OSD refresh rate is too low to show the blink. It needs at least 2 updates a second for Warn and 4 for Alert.</td></tr>
 <tr><td class="wrap">No warning line on the OSD</td><td class="wrap">Add the Remote ID proximity warning (<code>%rp</code>) to one of the four OSD lines and save.</td></tr>
@@ -1079,7 +1079,7 @@
 <h2 id="appA-3">Factory defaults<a aria-label="link" class="anchor" href="#appA-3">#</a></h2>
 <div class="tbl long"><table>
 <tr><th>Setting</th><th>Default</th></tr>
-<tr><td>Start / stop recording</td><td class="wrap">When the aircraft is armed</td></tr>
+<tr><td>Start / stop recording</td><td class="wrap">When the drone is armed</td></tr>
 <tr><td>Record switch</td><td class="wrap">Switch type, no channel assigned, on above 1700 µs</td></tr>
 <tr><td>Start delay · stop delay · verify · retries</td><td class="wrap">300 ms · 1500 ms · 800 ms · 3</td></tr>
 <tr><td>Zone control</td><td class="wrap">Off. Three zones at 1300 / 1700 / 2100 µs. Hold time 400 ms. No changes while recording.</td></tr>

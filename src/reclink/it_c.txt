@@ -193,7 +193,7 @@ u875|||Dal telefono, collegati alla rete Wi-Fi <code>RECLINK-XXXX</code>. Passwo
 u876|||Apri <code>http://10.0.0.1</code> nel browser. Se il telefono dice che non c'è internet, resta collegato.
 u877|||Quando richiesto, <b>cambia la password Wi-Fi</b>.
 u878|||Nessuna rete Wi-Fi?
-u879|||Il Wi-Fi funziona solo mentre il velivolo è <b>disarmato</b>. Controlla questo, oppure tieni premuto il pulsante della scheda per 3 secondi per aprirlo.
+u879|||Il Wi-Fi funziona solo mentre il drone è <b>disarmato</b>. Controlla questo, oppure tieni premuto il pulsante della scheda per 3 secondi per aprirlo.
 u880|||Ricorda di salvare
 u881|||Dopo ogni modifica, premi <b>Save settings</b> in fondo alla pagina.
 u882|||Passo 4

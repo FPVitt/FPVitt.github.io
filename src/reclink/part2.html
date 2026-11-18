@@ -11,7 +11,7 @@
 <div class="grow">
 <ol class="steps">
 <li><div><b>Remove the propellers</b>, then power the flight controller from a battery or USB. The RecLink LED lights solid while it boots.</div></li>
-<li><div><b>Wait for the portal.</b> When the board sees the flight controller and the aircraft is <b>disarmed</b>, it starts its own Wi-Fi network.</div></li>
+<li><div><b>Wait for the portal.</b> When the board sees the flight controller and the drone is <b>disarmed</b>, it starts its own Wi-Fi network.</div></li>
 <li><div><b>Join the network</b> named <code>RECLINK-XXXX</code> (the last two bytes of the board's address) on your phone or laptop. The factory password is <code>reclinkfpv</code>.</div></li>
 <li><div><b>Open <code>http://10.0.0.1</code></b> in a browser. Your phone may warn that the network has no internet. Stay connected. RecLink does not force a login sheet, so you open the address yourself.</div></li>
 <li><div><b>Change the Wi-Fi password</b> when asked (below). Up to three devices can be connected at once.</div></li>
@@ -45,9 +45,9 @@
   <path class="ln" d="M605 104 V150 H95 V104" marker-end="url(#a5)"/><text x="350" y="166" text-anchor="middle" class="m t9">disarm: the portal can open again</text>
   <path class="ln" d="M350 40 V16 H95 V40" marker-end="url(#a5)"/><text x="222" y="11" text-anchor="middle" class="m t8">auto-close, or a 3 s button hold</text>
 </svg>
-<p class="cap">The portal never runs while the aircraft is armed.</p></div>
+<p class="cap">The portal never runs while the drone is armed.</p></div>
 <ul>
-<li><b>Opens automatically</b> when the aircraft is disarmed and the flight controller link is up. On the SuperMini and S3 boards you can change this to "only after holding the button" in <b>Network → Open the portal</b>. The RecLink board has no such option: its portal is always on while disarmed.</li>
+<li><b>Opens automatically</b> when the drone is disarmed and the flight controller link is up. On the SuperMini and S3 boards you can change this to "only after holding the button" in <b>Network → Open the portal</b>. The RecLink board has no such option: its portal is always on while disarmed.</li>
 <li><b>Closes</b> after 15 minutes (adjustable from 1 to 120) once there has also been 60 seconds without activity, or when you hold the button for 3 seconds.</li>
 <li><b>Never opens in flight.</b> If the board reboots mid-flight, it waits until it knows the arm state before it will turn Wi-Fi on.</li>
 </ul>
@@ -59,7 +59,7 @@
 <div class="grow">
 <div class="tbl"><table>
 <tr><th>Tab</th><th>What it does</th></tr>
-<tr><td>Status</td><td class="wrap">Live view: aircraft, camera, recording, warnings, camera settings</td></tr>
+<tr><td>Status</td><td class="wrap">Live view: drone, camera, recording, warnings, camera settings</td></tr>
 <tr><td>Cam control</td><td class="wrap">Recording mode, radio switch, zones and camera settings, highlight</td></tr>
 <tr><td>OSD</td><td class="wrap">The four OSD lines, preview, warning thresholds</td></tr>
 <tr><td>Clock</td><td class="wrap">Camera clock sync (advanced mode only)</td></tr>
@@ -141,13 +141,13 @@
 
 <div class="cols">
 <div style="width:62mm;flex:none">
-[[shot name="status_now" cap="The Now card." legend="1|Aircraft, camera link, recording and warnings.;2|Fault flags appear below as chips, if any."]]
+[[shot name="status_now" cap="The Now card." legend="1|Drone, camera link, recording and warnings.;2|Fault flags appear below as chips, if any."]]
 [[shot name="status_rec" w="62mm" cap="The same card while recording. The logo dot is red and pulses."]]
 </div>
 <div class="grow">
 <h3>Now</h3>
 <div class="tbl"><table>
-<tr><td>Aircraft</td><td class="wrap"><b>armed</b> or <b>disarmed</b>, or <b>FC offline</b> if the flight controller link is down.</td></tr>
+<tr><td>Drone</td><td class="wrap"><b>armed</b> or <b>disarmed</b>, or <b>FC offline</b> if the flight controller link is down.</td></tr>
 <tr><td>Camera link</td><td class="wrap">Brand, state and name, e.g. <span class="ok">GOPRO · READY · GoPro HERO11 Black</span>. States: IDLE, SCAN, CONNECTING, BONDING, SYNCING, READY, LOST.</td></tr>
 <tr><td>Recording</td><td class="wrap"><b>stopped</b>, or <b>REC</b> with elapsed time.</td></tr>
 <tr><td>Warnings</td><td class="wrap">The active warning, or <span class="ok">none</span>. Same list as the OSD (see chapter 10).</td></tr>
@@ -205,7 +205,7 @@
 <div class="tbl"><table>
 <tr><th>Mode</th><th>Records when</th><th>Good for</th></tr>
 <tr><td>Never (manual only)</td><td class="wrap">Never. You start the camera by hand.</td><td class="wrap">Bench work, or if you use the camera's own controls</td></tr>
-<tr><td>When the aircraft is armed</td><td class="wrap">From arm to disarm.</td><td class="wrap">The simple default: every flight is recorded</td></tr>
+<tr><td>When the drone is armed</td><td class="wrap">From arm to disarm.</td><td class="wrap">The simple default: every flight is recorded</td></tr>
 <tr><td>From a radio switch</td><td class="wrap">While the switch is on, or toggled by a button.</td><td class="wrap">Choosing exactly when to film</td></tr>
 <tr><td>Armed OR switch on</td><td class="wrap">Armed, or the switch is on. While armed, turning the switch off cuts the clip, and turning it on again starts a new one.</td><td class="wrap">Always film flights, but cut dead time</td></tr>
 <tr><td>Armed AND switch on</td><td class="wrap">Only when both are true. Releasing either one stops the clip at once.</td><td class="wrap">Film only when armed <i>and</i> you want it</td></tr>
@@ -220,7 +220,7 @@
 </div>
 <div class="grow">
 <ol class="steps">
-<li><div>Pick <b>From a radio switch</b>, <b>Armed OR switch on</b> or <b>Armed AND switch on</b>. The Radio switch box becomes active. With <i>Never</i> or <i>When the aircraft is armed</i> it is greyed out and marked "not applicable".</div></li>
+<li><div>Pick <b>From a radio switch</b>, <b>Armed OR switch on</b> or <b>Armed AND switch on</b>. The Radio switch box becomes active. With <i>Never</i> or <i>When the drone is armed</i> it is greyed out and marked "not applicable".</div></li>
 <li><div><b>Find the channel.</b> Press <b>Set AUX</b>, then flip the switch on your transmitter. The label changes to "push button or switch" while it listens. RecLink watches the live channel data, picks whichever channel moves by 200 µs or more, and fills in the AUX field. It gives up after 15 seconds. This needs the flight controller link to be up.</div></li>
 <li><div><b>Choose Trigger type.</b> <b>Switch</b> mirrors the switch: on means recording, off means stop. <b>Button</b> is for a spring-loaded control: each press toggles recording and releasing does nothing.</div></li>
 <li><div><b>Check the threshold.</b> The bar shows the control's live position as an amber line. The default of <b>1700 µs</b> suits most 3-position switches (the top position counts as on). Adjust it by dragging the handle or typing a value from 900 to 2100.</div></li>

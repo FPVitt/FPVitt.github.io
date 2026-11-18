@@ -16,7 +16,7 @@
 <h2>Wi-Fi and the configurator</h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the aircraft is disarmed and the LED is not showing two short blinks every 2 seconds (no flight controller link). Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
+<tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the drone is disarmed and the LED is not showing two short blinks every 2 seconds (no flight controller link). Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
 <tr><td class="wrap">I joined, but the page will not load</td><td class="wrap">Type <code>http://10.0.0.1</code> in the address bar. Stay connected even if the phone warns about no internet. Turn off mobile data if the phone keeps switching away. Up to three devices can connect at once.</td></tr>
 <tr><td class="wrap">The password is rejected</td><td class="wrap">The factory password is <code>reclinkfpv</code>. If you changed it and lost it, hold the button for 10 seconds to factory reset. That also erases camera pairings.</td></tr>
 <tr><td class="wrap">My changes disappeared</td><td class="wrap">Press <b>Save settings</b>. Changes apply and persist only after saving. The bar says "unsaved changes" until you do.</td></tr>
@@ -49,7 +49,7 @@
 <h2>Recording and zones</h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">It does not record on arm</td><td class="wrap">Check <b>Start / stop recording</b> is set to a mode that includes arm, and the Status tab shows the aircraft as armed. Check the camera has a card and is connected (READY).</td></tr>
+<tr><td class="wrap">It does not record on arm</td><td class="wrap">Check <b>Start / stop recording</b> is set to a mode that includes arm, and the Status tab shows the drone as armed. Check the camera has a card and is connected (READY).</td></tr>
 <tr><td class="wrap">REC FAIL on the OSD</td><td class="wrap">The camera did not confirm recording. Check the SD card and that the camera is not busy. In advanced mode, raise <b>Wait for camera to confirm</b> or <b>Retries</b>. Open the Record trigger debug panel to see the last command.</td></tr>
 <tr><td class="wrap">The switch does nothing</td><td class="wrap">Use <b>Set AUX</b> again. Check the amber cursor on the bar moves when you flip it, and that the threshold sits between the off and on positions. For a push-button choose Trigger type: Button.</td></tr>
 <tr><td class="wrap">Zones do not change the camera</td><td class="wrap">Check Enable zone control, the right AUX channel, and that the camera is in a <b>video</b> preset and not recording. Wait for the hold time (400 ms). Read the Zone settings row on Status.</td></tr>
@@ -199,13 +199,13 @@
 </ul>
 
 <h2>Your own drones</h2>
-<p>If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
+<p>If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My drones</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
 <div class="cols">
 <div style="width:66mm;flex:none">
-[[shot name="rid_mine" cap="The My aircraft card." legend="1|One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual."]]
+[[shot name="rid_mine" cap="The My drones card." legend="1|One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual."]]
 </div>
 <div style="width:66mm;flex:none">
-[[shot name="rid_near" cap="The Nearby now card, with sample drones." legend="1|One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.;2|The level it would raise. Ignore adds it to My aircraft after you confirm."]]
+[[shot name="rid_near" cap="The Nearby now card, with sample drones." legend="1|One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.;2|The level it would raise. Ignore adds it to My drones after you confirm."]]
 </div>
 </div>
 
@@ -234,8 +234,8 @@
 <div class="tbl"><table>
 <tr><th>Card</th><th>Setting (default)</th></tr>
 <tr><td>Receiver</td><td class="wrap">Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi or Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal or High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, 5 to 12) · Position expires after (<b>5 s</b>, 2 to 30)</td></tr>
-<tr><td>Proximity warning</td><td class="wrap">Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)</td></tr>
-<tr><td>My aircraft</td><td class="wrap">Up to four drone IDs to ignore</td></tr>
+<tr><td>Proximity warning</td><td class="wrap">Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about drones on the ground (<b>off</b>)</td></tr>
+<tr><td>My drones</td><td class="wrap">Up to four drone IDs to ignore</td></tr>
 <tr><td>Nearby now</td><td class="wrap">A live list of drones heard, with an <b>Ignore</b> button on each row</td></tr>
 <tr><td>Health</td><td class="wrap">State, heading, Bluetooth and Wi-Fi counters, faults</td></tr>
 <tr><td>Test reception</td><td class="wrap">A 30 second listening test</td></tr>
@@ -267,7 +267,7 @@
 <tr><td class="wrap">Health says reboot required</td><td class="wrap">You saved with the receiver on. Tap Reboot now.</td></tr>
 <tr><td class="wrap">The test hears nothing</td><td class="wrap">Move the transmitter close. Its Remote ID may be Wi-Fi only, so set Listen on to Wi-Fi or Bluetooth + Wi-Fi.</td></tr>
 <tr><td class="wrap">Compass letters, no arrow</td><td class="wrap">Fly forward at 5 m/s or more for 5 seconds with 5 or more satellites. Losing the flight controller link restarts the wait.</td></tr>
-<tr><td class="wrap">It warns about my own drone</td><td class="wrap">Add its ID to My aircraft.</td></tr>
+<tr><td class="wrap">It warns about my own drone</td><td class="wrap">Add its ID to My drones.</td></tr>
 <tr><td class="wrap">RID RX FAIL</td><td class="wrap">Open Health to see which way of listening is failing. Switch Listen on to Bluetooth only, or reboot the board.</td></tr>
 <tr><td class="wrap">The <code>!</code> does not blink</td><td class="wrap">The OSD refresh rate is too low to show the blink. It needs at least 2 updates a second for Warn and 4 for Alert.</td></tr>
 <tr><td class="wrap">No warning line on the OSD</td><td class="wrap">Add the Remote ID proximity warning (<code>%rp</code>) to one of the four OSD lines and save.</td></tr>
@@ -317,7 +317,7 @@
 <h2>Factory defaults</h2>
 <div class="tbl"><table>
 <tr><th>Setting</th><th>Default</th></tr>
-<tr><td>Start / stop recording</td><td class="wrap">When the aircraft is armed</td></tr>
+<tr><td>Start / stop recording</td><td class="wrap">When the drone is armed</td></tr>
 <tr><td>Record switch</td><td class="wrap">Switch type, no channel assigned, on above 1700 µs</td></tr>
 <tr><td>Start delay · stop delay · verify · retries</td><td class="wrap">300 ms · 1500 ms · 800 ms · 3</td></tr>
 <tr><td>Zone control</td><td class="wrap">Off. Three zones at 1300 / 1700 / 2100 µs. Hold time 400 ms. No changes while recording.</td></tr>

@@ -33,7 +33,7 @@ u33|||Righe OSD
 u34|||Prova a banco
 u35|||Capitolo 1
 u36|||Cos'è RecLink
-u37|||Una piccola scheda ESP32 che sta tra il flight controller e la tua action cam, così la camera è controllata dal velivolo e riporta il suo stato sull'OSD.
+u37|||Una piccola scheda ESP32 che sta tra il flight controller e la tua action cam, così la camera è controllata dal drone e riporta il suo stato sull'OSD.
 u38|||Radio
 u39|||arm + interruttori AUX
 u40|||Flight controller
@@ -52,10 +52,10 @@ u52|||MSP su UART (cavo)
 u53|||Bluetooth LE
 u55|||solo da disarmato
 u56|||video + OSD
-u57|||RecLink ascolta il flight controller con un collegamento seriale a tre fili e parla con la camera via Bluetooth. La rete Wi-Fi esiste solo mentre il velivolo è disarmato, per la configurazione.
+u57|||RecLink ascolta il flight controller con un collegamento seriale a tre fili e parla con la camera via Bluetooth. La rete Wi-Fi esiste solo mentre il drone è disarmato, per la configurazione.
 u58|||Cosa fa
 u59|||<b>Informazioni della camera sull'OSD.</b> Stato di registrazione, tempo trascorso e rimanente, batteria della camera, spazio sulla SD, risoluzione, frame rate e stato del collegamento, come 23 token distribuiti su quattro righe da 16 caratteri che componi tu.
-u60|||<b>Registrazione che segue il velivolo.</b> Avvio e arresto con l'arm, con un interruttore radio o con una combinazione. Ogni comando è verificato su ciò che la camera riporta.
+u60|||<b>Registrazione che segue il drone.</b> Avvio e arresto con l'arm, con un interruttore radio o con una combinazione. Ogni comando è verificato su ciò che la camera riporta.
 u61|||<b>Impostazioni della camera da un interruttore.</b> Un interruttore o una manopola a 2–6 posizioni seleziona le zone. Su GoPro ogni zona invia i propri valori di risoluzione, frame rate, lente, HyperSmooth e Protune. Su DJI ogni zona seleziona una modalità della camera.
 u62|||<b>Tag highlight</b> da un interruttore momentaneo (GoPro HiLight, DJI Quick-Switch).
 u63|||<b>Fino a quattro camera abbinate</b>, in qualsiasi combinazione di GoPro e DJI. All'accensione si collega a quella con il segnale più forte.
@@ -64,7 +64,7 @@ u65|||<b>Un'unica pagina web</b> per tutta la configurazione e per gli aggiornam
 u66|||Cosa non fa mai
 u67|||Limiti invalicabili
 u68|||Non invia mai al flight controller comandi RC, GPS, orologio, display o riavvio, e non ne modifica mai la configurazione.
-u69|||Non arma e non disarma mai il velivolo.
+u69|||Non arma e non disarma mai il drone.
 u70|||Non tiene mai il Wi-Fi attivo da armato. Il punto di accesso si spegne entro 100 ms dall'arm.
 u71|||Non alimenta mai la camera e non formatta schede né cancella file in automatico.
 u72|||Non mostra mai un valore che la camera non ha confermato. Un valore sconosciuto resta vuoto: né <code>0</code> né un'ipotesi.
@@ -156,7 +156,7 @@ u171|||Capitolo 5
 u172|||Prima accensione e configuratore web
 u173|||Accendi il quad, collega il telefono al Wi-Fi di RecLink e apri il configuratore. Da qui in poi tutto si fa in quella pagina.
 u175|||<b>Rimuovi le eliche</b>, poi alimenta il flight controller da batteria o USB. Il LED di RecLink resta acceso fisso durante l'avvio.
-u176|||<b>Aspetta il portale.</b> Quando la scheda vede il flight controller e il velivolo è <b>disarmato</b>, crea la propria rete Wi-Fi.
+u176|||<b>Aspetta il portale.</b> Quando la scheda vede il flight controller e il drone è <b>disarmato</b>, crea la propria rete Wi-Fi.
 u177|||<b>Collegati alla rete</b> chiamata <code>RECLINK-XXXX</code> (gli ultimi due byte dell'indirizzo della scheda) dal telefono o dal portatile. La password di fabbrica è <code>reclinkfpv</code>.
 u178|||<b>Apri <code>http://10.0.0.1</code></b> in un browser. Il telefono può avvisare che la rete non ha internet: resta collegato. RecLink non forza una schermata di accesso, quindi l'indirizzo lo apri tu.
 u179|||<b>Cambia la password Wi-Fi</b> quando richiesto (vedi sotto). Si possono collegare fino a tre dispositivi insieme.
@@ -175,13 +175,13 @@ u192|||automatico
 u193|||arm: ≤ 100 ms
 u194|||disarm: il portale può riaprirsi
 u195|||chiusura automatica o pressione di 3 s
-u196|||Il portale non funziona mai mentre il velivolo è armato.
-u197|||<b>Si apre da solo</b> quando il velivolo è disarmato e il collegamento con il flight controller è attivo. Sulle schede SuperMini e S3 puoi cambiarlo in «solo dopo aver tenuto premuto il pulsante» in <b>Network → Open the portal</b>. La scheda RecLink non ha questa opzione: il suo portale è sempre acceso da disarmato.
+u196|||Il portale non funziona mai mentre il drone è armato.
+u197|||<b>Si apre da solo</b> quando il drone è disarmato e il collegamento con il flight controller è attivo. Sulle schede SuperMini e S3 puoi cambiarlo in «solo dopo aver tenuto premuto il pulsante» in <b>Network → Open the portal</b>. La scheda RecLink non ha questa opzione: il suo portale è sempre acceso da disarmato.
 u198|||<b>Si chiude</b> dopo 15 minuti (regolabile da 1 a 120) se sono passati anche 60 secondi senza attività, oppure quando tieni premuto il pulsante per 3 secondi.
 u199|||<b>Non si apre mai in volo.</b> Se la scheda si riavvia in volo, attende di conoscere lo stato arm prima di accendere il Wi-Fi.
 u200|||Usare il configuratore
 u201|||Scheda
-u203|||Vista in tempo reale: velivolo, camera, registrazione, avvisi, impostazioni della camera
+u203|||Vista in tempo reale: drone, camera, registrazione, avvisi, impostazioni della camera
 u205|||Modalità di registrazione, interruttore radio, zone e impostazioni della camera, highlight
 u206|||Le quattro righe OSD, anteprima, soglie degli avvisi
 u208|||Sincronizzazione dell'orologio della camera (solo modalità avanzata)
@@ -219,7 +219,7 @@ u246|||Capitolo 7
 u247|||Leggere la scheda Status
 u248|||La scheda Status è di sola lettura e ti dice a colpo d'occhio se la catena flight controller → RecLink → camera è in buona salute.
 u250|||Now
-u251|||Aircraft
+u251|||Drone
 u252|||<b>armed</b> o <b>disarmed</b>, oppure <b>FC offline</b> se il collegamento con il flight controller è caduto.
 u253|||Camera link
 u254|||Marca, stato e nome, ad es. <span class="ok">GOPRO · READY · GoPro HERO11 Black</span>. Stati: IDLE, SCAN, CONNECTING, BONDING, SYNCING, READY, LOST.
@@ -259,14 +259,14 @@ u296|||Da armato
 u297|||Da interruttore
 u298|||Armato OR interruttore
 u299|||Armato AND interruttore
-u300|||Esempio: il velivolo viene armato a 2, l'interruttore si accende a 4, il velivolo viene disarmato a 8 e l'interruttore si spegne a 10. I ritardi di avvio e arresto sono omessi.
+u300|||Esempio: il drone viene armato a 2, l'interruttore si accende a 4, il drone viene disarmato a 8 e l'interruttore si spegne a 10. I ritardi di avvio e arresto sono omessi.
 u301|||Modalità
 u302|||Registra quando
 u303|||Ideale per
 u304|||Never (manual only)
 u305|||Mai. La camera la avvii a mano.
 u306|||Lavori a banco, o se usi i comandi della camera
-u307|||When the aircraft is armed
+u307|||When the drone is armed
 u308|||Dall'arm al disarm.
 u309|||Il default semplice: ogni volo viene registrato
 u310|||From a radio switch
@@ -279,7 +279,7 @@ u316|||Armed AND switch on
 u317|||Solo quando entrambe le condizioni sono vere. Rilasciarne una ferma subito il clip.
 u318|||Riprendi solo quando è armato <i>e</i> lo vuoi
 u319|||Impostare l'interruttore radio
-u321|||Scegli <b>From a radio switch</b>, <b>Armed OR switch on</b> oppure <b>Armed AND switch on</b>. Il riquadro Radio switch diventa attivo. Con <i>Never</i> o <i>When the aircraft is armed</i> è in grigio e indicato «not applicable».
+u321|||Scegli <b>From a radio switch</b>, <b>Armed OR switch on</b> oppure <b>Armed AND switch on</b>. Il riquadro Radio switch diventa attivo. Con <i>Never</i> o <i>When the drone is armed</i> è in grigio e indicato «not applicable».
 u322|||<b>Trova il canale.</b> Premi <b>Set AUX</b>, poi aziona l'interruttore sul trasmettitore. Mentre ascolta, l'etichetta diventa «push button or switch». RecLink osserva i dati dei canali in tempo reale, sceglie il canale che si muove di 200 µs o più e compila il campo AUX. Rinuncia dopo 15 secondi. Serve il collegamento attivo con il flight controller.
 u323|||<b>Scegli il Trigger type.</b> <b>Switch</b> rispecchia l'interruttore: acceso significa registra, spento significa ferma. <b>Button</b> è per un comando a molla: ogni pressione alterna la registrazione e rilasciare non fa nulla.
 u324|||<b>Controlla la soglia.</b> La barra mostra la posizione del comando in tempo reale come linea ambra. Il valore predefinito di <b>1700 µs</b> va bene per la maggior parte degli interruttori a 3 posizioni (la posizione alta conta come acceso). Regolalo trascinando il cursore o scrivendo un valore da 900 a 2100.

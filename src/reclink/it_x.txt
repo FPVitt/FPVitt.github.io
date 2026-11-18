@@ -240,14 +240,14 @@ An Alert from a path that still works outranks the failure text, and the failure
 A missing GPS is not a failure: the feature is just inactive and shows nothing.|||Un GPS mancante non è un guasto: la funzione è semplicemente inattiva e non mostra nulla.
 If the Remote ID part hangs, RecLink switches only that feature off. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.|||Se la parte Remote ID si blocca, RecLink spegne solo quella funzione. <b>Non</b> riavvia il bridge in volo, quindi controllo della camera e OSD continuano a funzionare.
 Your own drones|||Il tuo drone
-If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.|||Se il tuo drone porta un modulo Remote ID, RecLink ti avviserebbe di esso. Aggiungi il suo ID a <b>My aircraft</b> (fino a quattro). Un nuovo drone il cui ID non è ancora stato sentito può mostrare al massimo un Avviso nei suoi primi 15 secondi, così il tuo modulo non può far scattare un Allarme prima che l'elenco possa riconoscerlo.
+If your own drone carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My drones</b> (up to four). A new drone whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.|||Se il tuo drone porta un modulo Remote ID, RecLink ti avviserebbe di esso. Aggiungi il suo ID a <b>My drones</b> (fino a quattro). Un nuovo drone il cui ID non è ancora stato sentito può mostrare al massimo un Avviso nei suoi primi 15 secondi, così il tuo modulo non può far scattare un Allarme prima che l'elenco possa riconoscerlo.
 Settings: the Remote ID tab|||Impostazioni: la scheda Remote ID
 Setting (default)|||Impostazione (predefinito)
 Receiver|||Receiver
 Remote ID on or off (<b>off</b>) · Mode: Bluetooth, Wi-Fi or Both (<b>Bluetooth</b>) · Bluetooth duty: Low, Normal or High (<b>Normal</b>) · Minimum satellites (<b>6</b>, 5 to 12) · Forget time (<b>5 s</b>, 2 to 30)|||Remote ID on/off (<b>off</b>) · Mode: Bluetooth, Wi-Fi o Both (<b>Bluetooth</b>) · Bluetooth duty: Low, Normal o High (<b>Normal</b>) · Minimum satellites (<b>6</b>, da 5 a 12) · Forget time (<b>5 s</b>, da 2 a 30)
 Proximity warning|||Proximity warning
-Warnings on or off (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show drones on the ground (<b>off</b>). A live preview shows the line as it will look, including the failure text.|||Warnings on/off (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show aircraft on the ground (<b>off</b>). Un'anteprima dal vivo mostra la riga come apparirà, compreso il testo di guasto.
-My aircraft|||My aircraft
+Warnings on or off (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show drones on the ground (<b>off</b>). A live preview shows the line as it will look, including the failure text.|||Warnings on/off (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show drones on the ground (<b>off</b>). Un'anteprima dal vivo mostra la riga come apparirà, compreso il testo di guasto.
+My drones|||My drones
 Up to four drone IDs to ignore|||Fino a quattro ID di droni da ignorare
 Nearby now|||Nearby now
 A live list of up to eight drones: ID, type, status, distance, direction, altitude, source, signal strength and age, with an <b>Ignore</b> button on each row|||Un elenco dal vivo di fino a otto droni: ID, tipo, stato, distanza, direzione, altitudine, sorgente, intensità del segnale ed età, con un pulsante <b>Ignore</b> su ogni riga
@@ -266,7 +266,7 @@ Setting it up|||Configurazione
 <b>Check your GPS.</b> In Betaflight Configurator's GPS tab, make sure you get a fix with 6 or more satellites outdoors.|||<b>Controlla il GPS.</b> Nella scheda GPS di Betaflight Configurator, verifica di avere un fix con 6 o più satelliti all'aperto.
 <b>Open the Remote ID tab</b> and switch it on. Leave the mode on Bluetooth to begin with.|||<b>Apri la scheda Remote ID</b> e attivalo. All'inizio lascia la modalità su Bluetooth.
 <b>Add <code>%rp</code></b> to one of your OSD lines (chapter 10) and place that custom message prominently in Betaflight's OSD tab (chapter 4).|||<b>Aggiungi <code>%rp</code></b> a una delle tue righe OSD (capitolo 10) e metti quel messaggio personalizzato in evidenza nella scheda OSD di Betaflight (capitolo 4).
-<b>Add your own drone's IDs</b> to My aircraft, if you carry a Remote ID module.|||<b>Aggiungi gli ID dei tuoi droni</b> a My aircraft, se porti un modulo Remote ID.
+<b>Add your own drone's IDs</b> to My drones, if you carry a Remote ID module.|||<b>Aggiungi gli ID dei tuoi droni</b> a My drones, se porti un modulo Remote ID.
 <b>Test the reception</b> on the bench, then outdoors with propellers removed and a known Remote ID transmitter nearby. Check the distance and direction make sense.|||<b>Prova la ricezione</b> sul banco, poi all'aperto con le eliche rimosse e un trasmettitore Remote ID noto nelle vicinanze. Controlla che distanza e direzione abbiano senso.
 <b>Fly with it</b> as an extra, not as your eyes.|||<b>Vola con il Remote ID</b> come un extra, non come i tuoi occhi.
 Privacy and rules|||Privacy e regole
@@ -294,7 +294,7 @@ Move the transmitter close. Its Remote ID may be Wi-Fi only, so set the mode to 
 Compass letters, no arrow|||Lettere della bussola, niente freccia
 Fly forward at 5 m/s or more for 5 seconds with 5 or more satellites. Losing the flight controller link restarts the wait.|||Vola in avanti a 5 m/s o più per 5 secondi con 5 o più satelliti. Perdere il collegamento con il flight controller fa ripartire l'attesa.
 It warns about my own drone|||Avvisa del mio stesso drone
-Add its ID to My aircraft.|||Aggiungi il suo ID a My aircraft.
+Add its ID to My drones.|||Aggiungi il suo ID a My drones.
 Open Health to see which way of listening is failing. Switch the mode to Bluetooth only, or reboot the board.|||Apri Health per vedere quale modo di ascolto sta fallendo. Porta la modalità solo su Bluetooth, oppure riavvia la scheda.
 The <code>!</code> does not blink|||Il <code>!</code> non lampeggia
 The OSD refresh rate is too low to show the blink. It needs at least 2 updates a second for Warn and 4 for Alert.|||L'aggiornamento dell'OSD è troppo lento per mostrare il lampeggio. Servono almeno 2 aggiornamenti al secondo per Attenzione e 4 per Allarme.
@@ -364,7 +364,7 @@ With Bluetooth only, the configurator stays connected.|||Solo con il Bluetooth, 
 If the mode includes Wi-Fi, RecLink asks first: the board's Wi-Fi drops for about 30 seconds and your phone disconnects. Reconnect after about 40 seconds and open the page again.|||Se la modalità comprende il Wi-Fi, RecLink chiede conferma: il Wi-Fi della scheda cade per circa 30 secondi e il telefono si disconnette. Riconnettiti dopo circa 40 secondi e riapri la pagina.
 Card|||Scheda
 Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi or Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal or High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, 5 to 12) · Position expires after (<b>5 s</b>, 2 to 30)|||Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi o Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal o High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, da 5 a 12) · Position expires after (<b>5 s</b>, da 2 a 30)
-Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)|||Show warnings on the OSD (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>, ciascuna da 20 a 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)
+Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about drones on the ground (<b>off</b>)|||Show warnings on the OSD (<b>on</b>) · distanze Notice, Warn e Alert (<b>1000, 300, 100 m</b>, ciascuna da 20 a 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about drones on the ground (<b>off</b>)
 A live list of drones heard, with an <b>Ignore</b> button on each row|||Un elenco dal vivo dei droni sentiti, con un pulsante <b>Ignore</b> su ogni riga
 State, heading, Bluetooth and Wi-Fi counters, faults|||Stato, direzione, contatori Bluetooth e Wi-Fi, guasti
 Test reception|||Test reception
@@ -397,11 +397,11 @@ Bearing style: arrow, compass letters or degrees.|||Bearing style: freccia, lett
 Blink the ! as the warning rises.|||Fa lampeggiare il ! man mano che l'avviso sale.
 Also warn about drones that say they are on the ground.|||Avvisa anche per i droni che dichiarano di essere a terra.
 A preview of each level with your settings, and of the failure text.|||Un'anteprima di ogni livello con le tue impostazioni, e del testo di guasto.
-The My aircraft card.|||La scheda My aircraft.
+The My drones card.|||La scheda My drones.
 One box per drone ID, up to four. A Remote ID module shows its ID in its own app or manual.|||Una casella per ogni ID di drone, fino a quattro. Un modulo Remote ID mostra il suo ID nella sua app o nel manuale.
 The Nearby now card, with sample drones.|||La scheda Nearby now, con droni di esempio.
 One row per drone heard: number, ID, distance, direction, height difference, source and how long ago.|||Una riga per ogni drone sentito: numero, ID, distanza, direzione, differenza di quota, sorgente e da quanto tempo.
-The level it would raise. Ignore adds it to My aircraft after you confirm.|||Il livello che raggiungerebbe. Ignore lo aggiunge a My aircraft dopo la tua conferma.
+The level it would raise. Ignore adds it to My drones after you confirm.|||Il livello che raggiungerebbe. Ignore lo aggiunge a My drones dopo la tua conferma.
 The Health card.|||La scheda Health.
 Remote ID state, heading, Bluetooth and Wi-Fi counters, and any fault.|||Stato del Remote ID, direzione, contatori Bluetooth e Wi-Fi ed eventuali guasti.
 The Test reception card, after a test.|||La scheda Test reception, dopo un test.

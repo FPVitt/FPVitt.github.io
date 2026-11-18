@@ -171,7 +171,7 @@
 </div>
 
 <h2>DJI GPS position push</h2>
-<p>For a DJI camera only. On <b>System → Send aircraft GPS position to the camera</b>, RecLink streams the aircraft's GPS position to the Osmo at 1 or 2 Hz for the camera's own overlay or metadata. It needs a good GPS fix and valid time. A GoPro ignores this setting.</p>
+<p>For a DJI camera only. On <b>System → Send drone GPS position to the camera</b>, RecLink streams the drone's GPS position to the Osmo at 1 or 2 Hz for the camera's own overlay or metadata. It needs a good GPS fix and valid time. A GoPro ignores this setting.</p>
 
 <h2>Highlight tag</h2>
 <div class="cols">
@@ -253,7 +253,7 @@
 </div>
 
 <div class="callout danger"><span class="tag">Factory reset</span>
-<p>Erases <b>all settings and all camera pairings</b>, then reboots. Use the button on the System tab (it asks twice), or hold the board's button for 10 seconds. It is refused while the aircraft is armed. A normal reboot never clears anything.</p></div>
+<p>Erases <b>all settings and all camera pairings</b>, then reboots. Use the button on the System tab (it asks twice), or hold the board's button for 10 seconds. It is refused while the drone is armed. A normal reboot never clears anything.</p></div>
 </section>
 
 <!-- ================= 13 FLYING ================= -->
@@ -268,7 +268,7 @@
 <div class="tbl"><table>
 <tr><th style="width:9mm"></th><th>Step</th><th>You should see</th></tr>
 <tr><td>☐</td><td class="wrap">Power the quad. Wait a few seconds.</td><td class="wrap">LED: a short blink every 3 s once the camera is ready.</td></tr>
-<tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">Aircraft: disarmed. Camera link: READY, in green. Battery and SD readouts are filled in.</td></tr>
+<tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">Drone: disarmed. Camera link: READY, in green. Battery and SD readouts are filled in.</td></tr>
 <tr><td>☐</td><td class="wrap">Look at the goggles.</td><td class="wrap">The four lines show the camera's state, not <b>CAM LOST</b>.</td></tr>
 <tr><td>☐</td><td class="wrap">Binding tab: 3 s test recording.</td><td class="wrap">The camera records for 3 seconds. OSD shows REC.</td></tr>
 <tr><td>☐</td><td class="wrap">Flip the zone switch through every position.</td><td class="wrap">Status shows "Zone N: applied" and the OSD resolution and fps change.</td></tr>
@@ -292,7 +292,7 @@
 <h3>If something drops</h3>
 <ul>
 <li><b>Camera link lost</b> (out of range, camera off, radio dropout): OSD shows <b>CAM LOST</b>, the LED blinks fast, and RecLink keeps trying with growing pauses (1, 2, 4, 8, 16, then every 30 seconds). When it reconnects it checks what the camera is doing and sends at most one corrective command.</li>
-<li><b>Flight controller link lost:</b> RecLink stops writing text. The aircraft is unaffected.</li>
+<li><b>Flight controller link lost:</b> RecLink stops writing text. The drone is unaffected.</li>
 <li><b>RecLink restarts</b> (brown-out or stall): the OSD text freezes for about 0.3 seconds, then recovers. The camera reconnects by itself.</li>
 </ul>
 </div>
