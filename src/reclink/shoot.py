@@ -35,7 +35,7 @@ with sync_playwright() as p:
     # Cam control
     pg=page(tab="cam-control",rec=2)
     cap(pg,"cc_record","#cam-control .card",[(1,"[name='record.mode']"),(2,"[name='record.switch.mode']"),(3,"[name='record.switch.channel']"),(4,"[data-aux-for='record.switch.channel']"),(5,"#rb-record"),(6,"[name='record.switch.threshold_us']")])
-    cap(pg,"cc_preset","#preset-card",[(1,"[name='preset.enabled']"),(2,"[name='preset.channel']"),(3,"#rb-preset"),(4,"#zone-ids"),(5,"#zone-add"),(6,"#gp-zt"),(7,"#gp-live"),(8,"#gp-rows"),(9,"#gp-capture"),("a_zoneend","#zone-add"),("a_gp","#gp-builder"),("a_prot","#gp-rows h4:nth-of-type(2)")])
+    cap(pg,"cc_preset","#preset-card",[(1,"[name='preset.enabled']"),(2,"[name='preset.channel']"),(3,"#rb-preset"),(5,"#zone-add"),(6,"#gp-zt"),(7,"#gp-live"),(8,"#gp-rows"),(9,"#gp-capture"),("a_zoneend","#zone-add"),("a_gp","#gp-builder"),("a_prot","#gp-rows h4:nth-of-type(2)")])
     done(pg)
     pg=page(tab="cam-control",rec=1); cap(pg,"cc_record_armed","#cam-control .card"); done(pg)
     pg=page(tab="cam-control",adv=True,rec=3)
@@ -44,7 +44,7 @@ with sync_playwright() as p:
     # OSD
     pg=page("recording",tab="osd")
     cap(pg,"osd_preview","#osdprev",[(1,"#osdscreen"),(2,"#osdsim")])
-    cap(pg,"osd_editor","#osdedit",[(1,"#palette"),(2,".oline"),(3,".oline .rawtog"),(4,".chip"),("a_l2","[data-i='1']")])
+    cap(pg,"osd_editor","#osdedit",[(1,"#palette"),(2,".oline"),(3,".chip"),("a_l2","[data-i='1']")])
     cap(pg,"osd_settings","#osd",[]); done(pg)
     pg=page("ready",tab="osd"); pg.fill("#osdsim","") if False else None; cap(pg,"osd_lost","#osdprev"); done(pg)
     # Binding
@@ -58,6 +58,25 @@ with sync_playwright() as p:
     pg=page(tab="system"); cap(pg,"system","#system",[(1,"#advmode"),(2,"#identify"),(3,"#factory"),(4,"#otafile")]); done(pg)
     pg=page(adv=True,tab="clock"); cap(pg,"clock","#clock",[(1,"[name='clock.enabled']"),(2,"[name='clock.min_sats']"),(3,"#syncnow")]); done(pg)
     pg=page("nag",nosticky=False); pg.wait_for_timeout(900); cap(pg,"pw_modal","#setup .modal-card"); done(pg)
+    # Remote ID tab (firmware 0.3.0)
+    mock("/mock/rid?on=1&test=done")
+    pg=page(tab="rid")
+    cap(pg,"rid_receiver","#rid-c-recv",[(1,"[name='rid.enabled']"),(2,"[name='rid.mode']"),(3,"[name='rid.ble_duty']"),(4,"[name='rid.min_sats']"),(5,"[name='rid.stale_s']")])
+    cap(pg,"rid_warning","#rid-c-warn",[(1,"[name='rid.warn.enabled']"),(2,"[name='rid.warn.notice_m']"),(3,"[name='rid.warn.bearing']"),(4,"[name='rid.warn.blink']"),(5,"[name='rid.warn.ground']"),(6,"#rid-prev")])
+    cap(pg,"rid_mine","#rid-c-mine",[(1,"[name='rid.ignore.0']")])
+    pg.wait_for_timeout(1800)
+    cap(pg,"rid_near","#rid .card:has(#rid-list)",[(1,"#rid-list"),(2,".ridrow button")])
+    cap(pg,"rid_health","#rid .card:has(#rid-health)",[(1,"#rid-health")])
+    cap(pg,"rid_test","#rid-c-test",[(1,"#rid-testbtn"),(2,"#rid-teststat"),(3,"#rid-tlist")]); done(pg)
+    mock("/mock/rid?on=0&test=idle")
+    pg=page(tab="rid"); pg.wait_for_timeout(1200); cap(pg,"rid_off","#rid-c-recv"); done(pg)
+    mock("/mock/rid?on=1&test=idle&osd=1")
+    pg=page("lost",tab="osd"); pg.check("#osdsim"); pg.wait_for_timeout(300)
+    for _ in range(60):
+        if "!RID" in (pg.inner_text("#osdscreen") or ""): break
+        pg.wait_for_timeout(200)
+    cap(pg,"osd_rid","#osdscreen"); done(pg)
+    mock("/mock/rid?on=0&test=idle")
     # footer bar
     pg=page(tab="osd",nosticky=False); pg.fill("[name='osd.refresh_hz']","6"); pg.wait_for_timeout(400); pg.screenshot(path="shots/savebar_dirty.png",clip={"x":0,"y":770,"width":400,"height":90}); done(pg)
     br.close()

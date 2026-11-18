@@ -5,7 +5,8 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
 import os
-WWW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "components", "portal", "www")
+# The portal front-end lives in the firmware repo; point RECLINK_WWW at its components/portal/www.
+WWW = os.environ.get("RECLINK_WWW") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "components", "portal", "www")
 CAM = {"brand":"gopro","name":"GoPro HERO11 Black","addr":"D4:5E:1A:7C:02:9B"}
 CAM2 = {"brand":"dji","name":"DJI Osmo Action 5","addr":"F0:8C:3E:41:A7:60"}
 
@@ -21,7 +22,7 @@ CONFIG = {
      {"max_us":1700,"id":1,"gp":{"2":4,"3":1,"121":4,"135":1,"114":1,"145":8}},
      {"max_us":2100,"id":2,"gp":{"2":9,"3":0,"121":0,"135":0}}]},
  "osd":{"refresh_hz":4,"type":1,"corner":1,"lines":["%st %et","%bi%bt %wr","%rs%fp %ln","SD %sd"],
-        "fields_mask":4194303,"warn":{"batt_pct":15,"sd_low_min":3,"blink":True,"show_on_lost":True},"units":0},
+        "fields_mask":8388607,"warn":{"batt_pct":15,"sd_low_min":3,"blink":True,"show_on_lost":True},"units":0},
  "clock":{"enabled":True,"require_gps":True,"min_sats":6,"threshold_s":10,"utc_offset_min":0,"dst":False,
           "check_period_min":5,"resync_period_min":60,"retry_count":2},
  "gps_push":{"enabled":False,"rate_hz":1},
@@ -30,7 +31,14 @@ CONFIG = {
  "wifi":{"ssid":"","password":"","channel":0,"portal_trigger":1,"portal_timeout_min":15},
  "led_brightness":128,"ui_flags":3,
  "radio":{"wifi_power":2,"ble_power":2},
+ "rid":{"enabled":False,"mode":0,"ble_duty":1,"stale_s":5,"min_sats":6,
+        "warn":{"enabled":True,"notice_m":1000,"warn_m":300,"alert_m":100,"blink":True,"takeover_level":3,"bearing":0,"ground":False},
+        "ignore":["","","",""]},
 }
+RID_AC = [
+ {"id":"1581F4XYZ7GH2K9LM3P0","n":1,"type":2,"status":2,"dist_m":240,"brg":47,"vert":"above","dv_m":38,"src":"ble","rssi":-71,"age_ms":900,"level":"warn","ignored":False},
+ {"id":"1581F5ABC1DE4F8GH2J6","n":2,"type":2,"status":2,"dist_m":820,"brg":212,"vert":"level","dv_m":4,"src":"ble","rssi":-84,"age_ms":1400,"level":"notice","ignored":False}]
+RID_TEST = {"state":"done","ac":[dict(RID_AC[0],age_ms=1200),dict(RID_AC[1],age_ms=3100)]}
 CAPS = {"2":[100,1,4,6,9,18],"3":[0,1,5,6,8,9,10],"121":[0,2,4,7,8,3],"135":[0,1,2,3,4],"114":[0,1],
         "13":[0,1,2,3,4,7,8,9],"102":[0,1,2,3,4,7,8,9],"145":[0,3,4,5,6,7,8,11,12,13,16,17],"115":[0,2,3,4,5,7],
         "116":[1,2,100],"117":[0,1,2],"118":[0,1,2,3,4,5,6,7,8],"174":[0,1]}
@@ -63,7 +71,17 @@ def status(sc):
       "zone_apply":{"zone":1,"state":"ok","fail":[]} if ready else {"zone":0,"state":"none","fail":[]},
       "model":"HERO11 Black" if ready else "","caps_gen":1 if ready else 0,"sd_missing":False,"sd_full":False,"hot":False}
     if rec: cs["elapsed_s"]=754
-    return {"fw":"0.2.0","uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
+    rid_on = STATE.get("rid",False)
+    rid = {"enabled":rid_on,"available":True,"no_osd_line":False,"reboot_required":False,"active":rid_on,"inactive_reason":"" if rid_on else "disabled",
+           "mode":"ble","min_sats":6,"hdg":"gps","hdg_aligned":True,"mag_present":False,
+           "ble":{"scan":"on" if rid_on else "off","rx":812 if rid_on else 0,"drops":0},
+           "wifi":{"state":"off","ch":6,"rx":0,"drops":0,"frames_30s":0,"beacon":0,"nan":0},
+           "count":2 if rid_on else 0,"decoded":640 if rid_on else 0,"jump_rejects":0,"range_rejects":0,"evict_drops":0,
+           "fault":{"subsystem":False,"ble":False,"wifi":False},
+           "test":{"state":STATE.get("rtest","idle"),"wifi":False,"aborted":False,"secs_left":18 if STATE.get("rtest")=="run" else 0,
+                   "ble_frames":214 if STATE.get("rtest")=="done" else 0,"wifi_frames":0,"beacon":0,"nan":0,"aircraft":2 if STATE.get("rtest")=="done" else 0}}
+    if rid_on: rid["nearest"]={"dist_m":240,"level":"warn"}
+    return {"fw":"0.3.0","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
       "msp":{"connected":sc!="fcdown","api":"1.47","variant":"BTFL","armed":armed,"canvas":"30x16",
              "aux":aux,"gps":{"present":True,"fix":3,"sats":14,"good":True},"fc_utc":1793560000,"last_rx_ms":18,
              "debug":{"rc_period_ms":100,"rc_hz":10.0,"rc_age_ms":42,"rc_channels":18,"status_period_ms":50,"status_hz":20.0,
@@ -78,7 +96,7 @@ def status(sc):
       "wifi":{"portal":True,"default_pw":sc=="nag","pw_nag_off":sc!="nag"},
       "errors":["reconnects:2","msp_crc:0","wdt_recov:0","ble_notify_drops:0","heap_free:41280","heap_min:35120"]}
 
-STATE = {"sc":"ready","adv":False}
+STATE = {"sc":"ready","adv":False,"rid":False,"rtest":"idle","board":False}
 class H(BaseHTTPRequestHandler):
     def log_message(self,*a): pass
     def _j(self,obj,code=200):
@@ -88,6 +106,10 @@ class H(BaseHTTPRequestHandler):
         u=urlparse(self.path); p=u.path
         if p=="/mock/adv": STATE["adv"]=parse_qs(u.query)["on"][0]=="1"; return self._j({"ok":True})
         if p=="/mock/rec": CONFIG["record"]["mode"]=int(parse_qs(u.query)["mode"][0]); return self._j({"ok":True})
+        if p=="/mock/rid": q=parse_qs(u.query); STATE["rid"]=q["on"][0]=="1"; STATE["rtest"]=q.get("test",["idle"])[0]; CONFIG["rid"]["enabled"]=STATE["rid"]; CONFIG["osd"]["lines"][3]="SD %sd %rp" if q.get("osd",["0"])[0]=="1" else "SD %sd"; return self._j({"ok":True})
+        if p=="/mock/board": STATE["board"]=parse_qs(u.query)["on"][0]=="1"; return self._j({"ok":True})
+        if p=="/api/rid": return self._j({"active":STATE["rid"],"hdg":"gps","ac":RID_AC if STATE["rid"] else []})
+        if p=="/api/rid/test": return self._j(RID_TEST if STATE["rtest"]=="done" else {"state":STATE["rtest"],"ac":[]})
         if p=="/mock/set": STATE["sc"]=parse_qs(u.query)["name"][0]; return self._j({"ok":True})
         if p=="/api/status": return self._j(status(STATE["sc"]))
         if p=="/api/config": 

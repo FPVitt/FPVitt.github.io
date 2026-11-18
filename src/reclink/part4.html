@@ -60,14 +60,14 @@
 <div class="callout"><span class="tag">Still stuck</span><p>With <b>Advanced mode</b> on, the System tab shows a short log and the Status tab shows counters and three debug panels. A screenshot of those, plus your firmware version from the header, is what you need when asking for help.</p></div>
 </section>
 
-<!-- ================= 15 REMOTE ID (PLANNED) ================= -->
+<!-- ================= 15 REMOTE ID ================= -->
 <section class="chapter np">
 <p class="chno">Chapter 15</p>
-<h1 class="ch">Remote ID: see other aircraft (planned)</h1>
-<p class="lead">RecLink will listen for the Remote ID broadcasts of other aircraft nearby, and warn you on your OSD when one gets close, with its distance and direction.</p>
+<h1 class="ch">Remote ID: see other aircraft</h1>
+<p class="lead">RecLink listens for the Remote ID broadcasts of other aircraft nearby, and warns you on your OSD when one gets close, with its distance and direction. It is new in firmware 0.3.0 and it is off until you switch it on.</p>
 
-<div class="callout warn"><span class="tag">Planned, not in this firmware</span>
-<p>Remote ID is <b>not in firmware 0.2.1</b>. This chapter describes the design for a coming release, so you know what to expect and what to prepare. Names, defaults and details may still change before it ships. The Remote ID tab and the <code>%rp</code> token described here do not exist yet.</p>
+<div class="callout warn"><span class="tag">New, and not yet proven in flight</span>
+<p>Remote ID is part of the 0.3.0 <b>pre-release</b>. It has not yet been validated in flight, nor for how it shares the radio with the camera link. Try it on the bench first, and watch your camera link closely the first times you fly with it.</p>
 </div>
 
 <div class="callout danger"><span class="tag">Information, not collision avoidance</span>
@@ -81,7 +81,7 @@
 <li><b>Receive only.</b> RecLink never transmits Remote ID. It is not a Remote ID module and does not make your own aircraft compliant with any regulation.</li>
 <li><b>It uses the GPS you already have.</b> There is no extra GPS to add. RecLink reads the position from your flight controller.</li>
 <li><b>Off by default.</b> Nothing changes until you switch it on in the web configurator.</li>
-<li><b>Still a passenger.</b> RecLink adds one read from the flight controller, its heading, and still only writes OSD text. Nothing it hears can reach arming, motors or the flight controller's own alarms.</li>
+<li><b>Still a passenger.</b> RecLink adds two reads from the flight controller, its heading and its altitude, and still only writes OSD text. Nothing it hears can reach arming, motors or the flight controller's own alarms.</li>
 </ul>
 
 <h2>What you need</h2>
@@ -92,29 +92,57 @@
 <tr><td class="wrap">The <code>%rp</code> token in a line</td><td class="wrap">The line that holds the first <code>%rp</code> is the one the warning replaces. Place that line where you cannot miss it.</td></tr>
 </table></div>
 
+<h2>Turn it on</h2>
+<ol class="steps">
+<li><div>Open the <b>Remote ID</b> tab and tick <b>Remote ID receiver</b>.</div></li>
+<li><div>Tap <b>Save settings</b>. A <b>Reboot to apply</b> card appears. Tap <b>Reboot now</b>. Remote ID only reserves its memory when the board starts, so turning it on needs a reboot. Turning it off applies at once.</div></li>
+<li><div>Open the <b>OSD</b> tab and add the <b>Remote ID proximity warning</b> chip (<code>%rp</code>) to a line. If no line holds it, the Remote ID tab and the OSD tab both warn that alerts have nowhere to appear.</div></li>
+<li><div>Tap <b>Save settings</b> again.</div></li>
+</ol>
+<div class="cols">
+<div style="width:66mm;flex:none">
+[[shot name="rid_receiver" cap="The Receiver card in the Remote ID tab." legend="1|Turns the receiver on. Turning on needs Save and a reboot.;2|Listen on Bluetooth, Wi-Fi or both.;3|How hard Bluetooth listens. More effort finds aircraft sooner but takes more airtime from the camera link.;4|The GPS needs this many satellites before Remote ID runs.;5|How old an aircraft's position may get before it is dropped."]]
+</div>
+<div style="width:66mm;flex:none">
+[[shot name="osd_rid" cap="The OSD preview with a Remote ID warning on the line that holds %rp. The small label is only in the preview." legend="1|The preview cycles through sample warnings so you can see what each level looks like on your own layout."]]
+</div>
+</div>
+
 <h2>When it runs</h2>
 <p>Remote ID runs only while it is switched on <b>and</b> the GPS is good. It waits 5 seconds of good GPS before starting, and it keeps going for 15 seconds after the GPS is lost, with a blank warning, so a brief dropout does not make the radios restart.</p>
 [[svg:rid_gate]]
-<p><b>Inactive means nothing happens.</b> No listening, no warnings and no failure message. Your OSD behaves exactly as it does without Remote ID. The Remote ID tab says why it is inactive: no GPS, no fix, or not enough satellites.</p>
+<p><b>Inactive means nothing happens.</b> No listening, no warnings and no failure message. Your OSD behaves exactly as it does without Remote ID. The <b>Health</b> card says why it is inactive.</p>
+<div class="tbl"><table>
+<tr><th>Health says</th><th>It means</th></tr>
+<tr><td>off</td><td class="wrap">The receiver is switched off.</td></tr>
+<tr><td>inactive: reboot required</td><td class="wrap">You switched it on and saved. Reboot the board.</td></tr>
+<tr><td>inactive: memory allocation failed</td><td class="wrap">The board could not reserve the memory at start. Reboot. If it keeps happening, switch Remote ID off.</td></tr>
+<tr><td>inactive: no FC link</td><td class="wrap">The flight controller is not connected.</td></tr>
+<tr><td>inactive: no GPS sensor / no fix</td><td class="wrap">The flight controller has no GPS, or it has no 3D fix yet.</td></tr>
+<tr><td>inactive: 4 of 6 satellites</td><td class="wrap">Not enough satellites yet. The numbers are yours and the minimum you set.</td></tr>
+<tr><td>inactive: GPS data stale</td><td class="wrap">The GPS position has not updated for 3 seconds.</td></tr>
+<tr><td>inactive: settling</td><td class="wrap">The GPS is good and the 5 second wait has started.</td></tr>
+<tr><td>active</td><td class="wrap">Listening, and warnings can appear.</td></tr>
+</table></div>
 
 <h2>How it listens</h2>
 <div class="tbl"><table>
-<tr><th>Mode</th><th>Hears</th><th>When it listens</th></tr>
+<tr><th>Listen on</th><th>Hears</th><th>When it listens</th></tr>
 <tr><td>Bluetooth (default)</td><td class="wrap">Aircraft that broadcast Remote ID over Bluetooth</td><td class="wrap">Whenever Remote ID is active, armed or not</td></tr>
 <tr><td>Wi-Fi</td><td class="wrap">Aircraft that broadcast Remote ID over Wi-Fi</td><td class="wrap">Only while armed</td></tr>
-<tr><td>Both</td><td class="wrap">Both kinds</td><td class="wrap">Bluetooth whenever active, Wi-Fi only while armed</td></tr>
+<tr><td>Bluetooth + Wi-Fi</td><td class="wrap">Both kinds</td><td class="wrap">Bluetooth whenever active, Wi-Fi only while armed</td></tr>
 </table></div>
 [[svg:rid_radio]]
 <div class="callout tip"><span class="tag">Wi-Fi never transmits in flight</span>
 <p>While armed, the Wi-Fi radio is either off or only listening. RecLink sends nothing: no network, no connection, no scan, no frames. The configurator's own network still only exists while you are disarmed.</p>
 </div>
 <div class="callout"><span class="tag">One radio, shared</span>
-<p>The ESP32-C3 has one radio for Bluetooth and Wi-Fi, and the camera link must not suffer. Wi-Fi listening will ship only if bench tests show no camera link drops with it on. If it does not pass, it is dropped and Remote ID stays Bluetooth only. Start with Bluetooth.</p>
+<p>The ESP32-C3 has one radio for Bluetooth and Wi-Fi, and the camera link must not suffer. How well Wi-Fi listening shares the radio with the camera link has not been proven yet. Start with Bluetooth, and move to Wi-Fi only if you need it and your camera link stays solid.</p>
 </div>
-<p>The <b>Bluetooth duty</b> setting is how much of the time RecLink listens. More listening finds aircraft sooner but takes more airtime from the camera link.</p>
+<p>The <b>Bluetooth scan effort</b> setting is how much of the time RecLink listens. More listening finds aircraft sooner but takes more airtime from the camera link.</p>
 <div class="tbl"><table>
-<tr><th>Duty</th><th>Listening</th><th>Notes</th></tr>
-<tr><td>Low</td><td class="wrap">About 10%</td><td class="wrap">Least load on the camera link. Forces the forget time to 10 seconds or more.</td></tr>
+<tr><th>Effort</th><th>Listening</th><th>Notes</th></tr>
+<tr><td>Low</td><td class="wrap">About 10%</td><td class="wrap">Least load on the camera link. Position expiry must be 10 seconds or more.</td></tr>
 <tr><td>Normal (default)</td><td class="wrap">About 25%</td><td class="wrap">A good balance.</td></tr>
 <tr><td>High</td><td class="wrap">About 50%</td><td class="wrap">Finds aircraft fastest. Uses the most airtime.</td></tr>
 </table></div>
@@ -122,7 +150,7 @@
 <h2>Reading the warning</h2>
 <p>The warning is one line of up to 16 characters.</p>
 [[svg:rid_osd]]
-<p>Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units they are in feet up to 1000 ft, then miles. The warning gets more urgent as the aircraft gets closer.</p>
+<p>Distances are in metres up to 1 km, then kilometres. If your OSD uses imperial units (OSD tab, <b>Units</b>) they are in feet up to 1000 ft, then miles. The warning gets more urgent as the aircraft gets closer.</p>
 [[svg:rid_levels]]
 <div class="tbl"><table>
 <tr><th>Level</th><th>Default distance</th><th>What you see</th></tr>
@@ -130,77 +158,94 @@
 <tr><td>Warn</td><td class="wrap">Within 300 m</td><td class="wrap">The <code>!</code> blinks slowly, once a second</td></tr>
 <tr><td>Alert</td><td class="wrap">Within 100 m</td><td class="wrap">The <code>!</code> blinks fast, twice a second, and the warning takes the whole line</td></tr>
 </table></div>
+<div class="cols">
+<div style="width:66mm;flex:none">
+[[shot name="rid_warning" cap="The Proximity warning card." legend="1|Shows or hides the warnings. The receiver keeps running.;2|The distances for Notice, Warn and Alert. They change to feet when the OSD uses imperial units.;3|Bearing style: arrow, compass letters or degrees.;4|Blink the ! as the warning rises.;5|Also warn about aircraft that say they are on the ground.;6|A preview of each level with your settings, and of the failure text."]]
+</div>
+<div style="width:66mm;flex:none">
 <ul>
 <li><b>One aircraft at a time.</b> If several are close, Alerts come first, one after another for 2 seconds each, each taking the whole line. Otherwise Warn and Notice messages take turns, highest level first, 2 seconds each, with your normal line shown for 2 seconds between rounds.</li>
-<li><b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the aircraft is clearly farther than the limit, so the text does not flicker at the edge.</li>
-<li><b>Aircraft on the ground</b> never go above Notice, unless you turn that on.</li>
-<li><b>Old positions are dropped.</b> If an aircraft's position is older than the forget time (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.</li>
-<li><b>Blinking needs a fast OSD.</b> If your OSD refresh is too slow to show the blink, the <code>!</code> stays steady instead.</li>
+<li><b>Above or below.</b> A <code>+</code> after the direction means the aircraft is above you, a <code>-</code> below you. Within 15 m of your height it shows nothing.</li>
+<li><b>Fast to rise, slow to fall.</b> A level goes up at once, but an Alert needs two position updates inside the Alert distance, so one GPS glitch cannot raise it. A level only goes down when the aircraft is clearly farther than the limit.</li>
+<li><b>Aircraft on the ground</b> never go above Notice, unless you tick the box.</li>
+</ul>
+</div>
+</div>
+<ul>
+<li><b>Old positions are dropped.</b> If an aircraft's position is older than <b>Position expires after</b> (5 seconds by default), it disappears from the warning. RecLink never shows a stale distance, and never shows a made-up one.</li>
+<li><b>Blinking needs a fast OSD.</b> If your OSD refresh is too slow to show the blink, the <code>!</code> stays steady instead. It needs at least 2 updates a second for Warn and 4 for Alert.</li>
 <li>GPS is only accurate to a few metres on each side, so nothing finer than about 10 m is claimed. The Alert distance cannot be set below 20 m.</li>
 </ul>
 
 <h2>The direction arrow</h2>
 <p>The arrow shows where the other aircraft is <b>relative to your nose</b>, in the same way as Betaflight's home arrow: up means straight ahead. For that RecLink needs to know which way your aircraft is facing.</p>
 [[svg:rid_heading]]
-<p>This works with a GPS only, with or without a compass. Once you have flown at 5 m/s or faster for 5 seconds with 5 or more satellites, RecLink knows its heading well enough to draw the arrow. Until then, it shows compass letters (N, NE, E and so on) instead. A compass does not shorten the wait, because RecLink cannot tell whether the flight controller is actually using it.</p>
+<p>This works with a GPS only, with or without a compass. Once you have flown at 5 m/s or faster for 5 seconds with 5 or more satellites, RecLink knows its heading well enough to draw the arrow. Until then, it shows compass letters (N, NE, E and so on) instead. A compass does not shorten the wait, because RecLink cannot tell whether the flight controller is actually using it. The <b>Heading</b> row in Health shows whether the heading comes from the <b>FC compass</b> or is <b>GPS-aligned</b>, or is <b>none</b> yet.</p>
 <div class="tbl"><table>
-<tr><th>Direction display</th><th>Shows</th></tr>
-<tr><td>Auto (default)</td><td class="wrap">The arrow when the heading is known, compass letters until then</td></tr>
-<tr><td>Arrow</td><td class="wrap">Only the arrow. Blank until the heading is known</td></tr>
-<tr><td>Compass</td><td class="wrap">Letters: N, NE, E, SE, S, SW, W, NW</td></tr>
-<tr><td>Degrees</td><td class="wrap">A three-digit bearing such as 045</td></tr>
+<tr><th>Bearing style</th><th>Shows</th></tr>
+<tr><td>Auto (arrow, else compass)</td><td class="wrap">The arrow when the heading is known, compass letters until then</td></tr>
+<tr><td>Arrow only</td><td class="wrap">Only the arrow. Blank until the heading is known</td></tr>
+<tr><td>Compass (N, NE, E…)</td><td class="wrap">Letters: N, NE, E, SE, S, SW, W, NW</td></tr>
+<tr><td>Degrees (045)</td><td class="wrap">A three-digit bearing such as 045</td></tr>
 </table></div>
 
 <h2>When the receiver fails</h2>
 <p>If Remote ID is active and a way of listening that you switched on is not working, the warning line shows <b>RID RX FAIL</b> instead of staying quiet. It blinks for 5 seconds, then stays steady. This is so that a dead receiver is never mistaken for an empty sky.</p>
 <ul>
-<li>It appears when the Bluetooth scan is not running, when Wi-Fi listening did not start while armed, or when the Remote ID part itself stopped responding.</li>
+<li>It appears when the Bluetooth scan is not running, when Wi-Fi listening did not start while armed, or when the Remote ID part itself stopped responding. The <b>Faults</b> row in Health names which one.</li>
 <li>An Alert from a path that still works outranks the failure text, and the failure text outranks Warn and Notice.</li>
 <li>A missing GPS is not a failure: the feature is just inactive and shows nothing.</li>
-<li>If the Remote ID part hangs, RecLink switches only that feature off. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.</li>
+<li>If the Remote ID part stops responding, RecLink switches only that feature off until the next reboot. It does <b>not</b> restart the bridge in flight, so your camera control and OSD keep working.</li>
 </ul>
 
 <h2>Your own aircraft</h2>
 <p>If your own aircraft carries a Remote ID module, RecLink would warn you about it. Add its ID to <b>My aircraft</b> (up to four). A new aircraft whose ID has not been heard yet can show at most a Notice for its first 15 seconds, so your own module cannot raise an Alert before the list has a chance to match it.</p>
+<div class="cols">
+<div style="width:66mm;flex:none">
+[[shot name="rid_mine" cap="The My aircraft card." legend="1|One box per aircraft ID, up to four. A Remote ID module shows its ID in its own app or manual."]]
+</div>
+<div style="width:66mm;flex:none">
+[[shot name="rid_near" cap="The Nearby now card, with sample aircraft." legend="1|One row per aircraft heard: number, ID, distance, direction, height difference, source and how long ago.;2|The level it would raise. Ignore adds it to My aircraft after you confirm."]]
+</div>
+</div>
 
-<h2>Settings: the Remote ID tab</h2>
-<div class="tbl"><table>
-<tr><th>Group</th><th>Setting (default)</th></tr>
-<tr><td>Receiver</td><td class="wrap">Remote ID on or off (<b>off</b>) · Mode: Bluetooth, Wi-Fi or Both (<b>Bluetooth</b>) · Bluetooth duty: Low, Normal or High (<b>Normal</b>) · Minimum satellites (<b>6</b>, 5 to 12) · Forget time (<b>5 s</b>, 2 to 30)</td></tr>
-<tr><td>Proximity warning</td><td class="wrap">Warnings on or off (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>) · Direction display (<b>Auto</b>) · Blinking (<b>on</b>) · Show aircraft on the ground (<b>off</b>). A live preview shows the line as it will look, including the failure text.</td></tr>
-<tr><td>My aircraft</td><td class="wrap">Up to four aircraft IDs to ignore</td></tr>
-<tr><td>Nearby now</td><td class="wrap">A live list of up to eight aircraft: ID, type, status, distance, direction, altitude, source, signal strength and age, with an <b>Ignore</b> button on each row</td></tr>
-<tr><td>Health</td><td class="wrap">Whether it is active and why not, where the heading comes from, counters of frames received and dropped, the last test result, and which listening path is failing</td></tr>
-</table></div>
-<ul>
-<li>Changes are saved like every other setting. The Bluetooth part applies at once, and the Wi-Fi part at the next arming.</li>
-<li>The list in <b>Nearby now</b> only shows aircraft heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good.</li>
-<li>The <b>Ignore</b> button asks you to confirm, because it stores another aircraft's ID. The list is meant for your own aircraft.</li>
-</ul>
+<h2>Check what it hears</h2>
+<p><b>Nearby now</b> lists up to eight aircraft heard right now. It only shows aircraft heard over Bluetooth while the configurator is open, because Wi-Fi listening only runs while armed. It only fills while the GPS is good. <b>None heard</b> is not the same as clear.</p>
+<p>The <b>Health</b> card shows whether Remote ID is active, where the heading comes from, how many frames Bluetooth and Wi-Fi received and dropped, and any fault.</p>
+<div class="cols">
+<div style="width:66mm;flex:none">
+[[shot name="rid_health" cap="The Health card." legend="1|Remote ID state, heading, Bluetooth and Wi-Fi counters, and any fault."]]
+</div>
+<div style="width:66mm;flex:none">
+[[shot name="rid_test" cap="The Test reception card, after a test." legend="1|Starts a 30 second test. It needs the receiver on and the aircraft disarmed.;2|The result of the last test: frames counted and aircraft heard.;3|Each aircraft heard: ID, source, how long ago, and range and direction when there is a GPS fix."]]
+</div>
+</div>
 
 <h2>Test the reception</h2>
-<p>The <b>Test reception</b> button listens for 30 seconds on the bench and shows how many Remote ID frames it heard. It works indoors with no GPS, and it only counts frames: no warnings, no distances.</p>
+<p><b>Test reception (30 s)</b> listens for 30 seconds and lists every aircraft it hears. It works indoors with no GPS. Without a GPS fix it shows the ID and source only, with no range or direction.</p>
 <ul>
-<li>It only runs while disarmed. Arming stops it at once.</li>
-<li>If the mode includes Wi-Fi, the configurator's network is switched off for the test, and your phone disconnects. Join it again afterwards.</li>
+<li>It only runs while disarmed, and only with the receiver on and saved. Arming stops it at once.</li>
+<li>With Bluetooth only, the configurator stays connected.</li>
+<li>If the mode includes Wi-Fi, RecLink asks first: the board's Wi-Fi drops for about 30 seconds and your phone disconnects. Reconnect after about 40 seconds and open the page again.</li>
 <li>Use a drone with Remote ID turned on, or a Remote ID phone app, close by.</li>
 </ul>
 
-<h2>Setting it up</h2>
-<ol class="steps">
-<li><div><b>Update the firmware</b> to the release that includes Remote ID, as in chapter 12.</div></li>
-<li><div><b>Check your GPS.</b> In Betaflight Configurator's GPS tab, make sure you get a fix with 6 or more satellites outdoors.</div></li>
-<li><div><b>Open the Remote ID tab</b> and switch it on. Leave the mode on Bluetooth to begin with.</div></li>
-<li><div><b>Add <code>%rp</code></b> to one of your OSD lines (chapter 10) and place that custom message prominently in Betaflight's OSD tab (chapter 4).</div></li>
-<li><div><b>Add your own aircraft's IDs</b> to My aircraft, if you carry a Remote ID module.</div></li>
-<li><div><b>Test the reception</b> on the bench, then outdoors with propellers removed and a known Remote ID transmitter nearby. Check the distance and direction make sense.</div></li>
-<li><div><b>Fly with it</b> as an extra, not as your eyes.</div></li>
-</ol>
+<h2>Settings: the Remote ID tab</h2>
+<div class="tbl"><table>
+<tr><th>Card</th><th>Setting (default)</th></tr>
+<tr><td>Receiver</td><td class="wrap">Remote ID receiver (<b>off</b>) · Listen on: Bluetooth, Wi-Fi or Bluetooth + Wi-Fi (<b>Bluetooth</b>) · Bluetooth scan effort: Low, Normal or High (<b>Normal</b>) · Minimum GPS satellites (<b>6</b>, 5 to 12) · Position expires after (<b>5 s</b>, 2 to 30)</td></tr>
+<tr><td>Proximity warning</td><td class="wrap">Show warnings on the OSD (<b>on</b>) · Notice, Warn and Alert distances (<b>1000, 300, 100 m</b>, each 20 to 5000) · Bearing style (<b>Auto</b>) · Blink the ! (<b>on</b>) · Warn about aircraft on the ground (<b>off</b>)</td></tr>
+<tr><td>My aircraft</td><td class="wrap">Up to four aircraft IDs to ignore</td></tr>
+<tr><td>Nearby now</td><td class="wrap">A live list of aircraft heard, with an <b>Ignore</b> button on each row</td></tr>
+<tr><td>Health</td><td class="wrap">State, heading, Bluetooth and Wi-Fi counters, faults</td></tr>
+<tr><td>Test reception</td><td class="wrap">A 30 second listening test</td></tr>
+</table></div>
+<p>Changes are saved like every other setting. Turning the receiver on needs a reboot. The warning options apply after saving.</p>
 
 <h2>Privacy and rules</h2>
 <ul>
-<li>Received Remote ID data lives in memory only. It is never written to flash and never appears in the log.</li>
-<li>Operator ID, free-text, operator location and authentication data are thrown away without being read. The only identifying value kept is an aircraft's ID, and only so you can ignore your own.</li>
+<li>RecLink keeps only an aircraft's ID, range, direction and whether it is above or below you. Everything else in the broadcast, such as the operator's ID, free text and location, is thrown away.</li>
+<li>What it keeps lives in memory only. It is never written to flash and never appears in the log.</li>
 <li>Data leaves the board only through the Remote ID tab, while the configurator is open.</li>
 <li>RecLink makes no claim about regulation. Whether receiving or showing other people's Remote ID data is restricted where you fly has not been researched, so check your local rules.</li>
 </ul>
@@ -218,12 +263,14 @@
 <h2>If something looks wrong</h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">Nothing ever shows</td><td class="wrap">Remote ID may be off or inactive. Open the Health group to see why: no GPS, no fix, or too few satellites. A quiet OSD is not a clear sky.</td></tr>
-<tr><td class="wrap">The test hears nothing</td><td class="wrap">Move the transmitter close. Its Remote ID may be Wi-Fi only, so set the mode to Wi-Fi or Both.</td></tr>
+<tr><td class="wrap">Nothing ever shows</td><td class="wrap">Remote ID may be off or inactive. Open the Health card to see why. A quiet OSD is not a clear sky.</td></tr>
+<tr><td class="wrap">Health says reboot required</td><td class="wrap">You saved with the receiver on. Tap Reboot now.</td></tr>
+<tr><td class="wrap">The test hears nothing</td><td class="wrap">Move the transmitter close. Its Remote ID may be Wi-Fi only, so set Listen on to Wi-Fi or Bluetooth + Wi-Fi.</td></tr>
 <tr><td class="wrap">Compass letters, no arrow</td><td class="wrap">Fly forward at 5 m/s or more for 5 seconds with 5 or more satellites. Losing the flight controller link restarts the wait.</td></tr>
 <tr><td class="wrap">It warns about my own aircraft</td><td class="wrap">Add its ID to My aircraft.</td></tr>
-<tr><td class="wrap">RID RX FAIL</td><td class="wrap">Open Health to see which way of listening is failing. Switch the mode to Bluetooth only, or reboot the board.</td></tr>
+<tr><td class="wrap">RID RX FAIL</td><td class="wrap">Open Health to see which way of listening is failing. Switch Listen on to Bluetooth only, or reboot the board.</td></tr>
 <tr><td class="wrap">The <code>!</code> does not blink</td><td class="wrap">The OSD refresh rate is too low to show the blink. It needs at least 2 updates a second for Warn and 4 for Alert.</td></tr>
+<tr><td class="wrap">No warning line on the OSD</td><td class="wrap">Add the Remote ID proximity warning (<code>%rp</code>) to one of the four OSD lines and save.</td></tr>
 </table></div>
 </section>
 
@@ -252,6 +299,7 @@
 <tr><td><code>%sg</code></td><td class="wrap">SD free space always in GB</td><td class="wrap">39.3G</td></tr>
 <tr><td><code>%cr</code></td><td class="wrap">Camera link signal in dBm</td><td class="wrap">-52</td></tr>
 <tr><td><code>%wr</code></td><td class="wrap">Active warning (chapter 10)</td><td class="wrap">LOW BATT</td></tr>
+<tr><td><code>%rp</code></td><td class="wrap">Remote ID proximity warning (chapter 15)</td><td class="wrap">!RID1 240M</td></tr>
 <tr><td><code>%cn</code></td><td class="wrap">Craft name from the FC</td><td class="wrap">QUAD1</td></tr>
 <tr><td><code>%gs</code></td><td class="wrap">GPS satellite count</td><td class="wrap">14</td></tr>
 <tr><td><code>%gf</code></td><td class="wrap">GPS fix</td><td class="wrap">3D · NO</td></tr>
@@ -278,6 +326,7 @@
 <tr><td>OSD warnings</td><td class="wrap">Battery 15 % · SD 3 min · blink on · show lost on</td></tr>
 <tr><td>Clock sync</td><td class="wrap">On · needs GPS · 6 satellites · 10 s tolerance · UTC · GoPro check every 5 min · DJI resync every 60 min · 2 retries</td></tr>
 <tr><td>DJI GPS push</td><td class="wrap">Off · 1 Hz</td></tr>
+<tr><td>Remote ID</td><td class="wrap">Off · Bluetooth · Normal scan effort · 6 satellites · positions expire after 5 s · warnings on · 1000 / 300 / 100 m · bearing Auto · blink on · ground aircraft off</td></tr>
 <tr><td>Wi-Fi</td><td class="wrap">SSID RECLINK-XXXX · password reclinkfpv · channel auto · open while disarmed · auto-close 15 min · Max power</td></tr>
 <tr><td>Bluetooth power</td><td class="wrap">Max (+9 dBm)</td></tr>
 <tr><td>Flight controller link</td><td class="wrap">115200 baud · pins not swapped</td></tr>
@@ -342,5 +391,5 @@
 <tr><td>Portal</td><td class="wrap">RecLink's Wi-Fi network and configuration web page.</td></tr>
 <tr><td>Zone</td><td class="wrap">A slice of a radio switch's travel that selects a set of camera settings.</td></tr>
 </table></div>
-<p class="sm mut" style="margin-top:6mm">RecLink User Guide, firmware 0.2.1 (pre-release). Screenshots show the real configurator with example values. Menu names in Betaflight Configurator and on cameras can differ slightly between versions.</p>
+<p class="sm mut" style="margin-top:6mm">RecLink User Guide, firmware 0.3.0 (pre-release). Screenshots show the real configurator with example values. Menu names in Betaflight Configurator and on cameras can differ slightly between versions.</p>
 </section>

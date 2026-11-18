@@ -12,7 +12,7 @@
 <h2>Build the zones</h2>
 <div class="cols">
 <div style="width:68mm;flex:none">
-[[shot name="cc_preset" crop="-,a_zoneend" cap="Zone setup, top half of the card." legend="1|Master switch for zone control.;2|The AUX channel that carries the knob. Use Set AUX like before.;3|The bar splits the 900–2100 µs range into coloured zones. Drag the handles to move the edges.;4|One row per zone with its upper edge in µs. The zone the stick is in is tinted green.;5|Add or remove a zone, from 2 to 6."]]
+[[shot name="cc_preset" crop="-,a_zoneend" cap="Zone setup, top half of the card." legend="1|Master switch for zone control.;2|The AUX channel that carries the knob. Use Set AUX like before.;3|The bar splits the 900–2100 µs range into coloured zones. Drag the handles to move the edges. The zone the stick is in is tinted green.;4|Add or remove a zone, from 2 to 6."]]
 </div>
 <div class="grow">
 <ol class="steps">
@@ -29,7 +29,7 @@
 
 <section>
 <h2>Camera settings for each zone (GoPro)</h2>
-<p>Below the zone rows, one tab per zone shows a row for every setting a zone can change. <b>Tick a row to push that setting; leave it unticked and the camera keeps its own value.</b> Unticked rows are not stored.</p>
+<p>Below the bar, one tab per zone shows a row for every setting a zone can change. <b>Tick a row to push that setting; leave it unticked and the camera keeps its own value.</b> Unticked rows are not stored. The builder works only while the camera is connected: until then it says "Connect the camera to edit zone settings" and stays greyed out.</p>
 <div class="cols">
 <div style="width:74mm;flex:none">
 [[shot name="cc_preset" crop="a_gp,a_prot^" cap="Zone settings builder: zone tabs and the Video group." legend="6|One tab per zone. Selecting a tab shows that zone's settings, and applies it to the camera.;7|With this on, edits are written to the camera as you make them so the option lists match.;8|Each row: tick box, label, option list."]]
@@ -92,13 +92,13 @@
 [[shot name="osd_preview" cap="Live preview." legend="1|A preview drawn the way the firmware formats it. It switches to live data once a camera is connected.;2|Simulate a camera to design lines while nothing is connected."]]
 </div>
 <div style="width:66mm;flex:none">
-[[shot name="osd_editor" crop="-,a_l2" cap="The line editor." legend="1|Tap a token to add it to the selected line.;2|Each line is a row of chips. The selected line has a green border.;3|Raw switches to plain text for the line.;4|Chips can be moved with the arrows or removed with the cross."]]
+[[shot name="osd_editor" crop="-,a_l2" cap="The line editor." legend="1|Tap a token to add it to the selected line.;2|Each line is a row of chips. The selected line has a green border.;3|Chips can be moved with the arrows or removed with the cross."]]
 </div>
 </div>
 <ol class="steps">
 <li><div><b>Tap a line</b> to select it (green border), then <b>tap tokens</b> in the palette to add them. Tap <b>＋ text</b> to add literal text such as <code>SD</code> or <code>BAT</code>.</div></li>
 <li><div>Watch the preview. If a line would be longer than 16 characters the page warns "Line N is X chars, clipped to …". Shorten it.</div></li>
-<li><div>Prefer <b>raw</b> if you like typing templates directly, for example <code>%st %et</code>. Press <b>Save settings</b>.</div></li>
+<li><div>Press <b>Save settings</b>.</div></li>
 </ol>
 
 <h3>When the camera is lost</h3>
@@ -121,6 +121,7 @@
 
 <h2>Warnings</h2>
 <p>The token <code>%wr</code> shows the single most important active warning. A line with <code>%wr</code> in it makes the warning visible without a separate element.</p>
+<p>The token <code>%rp</code> shows the Remote ID warning (chapter 15). The line that holds it is replaced by the warning while an aircraft is close.</p>
 <div class="tbl"><table>
 <tr><th>Priority</th><th>Shows</th><th>When</th></tr>
 <tr><td>1</td><td><b class="bad">CAM LOST</b></td><td class="wrap">Camera link is not ready</td></tr>
@@ -201,7 +202,7 @@
 <tr><th>Setting</th><th>Default</th><th>Notes</th></tr>
 <tr><td>SSID</td><td class="wrap">blank</td><td class="wrap">Up to 19 characters.</td></tr>
 <tr><td>Password</td><td class="wrap">reclinkfpv</td><td class="wrap">Change it. Open network if shorter than 8.</td></tr>
-<tr><td>Open the portal</td><td class="wrap">Always, while disarmed</td><td class="wrap">Or "Only after holding the button" (3 s).</td></tr>
+<tr><td>Open the portal</td><td class="wrap">Always, while disarmed</td><td class="wrap">Or "Only after holding the button" (3 s). Not shown on the RecLink board, where the portal is always on while disarmed.</td></tr>
 <tr><td>Portal auto-close</td><td class="wrap">15 min</td><td class="wrap">1–120. Also needs 60 s with no client.</td></tr>
 <tr><td>Wi-Fi channel (adv.)</td><td class="wrap">0 (auto)</td><td class="wrap">1–13.</td></tr>
 </table></div>
@@ -261,7 +262,7 @@
 <h1 class="ch">Flying with RecLink</h1>
 <p class="lead">Once set up, RecLink does its job without you touching it. This chapter is the routine: check before, know what you are seeing during, and what happens if something drops.</p>
 
-<div class="callout danger"><span class="tag">Remember</span><p>RecLink 0.2.1 is a pre-release and may contain bugs; use it at your own risk. Bench-test every function with props off, as below, and keep your first flights short and over open ground.</p></div>
+<div class="callout danger"><span class="tag">Remember</span><p>RecLink 0.3.0 is a pre-release and may contain bugs; use it at your own risk. Bench-test every function with props off, as below, and keep your first flights short and over open ground.</p></div>
 
 <h2>Bench check, props off</h2>
 <div class="tbl"><table>
