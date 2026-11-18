@@ -118,11 +118,12 @@ C = {
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supported", "The Waveshare ESP32-S3-Zero. Flash it from your browser over USB. Its RGB LED shows the status in colour.")],
         brd_cta="Open the installer",
         rid_h="Coming next: Remote ID", rid_tag="Planned", soon_tag="Coming next", soon_text="Remote ID",
-        rid_s="Support for Remote ID (drone remote identification, also called DRI) is planned: transmit and receive, plus control of the camera, all on one tiny, lightweight board.",
-        rid=[("wifi", "Transmit", "Broadcast your drone's ID and position, to help you meet Remote ID regulations."),
-             ("eye", "Receive", "See other drones in the air around you, and get warnings when it matters the most."),
+        rid_s="Remote ID reception is planned: the same tiny, lightweight board will also listen for other aircraft in the air and warn you on your OSD, next to the camera control it already does.",
+        rid=[("eye", "Receive", "See other drones in the air around you, and get warnings when it matters the most."),
+             ("osd", "A warning in your goggles", "One short line gives the distance and the direction of the aircraft, and blinks faster as it gets closer."),
              ("gps", "Uses your flight controller's GPS", "The position comes from the GPS you already have onboard, so no extra GPS module is needed.")],
-        rid_note="Not in the current firmware. It will be added in a future version.",
+        rid_cta="Read how it will work",
+        rid_note="Not in the current firmware. It will be added in a future version. Receive only: RecLink will not transmit Remote ID, and it is an aid, not collision avoidance.",
         need_h="What you need", need_s="Four things.",
         needs=[("An ESP32 board", "The RecLink board (in development), an ESP32-C3 SuperMini, or a Waveshare ESP32-S3-Zero. They all run the same firmware."),
                ("Betaflight 2025.12 or newer", "MSP API 1.47 or later, for custom OSD messages."),
@@ -194,11 +195,12 @@ C = {
               ("ESP32-S3", "ESP32-S3-Zero", "sup", "Supportata", "La Waveshare ESP32-S3-Zero. Caricala dal browser via USB. Il suo LED RGB mostra lo stato a colori.")],
         brd_cta="Apri l'installer",
         rid_h="In arrivo: Remote ID", rid_tag="In programma", soon_tag="In arrivo", soon_text="Remote ID",
-        rid_s="È in programma il supporto al Remote ID (identificazione remota dei droni, detta anche DRI): trasmissione e ricezione, più il controllo della camera, tutto su una sola scheda minuscola e leggera.",
-        rid=[("wifi", "Trasmetti", "Trasmetti ID e posizione del tuo drone, per aiutarti a rispettare le norme sul Remote ID."),
-             ("eye", "Ricevi", "Vedi gli altri droni in volo intorno a te e ricevi avvisi quando conta di più."),
+        rid_s="È in programma la ricezione del Remote ID: la stessa scheda minuscola e leggera ascolterà anche gli altri aerei in volo e ti avviserà nell'OSD, oltre al controllo della camera che già fa.",
+        rid=[("eye", "Ricevi", "Vedi gli altri droni in volo intorno a te e ricevi avvisi quando conta di più."),
+             ("osd", "Un avviso nei tuoi occhiali", "Una breve riga indica distanza e direzione dell'aereo e lampeggia più in fretta man mano che si avvicina."),
              ("gps", "Usa il GPS del flight controller", "La posizione arriva dal GPS che hai già a bordo, quindi non serve un modulo GPS in più.")],
-        rid_note="Non è nel firmware attuale. Arriverà in una versione futura.",
+        rid_cta="Leggi come funzionerà",
+        rid_note="Non è nel firmware attuale. Arriverà in una versione futura. Solo ricezione: RecLink non trasmetterà il Remote ID ed è un aiuto, non un sistema anticollisione.",
         need_h="Cosa ti serve", need_s="Quattro cose.",
         needs=[("Una scheda ESP32", "La scheda RecLink (in sviluppo), una ESP32-C3 SuperMini oppure una Waveshare ESP32-S3-Zero. Eseguono tutte lo stesso firmware."),
                ("Betaflight 2025.12 o successivo", "MSP API 1.47 o superiore, per i messaggi OSD personalizzati."),
@@ -278,7 +280,7 @@ def render(lang, ctx, cards_html):
 
     rids = "".join(f'<article class="feat"><span class="ico">{I[k]}</span><div><h3>{esc(t)}</h3><p>{esc(d)}</p></div></article>' for k, t, d in c["rid"])
     rid = (f'<section class="rl-sec" id="remote-id"><h2 class="sec">{c["rid_h"]} <span class="badge warn">{c["rid_tag"]}</span></h2><p class="sec-s">{c["rid_s"]}</p>'
-           f'<div class="feats">{rids}</div><p class="fine">{c["rid_note"]}</p></section>')
+           f'<div class="feats">{rids}</div><p class="cta-row"><a class="btn" href="{p["guide"]}#ch15">{c["rid_cta"]}</a></p><p class="fine">{c["rid_note"]}</p></section>')
 
     safes = "".join(f'<article class="safe"><span class="ico">{I[k]}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></article>' for k, t, d in c["safes"])
     safe = f'<section class="rl-sec" id="safety"><h2 class="sec">{c["safe_h"]}</h2><p class="sec-s">{c["safe_s"]}</p><div class="safes">{safes}</div></section>'

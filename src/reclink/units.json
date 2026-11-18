@@ -25,7 +25,7 @@
 "u24": "Passenger, not pilot",
 "u25": "RecLink only <b>reads</b> from your flight controller and <b>writes OSD text</b>. It cannot arm, disarm, move motors, change PIDs or touch the radio link. That boundary is enforced in the firmware itself, not left to convention. If RecLink fails, the worst thing that can happen in flight is that the OSD text stops updating.",
 "u26": "How to read this guide",
-"u27": "Chapters 1–6 take you from a bare board to a paired camera and are meant to be followed in order. Chapters 7–12 explain each part of the web configurator. Chapters 13 and 14 cover day-to-day use and what to do when something is wrong. Screenshots show the real configurator on a phone.",
+"u27": "Chapters 1–6 take you from a bare board to a paired camera and are meant to be followed in order. Chapters 7–12 explain each part of the web configurator. Chapters 13 and 14 cover day-to-day use and what to do when something is wrong. Chapter 15 describes Remote ID, a planned feature. Screenshots show the real configurator on a phone.",
 "u28": "Wire it",
 "u29": "Betaflight",
 "u30": "Join Wi-Fi",

@@ -23,7 +23,7 @@ u23|||Questo firmware (0.2.1) è una <b>pre-release e può contenere bug</b>. Us
 u24|||Passeggero, non pilota
 u25|||RecLink <b>legge</b> soltanto dal flight controller e <b>scrive testo OSD</b>. Non può armare, disarmare, far girare i motori, cambiare i PID o toccare il collegamento radio. Questo limite è imposto dal firmware stesso, non lasciato alla convenzione. Se RecLink si guasta, nel peggiore dei casi in volo il testo OSD smette di aggiornarsi.
 u26|||Come leggere questa guida
-u27|||I capitoli 1–6 portano dalla scheda nuda a una camera abbinata e vanno seguiti in ordine. I capitoli 7–12 spiegano ogni parte del configuratore web. I capitoli 13 e 14 trattano l'uso quotidiano e cosa fare quando qualcosa non va. Gli screenshot mostrano il vero configuratore su smartphone. L'interfaccia del configuratore è in inglese: i nomi di schede, pulsanti e campi sono lasciati in inglese, come li vedrai sullo schermo.
+u27|||I capitoli 1–6 portano dalla scheda nuda a una camera abbinata e vanno seguiti in ordine. I capitoli 7–12 spiegano ogni parte del configuratore web. I capitoli 13 e 14 trattano l'uso quotidiano e cosa fare quando qualcosa non va. Il capitolo 15 descrive il Remote ID, una funzione prevista. Gli screenshot mostrano il vero configuratore su smartphone. L'interfaccia del configuratore è in inglese: i nomi di schede, pulsanti e campi sono lasciati in inglese, come li vedrai sullo schermo.
 u28|||Cablaggio
 u29|||Betaflight
 u30|||Wi-Fi
