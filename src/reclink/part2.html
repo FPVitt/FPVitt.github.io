@@ -100,7 +100,7 @@
 <li><b>(connected)</b> means the camera is linked now. <b>(active)</b> means RecLink is using that camera but it is still connecting.</li>
 <li><b>With no camera paired</b>, those tabs only ask you to pair one on the <b>Binding</b> tab.</li>
 </ul>
-<div class="callout"><span class="tag">If another camera takes over</span><p>If your usual camera is off and another paired one connects, its settings take over right away, even in flight: its OSD lines, record mode, zones, Remote ID and clock. RecLink always prefers the camera it used last, so this only happens when that one is missing.</p></div>
+<div class="callout"><span class="tag">If another camera takes over</span><p>If your usual camera is off, or another paired camera is closer, that camera connects and its settings take over right away, even in flight: its OSD lines, record mode, zones, Remote ID and clock. RecLink chooses by signal strength, not by which camera it used last.</p></div>
 </section>
 
 <!-- ================= 6 PAIRING ================= -->
@@ -134,6 +134,8 @@
 <li><div>RecLink connects to the first matching DJI it hears. After this, reconnecting is automatic and needs no confirmation.</div></li>
 <li><div>As with a GoPro, RecLink asks you to name the camera.</div></li>
 </ol>
+<p>DJI support is still experimental. It has been bench-tested with an Osmo Action 6: the camera connects, mode, resolution, frame rate, battery and SD space show up, and the 3 s test recording works. RecLink reads the model from the camera itself.</p>
+<div class="callout"><span class="tag">An Osmo that is "off" is asleep</span><p>Switching an Osmo off with a long press puts it to sleep: its Bluetooth stays on, it can still connect to RecLink and answer it, but it sends no data. If it sits next to the board, RecLink may try it before a camera that is really on. After a failed attempt RecLink skips that camera for 30 seconds so another paired camera can connect. To avoid the detour, turn the camera's Bluetooth setting off when you are not using it.</p></div>
 </section>
 
 <section>
@@ -145,14 +147,14 @@
 <div class="grow">
 <ul>
 <li><b>Up to four cameras</b>, any mix of GoPro and DJI. Pairing a new one keeps the others.</li>
-<li><b>One at a time.</b> At power-up RecLink scans for every paired camera and connects to the strongest signal after about 2.5 seconds, or at once to one stronger than −50 dBm.</li>
+<li><b>One at a time.</b> At power-up RecLink scans for every paired camera and connects to the strongest signal after about 2.5 seconds, or at once to one stronger than −50 dBm. A camera that fails to connect, or drops within a minute of connecting, is skipped for 30 seconds so another paired camera can connect.</li>
 <li><b>Badges:</b> <span class="ok">● Connected · −52 dBm</span>, <span class="wn">Connecting…</span>, or <span class="mut">Standby</span> for a paired camera that is not in use.</li>
 <li><b>3 s test recording</b> starts the connected camera for three seconds. Use it to prove the whole chain works. It only runs while disarmed.</li>
 <li><b>Rename</b> changes the name you gave a camera. The name is used in the Camera list, on this tab and on the Status tab. The camera's own name stays under it, next to its address.</li>
 <li><b>Forget</b> removes one camera. <b>Forget all cameras</b> appears when two or more are paired and asks twice.</li>
 <li><b>Telemetry poll</b> (advanced mode) sets how often a GoPro is asked for status: Fast 0.5 s, Normal 1 s or Slow 1.5 s. Normal is right for most setups.</li>
 </ul>
-<div class="callout"><span class="tag">When a bond is lost</span><p>If the camera forgets RecLink (you reset its connections, or re-paired it to a phone), the next reconnects fail. After three failures RecLink forgets that camera's bond and raises a <b>REPAIR_NEEDED</b> flag on the Status tab. Pair the camera again.</p></div>
+<div class="callout"><span class="tag">When a bond is lost</span><p>If the camera forgets RecLink (you reset its connections, or re-paired it to a phone), the next reconnects fail. After three failures RecLink forgets that camera's bond and raises a <b>REPAIR_NEEDED</b> flag on the Status tab. Pair the camera again. A DJI that drops the connection at once three times in a row is treated the same way. Nothing is forgotten while the drone is armed.</p></div>
 </div>
 </div>
 [[shot name="binding_empty" w="62mm" cap="A fresh board has no cameras. Pair one to begin."]]
