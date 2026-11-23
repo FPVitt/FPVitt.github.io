@@ -167,7 +167,7 @@ u846|||Il firmware 0.3.3 è una <b>pre-release e può contenere bug</b>. Usalo a
 u847|||Ti serve
 u848|||La scheda RecLink
 u849|||Un flight controller con <b>Betaflight 2025.12 o successivo</b> e una UART libera
-u850|||Una GoPro (HERO 9 o successiva) o, in via sperimentale, una DJI Osmo, carica e con una scheda SD
+u850|||Una GoPro (HERO 9 o successiva) o una DJI Osmo, carica e con una scheda SD
 u851|||Un telefono o un portatile
 u852|||Tempo necessario
 u853|||Circa 15 minuti, una sola volta. Poi RecLink si avvia da solo a ogni accensione del quad.
