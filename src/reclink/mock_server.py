@@ -46,7 +46,7 @@ CAPS = {"2":[100,1,4,6,9,18],"3":[0,1,5,6,8,9,10],"121":[0,2,4,7,8,3],"135":[0,1
 AUX = [1500,1500,1000,1500] + [1000]*14
 AUX[9] = 1500   # aux6 knob mid
 def status(sc):
-    ready = sc not in ("nocam","lost","pairing","fcdown")
+    ready = sc not in ("nocam","lost","pairing","fcdown","repair")
     rec = sc in ("recording",)
     armed = sc in ("recording_armed",)
     aux = list(AUX)
