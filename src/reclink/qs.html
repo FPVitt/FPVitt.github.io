@@ -7,7 +7,7 @@
 <p class="lead">RecLink links your flight controller to your action camera. The camera records when you arm, and its status appears on your OSD. This page takes you from the box to your first recording.</p>
 
 <div class="callout danger"><span class="tag">Pre-release firmware</span>
-<p>Firmware 0.3.2 is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Do every step below with the <b>propellers removed</b>, and check that everything works before you fly.</p></div>
+<p>Firmware 0.3.3 is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Do every step below with the <b>propellers removed</b>, and check that everything works before you fly.</p></div>
 
 <div class="cols">
 <div class="grow">
@@ -160,9 +160,9 @@
 </ol>
 <h3>DJI Osmo</h3>
 <ol class="steps">
-<li><div>Press <b>Pair DJI</b>, then put the camera in pairing mode and <b>accept the prompt</b> on its screen.</div></li>
+<li><div>Press <b>Pair DJI</b>. The same popup opens: switch the Osmo on and wake its screen, press <b>Scan now</b>, tap your camera and <b>confirm the request on its screen</b>.</div></li>
 </ol>
-<p>Pair once. After that RecLink reconnects by itself, and picks the strongest one if you have several (up to four).</p>
+<p>Pair once. After that RecLink reconnects by itself, and picks the strongest one if you have several (up to four). When the camera is connected, the banner at the top of the <b>Status</b> tab turns green and says <b>Ready</b>.</p>
 </div>
 </div>
 </section>
@@ -206,7 +206,7 @@
 <p>RecLink writes four lines of text into the OSD elements you placed in step 2.</p>
 <div class="tbl"><table>
 <tr><td><code>REC 12:34</code></td><td class="wrap">Recording, and for how long</td></tr>
-<tr><td><code>###-78%</code></td><td class="wrap">Camera battery</td></tr>
+<tr><td><code>78%</code></td><td class="wrap">Camera battery, with a battery symbol in front of it</td></tr>
 <tr><td><code>4K60 WIDE</code></td><td class="wrap">Resolution, frame rate and lens</td></tr>
 <tr><td><code>SD 1H</code></td><td class="wrap">Recording time left on the card</td></tr>
 <tr><td><code>CAM LOST</code></td><td class="wrap">The camera is not connected</td></tr>

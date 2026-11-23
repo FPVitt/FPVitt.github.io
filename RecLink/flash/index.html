@@ -68,7 +68,7 @@ code{background:var(--well);padding:1px 5px;border-radius:4px}.card ol{padding-l
 <p class="mut"><span class="en">Later updates for any board: System tab → Firmware update with the OTA images from the <a href="https://github.com/FPVitt/RecLink/releases">Releases</a> page.</span><span class="it">Aggiornamenti successivi per qualsiasi scheda: scheda Sistema → Aggiornamento firmware con le immagini OTA dalla pagina <a href="https://github.com/FPVitt/RecLink/releases">Releases</a>.</span></p>
 </main>
 </div>
-<footer class="site-foot"><div><span>Firmware 0.3.2 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Source on GitHub</a><a href="https://github.com/FPVitt/RecLink/blob/main/LICENSE" target="_blank" rel="noopener"><span class="en">Free software · GPL-3.0</span><span class="it">Software libero · GPL-3.0</span></a><a href="#top" class="to-top">Back to top</a></div></footer>
+<footer class="site-foot"><div><span>Firmware 0.3.3 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Source on GitHub</a><a href="https://github.com/FPVitt/RecLink/blob/main/LICENSE" target="_blank" rel="noopener"><span class="en">Free software · GPL-3.0</span><span class="it">Software libero · GPL-3.0</span></a><a href="#top" class="to-top">Back to top</a></div></footer>
 <script src="../assets/stats.js" defer></script>
 <script src="../assets/site.js" defer></script>
 <script>
@@ -83,7 +83,7 @@ var bs=document.querySelectorAll('.board'),ps=document.querySelectorAll('#panels
 function pick(x){bs.forEach(function(e){e.setAttribute('aria-pressed',e.dataset.b===x)});ps.forEach(function(p){p.classList.toggle('on',p.id==='p-'+x)});try{history.replaceState(null,'','#'+x)}catch(e){}}
 bs.forEach(function(e){e.onclick=function(){pick(e.dataset.b);T('flash/board/'+e.dataset.b)}});
 var h=(location.hash||'').slice(1);if(h)pick(h);
-var USB={'v0.2.1':true,'v0.3.0':true,'v0.3.1':true,'v0.3.2':true};      // versions whose full USB flash images are bundled in this folder
+var USB={'v0.2.1':true,'v0.3.0':true,'v0.3.1':true,'v0.3.2':true,'v0.3.3':true};      // versions whose full USB flash images are bundled in this folder
 var sel=document.getElementById('ver-sel'),rels=[];
 function pickAsset(r){var as=r.assets||[],f=null;as.forEach(function(x){if(x.name==='fc_cam_bridge-esp32c3.bin')f=x});
  if(!f)as.forEach(function(x){if(/\.bin$/.test(x.name)&&!/supermini|s3/i.test(x.name)&&!f)f=x});return f}
@@ -100,7 +100,7 @@ new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(fu
 fetch('https://api.github.com/repos/FPVitt/RecLink/releases?per_page=20').then(function(r){return r.json()}).then(function(a){
  rels=(a||[]).filter(function(r){return !r.draft});sel.innerHTML='';
  rels.forEach(function(r,i){var o=document.createElement('option');o.textContent=r.tag_name+(r.prerelease?' (pre-release)':'')+(i===0?' · latest':'');sel.appendChild(o)});apply();
-}).catch(function(){document.getElementById('ver-note').textContent='(offline: showing 0.3.2)'});
+}).catch(function(){document.getElementById('ver-note').textContent='(offline: showing 0.3.3)'});
 })();
 </script>
 <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>

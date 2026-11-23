@@ -6,7 +6,7 @@
 
 <div class="cols">
 <div style="width:64mm;flex:none">
-[[shot name="first_screen" cap="The configurator on a phone." legend="1|RecLink logo. The centre dot turns red and pulses while the camera records.;2|Seven tabs. Clock only appears in advanced mode.;3|Status card: live link state.;4|Firmware version and uptime."]]
+[[shot name="first_screen" cap="The configurator on a phone." legend="1|RecLink logo. The centre dot is white with no camera, green with a camera connected, and flashes red while recording.;2|Seven tabs. Clock only appears in advanced mode.;3|Verdict banner: Ready, Not ready, or REC while recording.;4|Firmware version and uptime."]]
 </div>
 <div class="grow">
 <ol class="steps">
@@ -59,7 +59,7 @@
 <div class="grow">
 <div class="tbl"><table>
 <tr><th>Tab</th><th>What it does</th></tr>
-<tr><td>Status</td><td class="wrap">Live view: drone, camera, recording, warnings, camera settings</td></tr>
+<tr><td>Status</td><td class="wrap">Live view: a Ready / Not ready verdict, the aircraft, the camera and its settings</td></tr>
 <tr><td>Cam control</td><td class="wrap">Recording mode, radio switch, zones and camera settings, highlight</td></tr>
 <tr><td>OSD</td><td class="wrap">The four OSD lines, preview, warning thresholds</td></tr>
 <tr><td>Remote ID</td><td class="wrap">Switch the Remote ID receiver on, set the warnings, see nearby drones</td></tr>
@@ -87,14 +87,15 @@
 <p>The <b>Cam control</b>, <b>OSD</b>, <b>Remote ID</b> and <b>Clock</b> tabs hold settings that belong to one camera. Each paired camera keeps its own copy, and RecLink uses the copy of whichever camera is connected. Everything else (Wi-Fi, the flight controller link, LED, GPS push) is shared by all cameras.</p>
 <div class="cols">
 <div style="width:62mm;flex:none">
-[[shot name="camsel_locked" cap="Nothing chosen yet: the four tabs are grayed out." legend="1|The Camera list at the top of those tabs. It starts on Select a camera."]]
+[[shot name="camsel_locked" cap="Two cameras paired, none connected: the four tabs stay grayed out." legend="1|The Camera list at the top of those tabs, still on Select a camera."]]
 </div>
 <div style="width:62mm;flex:none">
 [[shot name="camsel" cap="A camera chosen: its settings load and can be edited." legend="1|The chosen camera. The word in brackets says whether it is connected."]]
 </div>
 </div>
 <ul>
-<li><b>Choose a camera first.</b> Until you pick one in the <b>Camera</b> list, those four tabs are grayed out. The page remembers your choice in the browser.</li>
+<li><b>The page picks a camera for you.</b> With one camera paired it selects that one. With several it selects the connected one, or else the one you used last on this phone. If none of those applies, the four tabs stay grayed out until you choose a camera in the <b>Camera</b> list.</li>
+<li><b>It follows the camera that connects.</b> When a camera connects, the list switches to it, unless you have unsaved edits. You can choose another paired camera in the list at any time. The page remembers your last choice in the browser.</li>
 <li><b>Edit any paired camera</b>, connected or not. Its settings are saved with it and apply as soon as it connects. The zone camera settings and <b>Sync now</b> need that camera to be connected.</li>
 <li><b>A newly paired camera starts as a copy</b> of the settings in use, so you only change what is different.</li>
 <li><b>(connected)</b> means the camera is linked now. <b>(active)</b> means RecLink is using that camera but it is still connecting.</li>
@@ -128,14 +129,22 @@
 </div>
 
 <h2>DJI Osmo</h2>
+<div class="cols">
+<div style="width:66mm;flex:none">
+[[shot name="pair_modal_dji" cap="Guided DJI pairing." legend="1|Steps to get the Osmo ready.;2|DJI cameras found appear here as buttons. Tap yours.;3|Start the search, then confirm the request on the camera's screen."]]
+</div>
+<div class="grow">
 <ol class="steps">
-<li><div>On the <b>Binding</b> tab press <b>Pair DJI</b>. The portal shows "pairing… put the DJI into pairing mode now".</div></li>
-<li><div>Put the Osmo into its pairing mode. On a first pairing the camera shows a confirmation prompt on its screen. <b>Accept it.</b></div></li>
-<li><div>RecLink connects to the first matching DJI it hears. After this, reconnecting is automatic and needs no confirmation.</div></li>
-<li><div>As with a GoPro, RecLink asks you to name the camera.</div></li>
+<li><div>On the <b>Binding</b> tab press <b>Pair DJI</b>. The same guided popup opens as for a GoPro.</div></li>
+<li><div>Switch the Osmo on, wake its screen and keep it within about a metre of the board. Close the DJI app on any phone: the camera accepts only one connection.</div></li>
+<li><div>Press <b>Scan now</b> and tap your camera in the list.</div></li>
+<li><div><b>Confirm the pairing request on the camera's screen.</b> A first pairing waits up to 45 seconds for you to do this. A green check confirms the pairing.</div></li>
+<li><div>After this, reconnecting is automatic and needs no confirmation. As with a GoPro, RecLink then asks you to name the camera.</div></li>
 </ol>
-<p>DJI support is still experimental. It has been bench-tested with an Osmo Action 6: the camera connects, mode, resolution, frame rate, battery and SD space show up, and the 3 s test recording works. RecLink reads the model from the camera itself.</p>
-<div class="callout"><span class="tag">An Osmo that is "off" is asleep</span><p>Switching an Osmo off with a long press puts it to sleep: its Bluetooth stays on, it can still connect to RecLink and answer it, but it sends no data. If it sits next to the board, RecLink may try it before a camera that is really on. After a failed attempt RecLink skips that camera for 30 seconds so another paired camera can connect. To avoid the detour, turn the camera's Bluetooth setting off when you are not using it.</p></div>
+</div>
+</div>
+<p>DJI support is still experimental. It has been bench-tested with one Osmo Action 6 and no other DJI camera: the camera connects, mode, resolution, frame rate, battery and SD space show up, and the 3 s test recording works. RecLink reads the model from the camera itself. It has not been flight tested.</p>
+<div class="callout"><span class="tag">An Osmo that is switched off</span><p>When the Osmo reports that it is switched off or asleep while its Bluetooth link is still up, RecLink drops the link at once and waits before it looks for that camera again: 5, then 10, 20 and 40 seconds. It does not chase a camera that is off, so another paired camera can connect. Switch the Osmo on and RecLink finds it again after the current wait. This wait has not been verified on hardware yet.</p></div>
 </section>
 
 <section>
@@ -154,7 +163,7 @@
 <li><b>Forget</b> removes one camera. <b>Forget all cameras</b> appears when two or more are paired and asks twice.</li>
 <li><b>Telemetry poll</b> (advanced mode) sets how often a GoPro is asked for status: Fast 0.5 s, Normal 1 s or Slow 1.5 s. Normal is right for most setups.</li>
 </ul>
-<div class="callout"><span class="tag">When a bond is lost</span><p>If the camera forgets RecLink (you reset its connections, or re-paired it to a phone), the next reconnects fail. After three failures RecLink forgets that camera's bond and raises a <b>REPAIR_NEEDED</b> flag on the Status tab. Pair the camera again. A DJI that drops the connection at once three times in a row is treated the same way. Nothing is forgotten while the drone is armed.</p></div>
+<div class="callout"><span class="tag">When a bond is lost</span><p>If a GoPro forgets RecLink (you reset its connections, or re-paired it to a phone), the next reconnects fail. After three failures RecLink forgets that camera's bond and shows a <b>Camera re-pair needed</b> chip (REPAIR_NEEDED) on the Status tab. Pair the camera again. Nothing is forgotten while the drone may be airborne.</p><p>An Osmo is different. After it has been fully shut down for a while it forgets its pairing key and goes silent when RecLink uses the old one. RecLink notices at the first stall, removes its own stale key and pairs again by itself, which takes a few seconds, so you no longer need to re-bind. A bonded Osmo that drops the link at once while it is still starting up is not counted as a lost pairing. This was confirmed on the bench with one Osmo Action 6 only, and never in flight.</p></div>
 </div>
 </div>
 [[shot name="binding_empty" w="62mm" cap="A fresh board has no cameras. Pair one to begin."]]
@@ -165,57 +174,82 @@
 <section class="chapter np">
 <p class="chno">Chapter 7</p>
 <h1 class="ch">Reading the Status tab</h1>
-<p class="lead">Status is read-only and tells you, at a glance, whether the chain flight controller → RecLink → camera is healthy.</p>
+<p class="lead">Status is read-only and tells you, at a glance, whether the chain flight controller → RecLink → camera is healthy. Read it from the top: the banner first, then the two tiles, then the camera card.</p>
 
 <div class="cols">
 <div style="width:62mm;flex:none">
-[[shot name="status_now" cap="The Now card." legend="1|Drone, camera link, recording and warnings.;2|Fault flags appear below as chips, if any."]]
-[[shot name="status_rec" w="62mm" cap="The same card while recording. The logo dot is red and pulses."]]
+[[shot name="status_now" cap="Ready: the verdict banner and the two tiles." legend="1|Verdict banner. Green Ready, with the camera, its resolution and frame rate and the recording time left.;2|Aircraft tile: armed state, Betaflight variant, MSP version, OSD grid and GPS.;3|Camera tile: name, brand, link state and signal strength.;4|Signal bars."]]
+[[shot name="status_rec" w="62mm" cap="While recording the banner is red, with a pulsing dot and the elapsed time. The logo dot flashes red too."]]
 </div>
 <div class="grow">
-<h3>Now</h3>
+<h3>The verdict</h3>
 <div class="tbl"><table>
-<tr><td>Drone</td><td class="wrap"><b>armed</b> or <b>disarmed</b>, or <b>FC offline</b> if the flight controller link is down.</td></tr>
-<tr><td>Camera link</td><td class="wrap">Brand, state and name, e.g. <span class="ok">GOPRO · READY · GoPro HERO11 Black</span>. States: IDLE, SCAN, CONNECTING, BONDING, SYNCING, READY, LOST.</td></tr>
-<tr><td>Recording</td><td class="wrap"><b>stopped</b>, or <b>REC</b> with elapsed time.</td></tr>
-<tr><td>Warnings</td><td class="wrap">The active warning, or <span class="ok">none</span>. Same list as the OSD (see chapter 10).</td></tr>
+<tr><td><span class="ok">Ready</span></td><td class="wrap">The flight controller is linked, a camera is connected and nothing needs attention. The line under it shows the camera name, the resolution and frame rate and the recording time left.</td></tr>
+<tr><td><span class="bad">REC 12:34</span></td><td class="wrap">The camera is recording and the timer shows how long. Any problem still appears as a chip under it.</td></tr>
+<tr><td><span class="wn">Not ready</span></td><td class="wrap">Something needs attention. The problems are listed as chips under the heading. The banner is amber when there are only warnings and red when at least one problem needs action.</td></tr>
 </table></div>
-<p><b>Test record (3 s)</b> sits under the Now card. It starts the connected camera for three seconds, the same as the button on the Binding tab. It is grayed out until a camera is connected, and it only works while the drone is disarmed.</p>
-<h3>Fault flags</h3>
+<h3>The two tiles</h3>
 <div class="tbl"><table>
-<tr><td>FC_OFFLINE</td><td class="wrap">No MSP link. Check wiring, UART, baud.</td></tr>
-<tr><td>OSD_UNSUPPORTED</td><td class="wrap">Betaflight is older than API 1.47.</td></tr>
-<tr><td>REPAIR_NEEDED</td><td class="wrap">Camera bond is missing. Pair again.</td></tr>
-<tr><td>CFG_RESET</td><td class="wrap">Stored settings were unreadable. Defaults loaded. Re-pair.</td></tr>
-<tr><td>CLOCK_SYNC_FAIL</td><td class="wrap">Clock sync gave up with the time still off.</td></tr>
-<tr><td>WDT_RECOVERED</td><td class="wrap">The board restarted after a stall. Tap the chip to acknowledge.</td></tr>
+<tr><td>Aircraft</td><td class="wrap"><b>ARMED</b> in red, <b>Disarmed</b> in green, or <b>No FC</b> if the flight controller link is down. Under it: the Betaflight variant, the MSP API version, the <b>OSD grid</b> (the canvas size the FC reports) and the GPS fix with the satellite count, or "No GPS on the FC".</td></tr>
+<tr><td>Camera</td><td class="wrap">The camera name, its brand and link state (idle, connecting, bonding, syncing, lost) and, once connected, the signal in dBm with four signal bars. While the link is scanning it just says <b>Scanning</b>, and <b>None</b> if nothing is paired.</td></tr>
 </table></div>
+<div class="callout"><span class="tag">What Ready does not mean</span><p>Ready only describes the chain RecLink can see. It does not check your propellers, your flight battery or Betaflight's own arming checks.</p></div>
 </div>
 </div>
 </section>
 
 <section>
+<h3>Problem chips</h3>
 <div class="cols">
-<div style="width:66mm;flex:none">
-[[shot name="status_details" cap="The Details card with a GoPro connected." legend="1|Flight controller, GPS and camera readouts. Blank values mean the camera has not confirmed them.;2|Ask the camera for fresh values."]]
+<div style="width:62mm;flex:none">
+[[shot name="status_repair" w="62mm" cap="Not ready: the problem is listed as a chip under the banner." legend="1|The banner turns red when a problem needs action.;2|One chip per problem. A chip with a cross is acknowledged by tapping it."]]
 </div>
 <div class="grow">
-<h3>Details</h3>
+<p>Every problem has its own chip, so you can see all of them at once. Amber chips are warnings. Red chips are problems that can cost you footage or need an action from you. Most chips disappear on their own as soon as the cause is gone.</p>
+<div class="callout tip"><span class="tag">Tap to acknowledge</span><p>The chip <b>Recovered from a watchdog reset</b> has a cross. It stays until you tap it, because the board restarted by itself and you should know.</p></div>
+</div>
+</div>
+<div class="tbl"><table>
+<tr><th>Chip</th><th>What it means</th></tr>
+<tr><td>No FC link</td><td class="wrap">No MSP link to the flight controller. Check wiring, UART and baud rate.</td></tr>
+<tr><td>No camera paired</td><td class="wrap">Nothing is paired yet. Pair a camera on the Binding tab.</td></tr>
+<tr><td>No camera</td><td class="wrap">A camera is paired but not connected right now. RecLink keeps looking for it.</td></tr>
+<tr><td>Camera lost</td><td class="wrap">The link was up and dropped. RecLink is reconnecting. (red)</td></tr>
+<tr><td>No SD card · SD card full</td><td class="wrap">The camera has no card, or the card is full. (red)</td></tr>
+<tr><td>Camera hot</td><td class="wrap">The camera reports overheating. (red)</td></tr>
+<tr><td>Camera battery 12%</td><td class="wrap">The camera battery is at 15 % or lower.</td></tr>
+<tr><td>GPS: no fix</td><td class="wrap">The flight controller has a GPS but no good fix yet.</td></tr>
+<tr><td>Camera re-pair needed</td><td class="wrap">The camera bond is missing (REPAIR_NEEDED). Pair the camera again. (red)</td></tr>
+<tr><td>Settings were reset to defaults</td><td class="wrap">The stored settings were unreadable and the defaults were loaded (CFG_RESET). Check your settings and pair the camera again.</td></tr>
+<tr><td>FC too old for custom OSD</td><td class="wrap">Betaflight is older than MSP API 1.47 (OSD_UNSUPPORTED).</td></tr>
+<tr><td>Clock sync failed</td><td class="wrap">Clock sync gave up with the time still off (CLOCK_SYNC_FAIL).</td></tr>
+<tr><td>Remote ID receiver stopped</td><td class="wrap">The Remote ID receiver hung and switched itself off, and the OSD shows RID RX FAIL (RID_FAULT). Reboot to restore it. (red)</td></tr>
+<tr><td>Recovered from a watchdog reset</td><td class="wrap">The board restarted after a stall (WDT_RECOVERED). Tap the chip to acknowledge it.</td></tr>
+</table></div>
+</section>
+
+<section>
+<div class="cols">
+<div style="width:66mm;flex:none">
+[[shot name="status_details" cap="The Camera card with a GoPro connected, and the settings list opened." legend="1|Battery, SD space, time left and the shooting mode.;2|The collapsed Camera settings list, opened here.;3|Record for three seconds to prove the link.;4|Ask the camera for fresh values."]]
+</div>
+<div class="grow">
+<h3>Camera card</h3>
+<p>This card only exists once a camera is paired. It has four readouts and a list of settings.</p>
 <ul>
-<li><b>Flight controller:</b> Betaflight variant and MSP API version. <b>OSD grid</b> is the canvas size the FC reports.</li>
-<li><b>GPS:</b> fix, satellites and whether the fix counts as good. Shown when the FC has a GPS.</li>
-<li><b>Camera signal, time left, camera battery, SD card.</b> SD shows free space in GB, or "NO SD" / "FULL".</li>
-<li><b>Mode, resolution, profile</b> as the camera reports them now.</li>
-<li><b>GoPro Video and Protune values:</b> ISO max/min, shutter angle (for example <code>180° (1/120)</code>), Protune, white balance, colour, sharpness, EV comp, 10-bit.</li>
-<li><b>Zone settings</b> is the result of the last zone apply: <span class="ok">Zone 1: applied</span>, "partly applied (not accepted: …)", "not applied" or "waiting for camera".</li>
+<li><b>Battery</b> with a bar that turns red at 15 % or less, <b>SD free</b> in GB (or NO CARD / FULL), <b>Time left</b> for recording and <b>Shooting</b>: resolution, frame rate and aspect ratio.</li>
+<li><b>Camera settings</b> is a list that starts collapsed. For a GoPro it shows the profile (with bit depth), ISO max and min, shutter angle (for example <code>180° (1/120)</code>), Protune, white balance, colour, sharpness, EV comp and 10-bit. A DJI does not report these values, so they stay hidden.</li>
+<li><b>Zone settings</b>, at the end of that list, is the result of the last zone apply: <span class="ok">Zone 1: applied</span>, "partly applied (not accepted: …)", "not applied" or "waiting for camera".</li>
+<li><b>Test record (3 s)</b> starts the connected camera for three seconds, the same as the button on the Binding tab. It is grayed out until a camera is connected, and it only works while the drone is disarmed.</li>
+<li><b>Refresh</b> asks the camera for fresh values.</li>
 </ul>
-<div class="callout"><span class="tag">A blank is honest</span><p>RecLink only shows what the camera confirmed. After a disconnect, every camera value goes blank until the camera answers again. That is deliberate: a stale or guessed number is worse than none.</p></div>
+<div class="callout"><span class="tag">A missing value is honest</span><p>RecLink only shows what the camera confirmed. A value the camera has not confirmed is hidden, not shown as a dash or a guess, and after a disconnect every camera value disappears until the camera answers again. That is deliberate: a stale or guessed number is worse than none.</p></div>
 <p>With <b>Advanced mode</b> on, a <b>Diagnostics</b> card adds the live AUX channel values in µs, error counters and three collapsible debug panels (MSP link, Bluetooth connection, record trigger). They are useful for support, and for finding the stick position of a switch.</p>
 </div>
 </div>
 <div class="cols">
 <div style="width:62mm;flex:none">
-[[shot name="status_fcdown" w="62mm" cap="With no flight controller link the page says FC offline and the readouts go blank."]]
+[[shot name="status_fcdown" w="62mm" cap="With no flight controller link the banner says Not ready with a No FC link chip, and the Aircraft tile says No FC."]]
 </div>
 <div style="width:62mm;flex:none">
 [[shot name="status_diag" w="62mm" cap="Diagnostics card (advanced mode)."]]

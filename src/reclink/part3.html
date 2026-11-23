@@ -7,7 +7,7 @@
 [[svg:zones]]
 
 <div class="callout"><span class="tag">GoPro and DJI work differently</span>
-<p><b>GoPro:</b> a zone does not load a GoPro preset. It pushes the settings you ticked (resolution, frame rate, lens and so on) to the camera's current video preset. <b>DJI:</b> each zone applies a camera <b>Mode ID</b> number instead, typed into a field on the zone row.</p></div>
+<p><b>GoPro:</b> choose a <b>Zone style</b>. <b>Simple</b> stores one of the camera's own presets in each zone and switches the camera to it. <b>Advanced</b> does not load a preset: it pushes the settings you ticked (resolution, frame rate, lens and so on) to the camera's current video preset. <b>DJI:</b> each zone applies a camera <b>Mode ID</b> number instead, typed into a field on the zone row.</p></div>
 
 <h3>DJI zones</h3>
 <div class="cols">
@@ -20,6 +20,21 @@
 <li><b>Apply</b> sits beside each zone. It switches the connected camera to that zone's mode straight away, so you can check a number without moving the switch.</li>
 <li>Apply uses the saved zone, so press <b>Save</b> first. It is grayed out unless the camera you are editing is the one that is connected.</li>
 </ul>
+</div>
+</div>
+
+<h3>GoPro zones: Simple or Advanced</h3>
+<div class="cols">
+<div style="width:62mm;flex:none">
+[[shot name="cc_gp_simple" cap="Simple zones: each zone is one of the camera's own presets." legend="1|Zone style set to Simple.;2|The number of the camera preset this zone loads.;3|Capture takes the preset the camera is on now.;4|Apply loads this zone's preset on the connected camera now."]]
+</div>
+<div class="grow">
+<p>With a GoPro paired, the zone card has a <b>Zone style</b> list. The choice applies to every zone.</p>
+<ul>
+<li><b>Simple: switch the camera's preset.</b> Each zone stores one of the camera's own presets, by its <b>Preset ID</b>. When the stick rests in that zone, RecLink asks the camera to load that preset and pushes nothing else. Set the preset up on the camera first, then press <b>Capture</b> next to the zone: it takes the preset the camera is on now. <b>Apply</b> loads the zone's preset on the connected camera straight away, so press <b>Save</b> first.</li>
+<li><b>Advanced: push settings.</b> You tick the individual settings in the builder described below, and RecLink writes them to the camera's current video preset.</li>
+</ul>
+<p>The camera's presets are not listed by name, so you pick one by putting the camera on it and pressing Capture. The Simple style has not been tested on a real camera yet: loading a preset, and the Capture and Apply buttons, are unverified on hardware.</p>
 </div>
 </div>
 
@@ -42,8 +57,8 @@
 </section>
 
 <section>
-<h2>Camera settings for each zone (GoPro)</h2>
-<p>Below the bar, one tab per zone shows a row for every setting a zone can change. <b>Tick a row to push that setting; leave it unticked and the camera keeps its own value.</b> Unticked rows are not stored. The builder works only while the camera is connected: until then it says "Connect the camera to edit zone settings" and stays greyed out.</p>
+<h2>Camera settings for each zone (GoPro, Advanced style)</h2>
+<p>With the <b>Advanced</b> zone style, below the bar, one tab per zone shows a row for every setting a zone can change. <b>Tick a row to push that setting; leave it unticked and the camera keeps its own value.</b> Unticked rows are not stored. The builder works only while the camera is connected: until then it says "Connect the camera to edit zone settings" and stays greyed out.</p>
 <div class="cols">
 <div style="width:74mm;flex:none">
 [[shot name="cc_preset" crop="a_gp,a_prot^" cap="Zone settings builder: zone tabs and the Video group." legend="6|One tab per zone. Selecting a tab shows that zone's settings, and applies it to the camera.;7|With this on, edits are written to the camera as you make them so the option lists match.;8|Each row: tick box, label, option list."]]
@@ -73,7 +88,7 @@
 <li>RecLink applies a zone only when the camera link is ready, the camera is not busy, and it is <b>not recording</b>. To allow changes mid-recording, tick <b>Allow zone changes while recording</b> in the advanced options.</li>
 <li>If a blocker is in the way it retries on the next tick, without losing the choice.</li>
 <li>After a reconnect, the last selected zone is applied once, in case you changed the camera by hand.</li>
-<li>The Status tab's <b>Zone settings</b> row tells you the result: applied, partly applied (and which settings the camera refused), or not applied. The camera, not RecLink, decides what it accepts. Some options are not valid with the current resolution.</li>
+<li>The <b>Zone settings</b> row in the Camera settings list on the Status tab tells you the result: applied, partly applied (and which settings the camera refused), or not applied. The camera, not RecLink, decides what it accepts. Some options are not valid with the current resolution.</li>
 <li>A zone with no ticked settings pushes nothing.</li>
 </ul>
 <div class="callout"><span class="tag">Example</span><p>Zone 1 for cruising: 4K, 60 fps, Wide, HyperSmooth High. Zone 2 for a slow-motion pass: 2.7K, 120 fps, Linear. Zone 3 for max frame rate: 1080, 240 fps. Flip the switch in flight and the camera follows once the stick has rested for 400 ms.</p></div>
@@ -89,7 +104,7 @@
 <div class="grow">
 <div class="diagram" style="margin:0"><svg viewBox="0 0 440 210" role="img" aria-label="OSD lines and the templates that make them">
   <rect x="6" y="6" width="200" height="198" rx="10" fill="var(--osd-bg)" stroke="var(--line)" stroke-width="1.3"/>
-  <g font-family="var(--font-mono)" font-weight="800" font-size="17" style="letter-spacing:.04em"><text x="22" y="48">REC 12:34</text><text x="22" y="86">###-78%</text><text x="22" y="124">4K60 WIDE</text><text x="22" y="162">SD 1H</text></g>
+  <g font-family="var(--font-mono)" font-weight="800" font-size="17" style="letter-spacing:.04em"><text x="22" y="48">REC 12:34</text><rect x="22" y="73" width="18" height="12" rx="2" fill="none" stroke="var(--fg)" stroke-width="2"/><rect x="24.5" y="75.5" width="11" height="7" fill="var(--fg)"/><text x="46" y="86">78%</text><text x="22" y="124">4K60 WIDE</text><text x="22" y="162">SD 1H</text></g>
   <g class="t10"><text x="226" y="30" class="m t9 b" style="letter-spacing:.08em">TEMPLATE</text><text x="226" y="44" class="b" font-family="var(--font-mono)">%st %et</text><text x="226" y="82" font-family="var(--font-mono)" class="b">%bi%bt %wr</text><text x="226" y="120" font-family="var(--font-mono)" class="b">%rs%fp %ln</text><text x="226" y="158" font-family="var(--font-mono)" class="b">SD %sd</text></g>
   <g class="m t9"><text x="226" y="56">state and elapsed time</text><text x="226" y="94">battery icon, %, warning</text><text x="226" y="132">resolution, fps, lens</text><text x="226" y="170">literal text + SD left</text></g>
 </svg></div>
@@ -115,6 +130,9 @@
 <li><div>Press <b>Save settings</b>.</div></li>
 </ol>
 
+<p>The token <code>%cm</code> shows the connected camera's model as a short code that fits a line: <code>GP11</code> for a HERO11 Black, <code>GP11M</code> for a HERO11 Black Mini, <code>A6</code> for an Osmo Action 6, <code>A5P</code> for an Osmo Action 5 Pro, <code>O360</code> for an Osmo 360. It is blank until the camera has reported its model. The token <code>%bi</code> draws the camera battery as the Betaflight battery symbol, on analog and digital OSDs alike.</p>
+<p>The palette grays out tokens the connected camera cannot fill. A DJI never reports lens, aspect ratio, colour profile, bit depth or the Protune group, so those tokens are grayed out while a DJI is the camera on screen. A line that already holds one keeps it, drawn with a dashed outline and a hint to remove it: nothing is removed silently.</p>
+
 <h3>When the camera is lost</h3>
 <div class="cols">
 <div style="width:66mm;flex:none">
@@ -128,9 +146,9 @@
 <h2>OSD type, rate and units</h2>
 <div class="tbl"><table>
 <tr><th>Setting</th><th>Default</th><th>What it does</th></tr>
-<tr><td>OSD type</td><td>Digital</td><td class="wrap"><b>Digital</b> keeps only glyphs DJI-style goggles draw: letters (uppercased), digits and basic punctuation. Battery bars become <code>#</code> and <code>-</code>. <b>Analog</b> leaves the text alone and allows the full character set, including a battery icon.</td></tr>
+<tr><td>OSD type</td><td>Digital</td><td class="wrap"><b>Digital</b> keeps only glyphs DJI-style goggles draw: letters (uppercased), digits and basic punctuation. The battery icon <code>%bi</code> still draws Betaflight's battery symbol; this has not been verified on real goggles yet. <b>Analog</b> leaves the text alone and allows the full character set.</td></tr>
 <tr><td>Update rate</td><td>4 Hz</td><td class="wrap">1–10 Hz. A change takes full effect after a reboot.</td></tr>
-<tr><td>Speed units</td><td>Metric</td><td class="wrap">Affects the <code>%sp</code> token only: km/h or mph.</td></tr>
+<tr><td>Units</td><td>Metric</td><td class="wrap">Metric or imperial for the distance in the Remote ID warning (<code>%rp</code>): metres and kilometres, or feet and miles. No other token uses it.</td></tr>
 </table></div>
 
 <h2>Warnings</h2>
@@ -194,8 +212,8 @@
 [[shot name="cc_hilight" cap="Highlight tag (advanced mode)."]]
 </div>
 <div class="grow">
-<p>A spare switch can drop a marker into the footage at a moment you want to find later. Choose its <b>AUX channel</b> (use <b>Set AUX</b>). When the channel rises above <b>1700 µs</b>, RecLink sends a <b>HiLight</b> tag to a GoPro. A DJI has no highlight tag, so RecLink presses its <b>Quick-Switch</b> button instead.</p>
-<p>It works only while the camera link is ready. A momentary push-button is ideal.</p>
+<p>A spare switch can drop a marker into the footage at a moment you want to find later. Choose its <b>AUX channel</b> (use <b>Set AUX</b>). When the channel rises above <b>1700 µs</b>, RecLink sends a <b>HiLight</b> tag to a GoPro. It works only while the camera link is ready. A momentary push-button is ideal.</p>
+<p>A DJI has no highlight tag, so the card is hidden while a DJI is the camera on screen and nothing is sent. RecLink used to press the Osmo's Quick-Switch button instead, but on a real Action 6 that changed the mode from Video to Photo, so it was removed.</p>
 </div>
 </div>
 </section>
@@ -277,16 +295,16 @@
 <h1 class="ch">Flying with RecLink</h1>
 <p class="lead">Once set up, RecLink does its job without you touching it. This chapter is the routine: check before, know what you are seeing during, and what happens if something drops.</p>
 
-<div class="callout danger"><span class="tag">Remember</span><p>RecLink 0.3.2 is a pre-release and may contain bugs; use it at your own risk. Bench-test every function with props off, as below, and keep your first flights short and over open ground.</p></div>
+<div class="callout danger"><span class="tag">Remember</span><p>RecLink 0.3.3 is a pre-release and may contain bugs; use it at your own risk. Bench-test every function with props off, as below, and keep your first flights short and over open ground.</p></div>
 
 <h2>Bench check, props off</h2>
 <div class="tbl"><table>
 <tr><th style="width:9mm"></th><th>Step</th><th>You should see</th></tr>
 <tr><td>☐</td><td class="wrap">Power the quad. Wait a few seconds.</td><td class="wrap">LED: a short blink every 3 s once the camera is ready.</td></tr>
-<tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">Drone: disarmed. Camera link: READY, in green. Battery and SD readouts are filled in.</td></tr>
+<tr><td>☐</td><td class="wrap">Open the portal. Look at the Status tab.</td><td class="wrap">The banner says Ready, in green. Aircraft: Disarmed. Camera: connected. Battery and SD free are filled in.</td></tr>
 <tr><td>☐</td><td class="wrap">Look at the goggles.</td><td class="wrap">The four lines show the camera's state, not <b>CAM LOST</b>.</td></tr>
 <tr><td>☐</td><td class="wrap">Binding tab: 3 s test recording.</td><td class="wrap">The camera records for 3 seconds. OSD shows REC.</td></tr>
-<tr><td>☐</td><td class="wrap">Flip the zone switch through every position.</td><td class="wrap">Status shows "Zone N: applied" and the OSD resolution and fps change.</td></tr>
+<tr><td>☐</td><td class="wrap">Flip the zone switch through every position.</td><td class="wrap">Status, under Camera settings, shows "Zone N: applied" and the OSD resolution and fps change.</td></tr>
 <tr><td>☐</td><td class="wrap">Flip the record switch (if used).</td><td class="wrap">The camera starts and stops. OSD shows REC and the elapsed time.</td></tr>
 <tr><td>☐</td><td class="wrap">Close the portal, then <b>arm</b> with props off.</td><td class="wrap">The Wi-Fi network vanishes. The camera starts recording after the start delay. LED is solid.</td></tr>
 <tr><td>☐</td><td class="wrap"><b>Disarm.</b></td><td class="wrap">The camera stops after the stop delay. The Wi-Fi can come back.</td></tr>

@@ -16,7 +16,7 @@ CONFIG = {
  "camera":{"brand":"gopro","bonded":True,"addr":CAM["addr"],"name":CAM["name"],"dji_device_id":0},
  "record":{"mode":1,"arm_delay_ms":300,"stop_delay_ms":1500,"verify_timeout_ms":800,"retry_count":3,
            "switch":{"channel":5,"threshold_us":1700,"mode":0}},
- "preset":{"enabled":True,"channel":6,"dwell_ms":400,"allow_during_record":False,"n_zones":3,
+ "preset":{"enabled":True,"channel":6,"dwell_ms":400,"allow_during_record":False,"n_zones":3,"gp_mode":0,
    "bands":[
      {"max_us":1300,"id":0,"gp":{"2":1,"3":5,"121":0,"135":2,"114":1,"145":0}},
      {"max_us":1700,"id":1,"gp":{"2":4,"3":1,"121":4,"135":1,"114":1,"145":8}},
@@ -51,7 +51,7 @@ def status(sc):
     armed = sc in ("recording_armed",)
     aux = list(AUX)
     if sc == "recording": aux[3+5] = 1900
-    dji = sc == "dji"      # the DJI camera is the connected one (firmware 0.3.2: Apply button on DJI zones)
+    dji = sc == "dji"      # the DJI camera is the connected one (firmware 0.3.2+: Apply button on DJI zones)
     cams = [] if sc in ("nocam","pairing") else [
         {**CAM, "model":CAM["name"], "active":not dji, "connected":ready and not dji, "poll_ds":10},
         {**CAM2,"model":CAM2["name"],"active":dji,"connected":dji,"poll_ds":10}]
@@ -59,8 +59,9 @@ def status(sc):
       "name":CAM["name"] if ready else "", "addr":CAM["addr"], "rssi":-52 if ready else 0,
       "bonded": sc not in ("nocam","pairing"), "last_rx_ms":120, "count":len(cams), "cameras":cams}
     if sc == "pairing":
-        camera["found"] = [{"name":"GoPro 4912","addr":"D4:5E:1A:7C:02:9B","rssi":-48},
-                           {"name":"GoPro 8130","addr":"D4:5E:1A:21:90:C4","rssi":-71}]
+        camera["found"] = ([{"name":"OsmoAction6-3E4F","addr":"F0:8C:3E:41:A7:60","rssi":-46}] if STATE.get("pairbrand")=="dji" else
+                           [{"name":"GoPro 4912","addr":"D4:5E:1A:7C:02:9B","rssi":-48},
+                            {"name":"GoPro 8130","addr":"D4:5E:1A:21:90:C4","rssi":-71}])
     cs = {"recording":"true" if rec else "false",
       "battery_pct":V(78 if ready else 0, ready),"sd_remaining_kb":V(41200000,ready),"rec_remaining_s":V(5160,ready),
       "resolution":V("4K",ready),"fps":V("60",ready),"aspect":V("16:9",ready),"profile":V("STD",ready),
@@ -71,6 +72,7 @@ def status(sc):
       "gp_set":{"2":1,"3":5,"121":0,"135":2,"114":1,"145":0,"13":1,"102":8,"115":0,"116":2,"117":1,"118":4,"174":0} if ready else {},
       "zone_apply":{"zone":1,"state":"ok","fail":[]} if ready else {"zone":0,"state":"none","fail":[]},
       "model":"HERO11 Black" if ready else "","caps_gen":1 if ready else 0,"sd_missing":False,"sd_full":False,"hot":False}
+    if ready: cs["preset_id"]=65537        # GoPro status 97 (firmware 0.3.3): the camera's active preset
     if rec: cs["elapsed_s"]=754
     rid_on = STATE.get("rid",False)
     rid = {"enabled":rid_on,"available":True,"no_osd_line":False,"reboot_required":False,"active":rid_on,"inactive_reason":"" if rid_on else "disabled",
@@ -82,7 +84,7 @@ def status(sc):
            "test":{"state":STATE.get("rtest","idle"),"wifi":False,"aborted":False,"secs_left":18 if STATE.get("rtest")=="run" else 0,
                    "ble_frames":214 if STATE.get("rtest")=="done" else 0,"wifi_frames":0,"beacon":0,"nan":0,"aircraft":2 if STATE.get("rtest")=="done" else 0}}
     if rid_on: rid["nearest"]={"dist_m":240,"level":"warn"}
-    return {"fw":"0.3.2","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
+    return {"fw":"0.3.3","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
       "msp":{"connected":sc!="fcdown","api":"1.47","variant":"BTFL","armed":armed,"canvas":"30x16",
              "aux":aux,"gps":{"present":True,"fix":3,"sats":14,"good":True},"fc_utc":1793560000,"last_rx_ms":18,
              "debug":{"rc_period_ms":100,"rc_hz":10.0,"rc_age_ms":42,"rc_channels":18,"status_period_ms":50,"status_hz":20.0,
@@ -108,6 +110,11 @@ class H(BaseHTTPRequestHandler):
         if p=="/mock/adv": STATE["adv"]=parse_qs(u.query)["on"][0]=="1"; return self._j({"ok":True})
         if p=="/mock/rec": CONFIG["record"]["mode"]=int(parse_qs(u.query)["mode"][0]); return self._j({"ok":True})
         if p=="/mock/rid": q=parse_qs(u.query); STATE["rid"]=q["on"][0]=="1"; STATE["rtest"]=q.get("test",["idle"])[0]; CONFIG["rid"]["enabled"]=STATE["rid"]; CONFIG["osd"]["lines"][3]="SD %sd %rp" if q.get("osd",["0"])[0]=="1" else "SD %sd"; return self._j({"ok":True})
+        if p=="/mock/gpmode":     # firmware 0.3.3: GoPro zones "simple" (the zone holds one of the camera's own presets)
+            on=parse_qs(u.query)["on"][0]=="1"; CONFIG["preset"]["gp_mode"]=1 if on else 0
+            for b,i,j in zip(CONFIG["preset"]["bands"],(65536,65537,65538),(0,1,2)):
+                b["id"]=i if on else j
+            return self._j({"ok":True})
         if p=="/mock/board": STATE["board"]=parse_qs(u.query)["on"][0]=="1"; return self._j({"ok":True})
         if p=="/api/rid": return self._j({"active":STATE["rid"],"hdg":"gps","ac":RID_AC if STATE["rid"] else []})
         if p=="/api/rid/test": return self._j(RID_TEST if STATE["rtest"]=="done" else {"state":STATE["rtest"],"ac":[]})
@@ -135,8 +142,11 @@ class H(BaseHTTPRequestHandler):
             self.send_response(200); self.send_header("Content-Type",ct+"; charset=utf-8"); self.send_header("Content-Length",str(len(b))); self.end_headers(); self.wfile.write(b); return
         self.send_response(404); self.end_headers()
     def do_POST(self):
-        n=int(self.headers.get("Content-Length") or 0); self.rfile.read(n)
-        if self.path.startswith("/api/camera/pair"): STATE["sc"]="pairing"
+        n=int(self.headers.get("Content-Length") or 0); body=self.rfile.read(n)
+        if self.path.startswith("/api/camera/pair"):
+            try: STATE["pairbrand"]=json.loads(body or b"{}").get("brand","gopro")
+            except Exception: pass
+            STATE["sc"]="pairing"
         return self._j({"ok":True,"applied":True})
 if __name__=="__main__":
     ThreadingHTTPServer(("127.0.0.1",8099),H).serve_forever()

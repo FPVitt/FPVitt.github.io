@@ -36,7 +36,7 @@
 <main id="main" class="content">
 <div class="hero"><p class="eyebrow">Quick start</p><h1>RecLink</h1><p class="sub">RecLink links your flight controller to your action camera. The camera records when you arm, and its status appears on your OSD. This page takes you from the box to your first recording.</p><div class="meta"><span>Betaflight 2025.12+</span><span>GoPro HERO 9–13</span><span>DJI Osmo (experimental)</span><span>ESP32-C3 / S3</span></div></div><div class="intro"><section class="qshead">
 <div class="callout danger"><span class="tag">Pre-release firmware</span>
-<p>Firmware 0.3.2 is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Do every step below with the <b>propellers removed</b>, and check that everything works before you fly.</p></div>
+<p>Firmware 0.3.3 is a <b>pre-release and may contain bugs</b>. Use it at your own risk. Do every step below with the <b>propellers removed</b>, and check that everything works before you fly.</p></div>
 <div class="cols">
 <div class="grow">
 <h3>You need</h3>
@@ -150,7 +150,7 @@
 <h1 class="ch">Open the configurator<a aria-label="link" class="anchor" href="#step3">#</a></h1>
 <div class="cols keep">
 <div style="width:56mm;flex:none">
-<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The configurator on your phone." href="../assets/img/first_screen-54c12086.webp"><img alt="The configurator on your phone." decoding="async" height="1720" loading="lazy" src="../assets/img/first_screen-54c12086.webp" width="800"/></a></div><figcaption>The configurator on your phone.</figcaption></figure>
+<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="The configurator on your phone." href="../assets/img/first_screen-c9e8a53e.webp"><img alt="The configurator on your phone." decoding="async" height="1720" loading="lazy" src="../assets/img/first_screen-c9e8a53e.webp" width="800"/></a></div><figcaption>The configurator on your phone.</figcaption></figure>
 </div>
 <div class="grow">
 <ol class="steps">
@@ -178,9 +178,9 @@
 </ol>
 <h3>DJI Osmo</h3>
 <ol class="steps">
-<li><div>Press <b>Pair DJI</b>, then put the camera in pairing mode and <b>accept the prompt</b> on its screen.</div></li>
+<li><div>Press <b>Pair DJI</b>. The same popup opens: switch the Osmo on and wake its screen, press <b>Scan now</b>, tap your camera and <b>confirm the request on its screen</b>.</div></li>
 </ol>
-<p>Pair once. After that RecLink reconnects by itself, and picks the strongest one if you have several (up to four).</p>
+<p>Pair once. After that RecLink reconnects by itself, and picks the strongest one if you have several (up to four). When the camera is connected, the banner at the top of the <b>Status</b> tab turns green and says <b>Ready</b>.</p>
 </div>
 </div>
 </section><section class="chapter" id="step5">
@@ -214,13 +214,13 @@
 <h1 class="ch">See it on your OSD<a aria-label="link" class="anchor" href="#step6">#</a></h1>
 <div class="cols">
 <div style="width:62mm;flex:none">
-<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="OSD tab: what your goggles show." href="../assets/img/osd_preview-0c94713c.webp"><img alt="OSD tab: what your goggles show." decoding="async" height="642" loading="lazy" src="../assets/img/osd_preview-0c94713c.webp" width="736"/></a></div><figcaption>OSD tab: what your goggles show.</figcaption></figure>
+<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="OSD tab: what your goggles show." href="../assets/img/osd_preview-6bacf537.webp"><img alt="OSD tab: what your goggles show." decoding="async" height="642" loading="lazy" src="../assets/img/osd_preview-6bacf537.webp" width="736"/></a></div><figcaption>OSD tab: what your goggles show.</figcaption></figure>
 </div>
 <div class="grow">
 <p>RecLink writes four lines of text into the OSD elements you placed in <a class="xref" href="#step2">step 2</a>.</p>
 <div class="tbl"><table>
 <tr><td><code>REC 12:34</code></td><td class="wrap">Recording, and for how long</td></tr>
-<tr><td><code>###-78%</code></td><td class="wrap">Camera battery</td></tr>
+<tr><td><code>78%</code></td><td class="wrap">Camera battery, with a battery symbol in front of it</td></tr>
 <tr><td><code>4K60 WIDE</code></td><td class="wrap">Resolution, frame rate and lens</td></tr>
 <tr><td><code>SD 1H</code></td><td class="wrap">Recording time left on the card</td></tr>
 <tr><td><code>CAM LOST</code></td><td class="wrap">The camera is not connected</td></tr>
@@ -271,7 +271,7 @@
 </section>
 </main>
 </div>
-<footer class="site-foot"><div><span>Firmware 0.3.2 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Source on GitHub</a><a href="https://github.com/FPVitt/RecLink/blob/main/LICENSE" target="_blank" rel="noopener">Free software · GPL-3.0</a><a href="#top" class="to-top">Back to top</a></div></footer>
+<footer class="site-foot"><div><span>Firmware 0.3.3 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Source on GitHub</a><a href="https://github.com/FPVitt/RecLink/blob/main/LICENSE" target="_blank" rel="noopener">Free software · GPL-3.0</a><a href="#top" class="to-top">Back to top</a></div></footer>
 <script src="../assets/stats.js" defer></script>
 <script src="../assets/site.js" defer></script>
 </body>

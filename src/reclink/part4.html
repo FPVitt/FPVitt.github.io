@@ -25,7 +25,7 @@
 <h2>Flight controller and OSD</h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">Status shows FC offline</td><td class="wrap">Check wiring: FC TX to RecLink RX and FC RX to RecLink TX. Check MSP is enabled on that UART at 115200. Try <b>Swap TX/RX pins</b> (advanced), save and reboot. If you changed the baud, match it on both sides.</td></tr>
+<tr><td class="wrap">Status shows a No FC link chip</td><td class="wrap">Check wiring: FC TX to RecLink RX and FC RX to RecLink TX. Check MSP is enabled on that UART at 115200. Try <b>Swap TX/RX pins</b> (advanced), save and reboot. If you changed the baud, match it on both sides.</td></tr>
 <tr><td class="wrap">OSD shows nothing from RecLink</td><td class="wrap">Confirm Betaflight is <b>2025.12 or newer</b>, and that Custom message 1–4 are enabled and placed in the OSD tab. An <b>OSD_UNSUPPORTED</b> chip means the API is too old.</td></tr>
 <tr><td class="wrap">Placeholder names instead of text</td><td class="wrap">The line is empty or RecLink is not connected yet. Check the FC link first.</td></tr>
 <tr><td class="wrap">OSD symbols look wrong</td><td class="wrap">Match <b>OSD type</b> to your goggles. Digital filters to plain letters and digits. Use analog only for an analog OSD chip.</td></tr>
@@ -38,21 +38,22 @@
 <h2>Camera</h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">The camera is not found when pairing</td><td class="wrap">GoPro: put it in <b>Connections → Connect Device → The Remote</b> first, then press Scan now. Disconnect it from any phone app. Move RecLink closer. Make sure fewer than four cameras are already paired.</td></tr>
+<tr><td class="wrap">The camera is not found when pairing</td><td class="wrap">GoPro: put it in <b>Connections → Connect Device → The Remote</b> first, then press Scan now. Disconnect it from any phone app. Move RecLink closer. Make sure fewer than four cameras are already paired. DJI: switch the Osmo on, wake its screen and close the DJI app on phones.</td></tr>
 <tr><td class="wrap">"Bond list full"</td><td class="wrap">Four cameras are the limit. Forget one on the Binding tab.</td></tr>
-<tr><td class="wrap">REPAIR_NEEDED chip, or the camera never reconnects</td><td class="wrap">The camera forgot RecLink, usually after its connections were reset. Forget it on the Binding tab, then pair it again.</td></tr>
+<tr><td class="wrap">Camera re-pair needed chip (REPAIR_NEEDED), or the camera never reconnects</td><td class="wrap">The camera forgot RecLink, usually after its connections were reset. Forget it on the Binding tab, then pair it again.</td></tr>
 <tr><td class="wrap">It connects, then drops again and again</td><td class="wrap">Move the board away from carbon and battery leads. In Network (advanced) raise Bluetooth power to Max and reboot. After three silent hangs in two minutes RecLink reboots itself to clear the link.</td></tr>
 <tr><td class="wrap">CAM LOST on the OSD</td><td class="wrap">The camera is off, asleep, out of range or has dropped the link. Turn it on and wait; RecLink retries on its own.</td></tr>
-<tr><td class="wrap">Values on Status are blank</td><td class="wrap">The camera has not confirmed them yet. Press <b>Refresh camera state</b>. Blank means unknown, on purpose.</td></tr>
+<tr><td class="wrap">Values on Status are missing</td><td class="wrap">The camera has not confirmed them yet. Press <b>Refresh</b> in the Camera card. A value that is missing is unknown, on purpose.</td></tr>
+<tr><td class="wrap">An Osmo does not connect after it was switched off</td><td class="wrap">Switch it on and wait: after it reported being off, RecLink waits 5, 10, 20 and then 40 seconds before it looks again. If it was fully shut down for a while it has forgotten its key, and RecLink re-pairs by itself at the first stall, which takes a few seconds. You do not need to re-bind. If it still fails, close the DJI app on phones and keep the Osmo within a metre.</td></tr>
 </table></div>
 
 <h2>Recording and zones</h2>
 <div class="tbl"><table>
 <tr><th>Problem</th><th>Try</th></tr>
-<tr><td class="wrap">It does not record on arm</td><td class="wrap">Check <b>Start / stop recording</b> is set to a mode that includes arm, and the Status tab shows the drone as armed. Check the camera has a card and is connected (READY).</td></tr>
+<tr><td class="wrap">It does not record on arm</td><td class="wrap">Check <b>Start / stop recording</b> is set to a mode that includes arm, and the Aircraft tile on the Status tab says ARMED. Check the camera has a card and is connected (the banner says Ready).</td></tr>
 <tr><td class="wrap">REC FAIL on the OSD</td><td class="wrap">The camera did not confirm recording. Check the SD card and that the camera is not busy. In advanced mode, raise <b>Wait for camera to confirm</b> or <b>Retries</b>. Open the Record trigger debug panel to see the last command.</td></tr>
 <tr><td class="wrap">The switch does nothing</td><td class="wrap">Use <b>Set AUX</b> again. Check the amber cursor on the bar moves when you flip it, and that the threshold sits between the off and on positions. For a push-button choose Trigger type: Button.</td></tr>
-<tr><td class="wrap">Zones do not change the camera</td><td class="wrap">Check Enable zone control, the right AUX channel, and that the camera is in a <b>video</b> preset and not recording. Wait for the hold time (400 ms). Read the Zone settings row on Status.</td></tr>
+<tr><td class="wrap">Zones do not change the camera</td><td class="wrap">Check Enable zone control, the right AUX channel, and that the camera is in a <b>video</b> preset and not recording. Wait for the hold time (400 ms). Read the Zone settings row under Camera settings on Status.</td></tr>
 <tr><td class="wrap">"partly applied (not accepted: …)"</td><td class="wrap">The camera refused those settings. Some options are not valid together, for example a frame rate with the chosen resolution. Pick values the lists offer, and use Capture from camera to start from a known-good combination.</td></tr>
 <tr><td class="wrap">Footage has the wrong date</td><td class="wrap">Clock sync needs a GPS fix with enough satellites and a camera that is idle and connected. See the Clock tab and press Sync now.</td></tr>
 </table></div>
@@ -287,8 +288,8 @@
 <tr><td><code>%et</code></td><td class="wrap">Elapsed recording time</td><td class="wrap">12:34</td></tr>
 <tr><td><code>%rt</code></td><td class="wrap">Remaining recording time</td><td class="wrap">45m · 1h</td></tr>
 <tr><td><code>%bt</code></td><td class="wrap">Camera battery percent</td><td class="wrap">78%</td></tr>
-<tr><td><code>%bb</code></td><td class="wrap">Camera battery bar, 4 characters</td><td class="wrap">###-</td></tr>
-<tr><td><code>%bi</code></td><td class="wrap">Battery icon (analog) or the 4-character bar (digital)</td><td class="wrap">###-</td></tr>
+<tr><td><code>%bi</code></td><td class="wrap">Camera battery as the Betaflight battery symbol, one character</td><td class="wrap">a battery symbol</td></tr>
+<tr><td><code>%cm</code></td><td class="wrap">Camera model, short code (blank until known)</td><td class="wrap">GP11 · GP11M · A6 · A5P · O360</td></tr>
 <tr><td><code>%rs</code></td><td class="wrap">Resolution</td><td class="wrap">4K</td></tr>
 <tr><td><code>%fp</code></td><td class="wrap">Frame rate</td><td class="wrap">60</td></tr>
 <tr><td><code>%ln</code></td><td class="wrap">Lens</td><td class="wrap">WIDE</td></tr>
@@ -309,13 +310,9 @@
 <tr><td><code>%sa</code></td><td class="wrap">Sharpness (GoPro Protune)</td><td class="wrap">Medium</td></tr>
 <tr><td><code>%ev</code></td><td class="wrap">EV compensation (GoPro Protune)</td><td class="wrap">-0.5</td></tr>
 <tr><td><code>%pt</code></td><td class="wrap">Protune on or off (GoPro)</td><td class="wrap">ON</td></tr>
-<tr><td><code>%cn</code></td><td class="wrap">Craft name from the FC</td><td class="wrap">QUAD1</td></tr>
-<tr><td><code>%gs</code></td><td class="wrap">GPS satellite count</td><td class="wrap">14</td></tr>
-<tr><td><code>%gf</code></td><td class="wrap">GPS fix</td><td class="wrap">3D · NO</td></tr>
-<tr><td><code>%fb</code></td><td class="wrap">Flight battery state from the FC</td><td class="wrap">OK · LOW · CRIT</td></tr>
-<tr><td><code>%sp</code></td><td class="wrap">Ground speed (units setting)</td><td class="wrap">62KMH · 38MPH</td></tr>
 </table></div>
 <p class="sm mut">Any other <code>%</code> code is printed as typed. Normal text passes through unchanged. In digital mode everything is uppercased.</p>
+<p class="sm mut">Lens, aspect ratio, colour profile, bit depth and the eight Protune tokens are GoPro only: a DJI never reports them, and the portal grays them out for a DJI. Six older tokens (<code>%bb</code>, <code>%cn</code>, <code>%gs</code>, <code>%gf</code>, <code>%fb</code>, <code>%sp</code>) were removed in 0.3.3, and RecLink strips them from saved lines when you upgrade. The battery symbol on a digital OSD has not been verified on real goggles yet.</p>
 </section>
 
 <section>
@@ -400,5 +397,5 @@
 <tr><td>Portal</td><td class="wrap">RecLink's Wi-Fi network and configuration web page.</td></tr>
 <tr><td>Zone</td><td class="wrap">A slice of a radio switch's travel that selects a set of camera settings.</td></tr>
 </table></div>
-<p class="sm mut" style="margin-top:6mm">RecLink User Guide, firmware 0.3.2 (pre-release). Screenshots show the real configurator with example values. Menu names in Betaflight Configurator and on cameras can differ slightly between versions.</p>
+<p class="sm mut" style="margin-top:6mm">RecLink User Guide, firmware 0.3.3 (pre-release). Screenshots show the real configurator with example values. Menu names in Betaflight Configurator and on cameras can differ slightly between versions.</p>
 </section>
