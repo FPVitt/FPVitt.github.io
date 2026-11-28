@@ -2,7 +2,7 @@ import urllib.request, json, os
 from playwright.sync_api import sync_playwright
 B="http://127.0.0.1:8099"
 def mock(path): urllib.request.urlopen(B+path).read()
-NOSTICKY="nav#tabs{position:static!important} footer{position:static!important} .modal{position:fixed}"
+NOSTICKY="nav#tabs{position:static!important} footer{position:static!important} #osdscreen{position:static!important} .modal{position:fixed}"
 # Merge into the existing annotations (other scripts add their own entries) and, with ONLY="a,b", re-shoot just those shots.
 ANN=json.load(open("shots/annot.json")) if os.path.exists("shots/annot.json") else {}
 ONLY=set(filter(None,os.environ.get("ONLY","").split(",")))
@@ -32,7 +32,7 @@ with sync_playwright() as p:
         cx,cy,cw,ch=rng or info["c"]
         ANN[name]={"w":cw,"h":ch,"marks":[{"n":m[0],"box":[b[0]-cx,b[1]-cy,b[2],b[3]]} for m,b in zip(marks,info["m"]) if b]}
         ANN[name]['marks']=[m for m in ANN[name]['marks']]
-        if rng: pg.screenshot(path=f"shots/{name}.png",clip={"x":rng[0],"y":rng[1],"width":rng[2],"height":rng[3]})
+        if rng: pg.screenshot(path=f"shots/{name}.png",clip={"x":rng[0],"y":rng[1],"width":rng[2],"height":rng[3]},full_page=True)
         elif container: pg.locator(container).first.screenshot(path=f"shots/{name}.png")
         else: pg.screenshot(path=f"shots/{name}.png")
     def done(pg): pg.context.close()
@@ -53,12 +53,12 @@ with sync_playwright() as p:
     # Cam control
     pg=page(tab="cam-control",rec=2)
     cap(pg,"cc_record","#cam-control .card",[(1,"[name='record.mode']"),(2,"[name='record.switch.mode']"),(3,"[name='record.switch.channel']"),(4,"[data-aux-for='record.switch.channel']"),(5,"#rb-record"),(6,"[name='record.switch.threshold_us']")])
-    cap(pg,"cc_preset","#preset-card",[(1,"[name='preset.enabled']"),(2,"[name='preset.channel']"),(3,"#rb-preset"),(5,"#zone-add"),(6,"#gp-zt"),(7,"#gp-live"),(8,"#gp-rows"),(9,"#gp-capture"),("a_zoneend","#zone-add"),("a_gp","#gp-builder"),("a_prot","#gp-rows h4:nth-of-type(2)")])
+    cap(pg,"cc_preset","#preset-card",[(1,"[name='preset.enabled']"),(2,"[name='preset.channel']"),(3,"#rb-preset"),(5,"#zone-add"),(6,"#gp-zt"),(7,"#gp-model"),(8,"#gp-rows"),(9,"#gp-capture"),("a_zoneend","#zone-add"),("a_gp","#gp-builder"),("a_prot","#gp-rows h4:nth-of-type(2)")])
     done(pg)
     # firmware 0.3.3: GoPro zones in "simple" style (the zone is one of the camera's own presets)
     mock("/mock/gpmode?on=1")
     pg=page(tab="cam-control",rec=2)
-    cap(pg,"cc_gp_simple","#preset-card",[(1,"[name='preset.gp_mode']"),(2,"#zone-ids .pz:nth-of-type(1) input"),(3,"#zone-ids .pz:nth-of-type(1) .zcap"),(4,"#zone-ids .pz:nth-of-type(1) .zapply")]); done(pg)
+    cap(pg,"cc_gp_simple","#preset-card",[(1,"[name='preset.gp_mode']"),(2,"#zone-ids .pz:nth-of-type(1) .zsel"),(3,"#zone-ids .pz:nth-of-type(1) .zcap"),(4,"#zone-ids .pz:nth-of-type(1) .zapply")]); done(pg)
     mock("/mock/gpmode?on=0")
     pg=page(tab="cam-control",rec=1); cap(pg,"cc_record_armed","#cam-control .card"); done(pg)
     pg=page(tab="cam-control",adv=True,rec=3)
@@ -66,12 +66,13 @@ with sync_playwright() as p:
     cap(pg,"cc_hilight","#hilight-card"); done(pg)
     # OSD
     pg=page("recording",tab="osd")
-    cap(pg,"osd_preview","#osdprev",[(1,"#osdscreen"),(2,"#osdsim")])
-    cap(pg,"osd_editor","#osdedit",[(1,"#palette"),(2,".oline"),(3,".chip"),("a_l2","[data-i='1']")])
+    # 0.3.4: one Layout card -- the preview (and its checkbox), the lines, then the grouped token list
+    cap(pg,"osd_preview",["#osdscreen","label:has(#osdsim)"],[(1,"#osdscreen"),(2,"#osdsim")])
+    cap(pg,"osd_editor",["#olines","#palette .pgrp:nth-of-type(2)"],[(1,".oline .cnt"),(2,".chip .x"),(3,"#palette")])
     cap(pg,"osd_settings","#osd",[]); done(pg)
-    pg=page("ready",tab="osd"); pg.fill("#osdsim","") if False else None; cap(pg,"osd_lost","#osdprev"); done(pg)
+    pg=page("lost",tab="osd"); pg.uncheck("#osdsim"); pg.wait_for_timeout(300); cap(pg,"osd_lost","#osdscreen"); done(pg)
     # Binding
-    pg=page(tab="camera"); cap(pg,"binding","#camera",[(1,"#camlist"),(2,"#pairrow"),(3,"#camtest"),(4,".forget")]); done(pg)
+    pg=page(tab="camera"); cap(pg,"binding","#camera",[(1,"#camlist"),(2,"#pairrow"),(3,"#camtest"),(4,".forget"),(5,".camwake")]); done(pg)
     pg=page("nocam",tab="camera"); cap(pg,"binding_empty","#camera"); 
     pg.click('button[data-pair="gopro"]'); pg.wait_for_timeout(2500)
     cap(pg,"pair_modal","#pair .modal-card",[(1,"#pair .steps"),(2,"#pair .qrbox"),(3,"#pair-list"),(4,"#pair-go")]); done(pg)
@@ -109,8 +110,8 @@ with sync_playwright() as p:
         pg.wait_for_timeout(200)
     cap(pg,"osd_rid","#osdscreen"); done(pg)
     mock("/mock/rid?on=0&test=idle")
-    # footer bar
-    pg=page(tab="osd",nosticky=False); pg.fill("[name='osd.refresh_hz']","6"); pg.wait_for_timeout(400)
+    # footer bar (0.3.4: Cam control and OSD save themselves, so edit a Network field)
+    pg=page(tab="network",nosticky=False); pg.fill("[name='wifi.ssid']","RECLINK-BENCH"); pg.wait_for_timeout(400)
     if want("savebar_dirty"): pg.screenshot(path="shots/savebar_dirty.png",clip={"x":0,"y":770,"width":400,"height":90})
     done(pg)
     br.close()

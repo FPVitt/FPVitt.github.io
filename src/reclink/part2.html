@@ -74,7 +74,7 @@
 </div>
 </div>
 <ul>
-<li><b>Nothing applies until you press Save settings.</b> The bar sticks to the bottom of the screen. When you have unsaved edits it says "unsaved changes". If you try to leave the page with unsaved edits, the browser asks first.</li>
+<li><b>Cam control and OSD save themselves.</b> A change on those two tabs is saved a moment after you make it. On the other tabs nothing applies until you press <b>Save settings</b>: the bar sticks to the bottom of the screen and says "unsaved changes" when you have unsaved edits. If you try to leave the page with unsaved edits, the browser asks first.</li>
 <li><b>Saves are permanent.</b> They are written to flash before the page confirms. Settings and camera pairings survive a reboot, a power loss and a firmware update.</li>
 <li><b>Advanced mode</b> (System tab) reveals timing fields, diagnostics and the Clock tab. Leave it off while you set up; turn it on when you need to fine-tune. It is remembered on the board.</li>
 <li><b>Two settings need a reboot</b>: the flight controller baud rate / pin swap, and Bluetooth power. After saving one of them a <b>Reboot now</b> button appears in the bar.</li>
@@ -151,16 +151,17 @@
 <h2>Managing paired cameras</h2>
 <div class="cols">
 <div style="width:62mm;flex:none">
-[[shot name="binding" cap="Binding tab with two paired cameras." legend="1|Paired cameras with brand, address and state badge.;2|Pair another camera. The buttons disable at four.;3|Record for 3 seconds to prove the link works.;4|Forget one camera."]]
+[[shot name="binding" cap="Binding tab with two paired cameras." legend="1|Paired cameras with brand, address and state badge.;2|Pair another camera. The buttons disable at four.;3|Record for 3 seconds to prove the link works.;4|Forget one camera.;5|Wake at power-up, for one GoPro at a time."]]
 </div>
 <div class="grow">
 <ul>
 <li><b>Up to four cameras</b>, any mix of GoPro and DJI. Pairing a new one keeps the others.</li>
 <li><b>One at a time.</b> At power-up RecLink scans for every paired camera and connects to the strongest signal after about 2.5 seconds, or at once to one stronger than −50 dBm. A camera that fails to connect, or drops within a minute of connecting, is skipped for 30 seconds so another paired camera can connect.</li>
-<li><b>Badges:</b> <span class="ok">● Connected · −52 dBm</span>, <span class="wn">Connecting…</span>, or <span class="mut">Standby</span> for a paired camera that is not in use.</li>
+<li><b>Badges:</b> <span class="ok">● Connected · −52 dBm</span>, <span class="wn">Connecting…</span>, <span class="wn">Asleep</span> for a GoPro that is switched off, or <span class="mut">Standby</span> for a paired camera that is not in use.</li>
 <li><b>3 s test recording</b> starts the connected camera for three seconds. Use it to prove the whole chain works. It only runs while disarmed.</li>
 <li><b>Rename</b> changes the name you gave a camera. The name is used in the Camera list, on this tab and on the Status tab. The camera's own name stays under it, next to its address.</li>
 <li><b>Forget</b> removes one camera. <b>Forget all cameras</b> appears when two or more are paired and asks twice.</li>
+<li><b>Wake at power-up</b> (GoPro only) sits inside the camera's entry. When RecLink powers up and that GoPro is switched off, RecLink switches it on. Only one camera can have it: ticking it on one camera clears it on the others. A camera you switch off later stays off until you start a recording (chapter 8).</li>
 <li><b>Telemetry poll</b> (advanced mode) sets how often a GoPro is asked for status: Fast 0.5 s, Normal 1 s or Slow 1.5 s. Normal is right for most setups.</li>
 </ul>
 <div class="callout"><span class="tag">When a bond is lost</span><p>If a GoPro forgets RecLink (you reset its connections, or re-paired it to a phone), the next reconnects fail. After three failures RecLink forgets that camera's bond and shows a <b>Camera re-pair needed</b> chip (REPAIR_NEEDED) on the Status tab. Pair the camera again. Nothing is forgotten while the drone may be airborne.</p><p>An Osmo is different. After it has been fully shut down for a while it forgets its pairing key and goes silent when RecLink uses the old one. RecLink notices at the first stall, removes its own stale key and pairs again by itself, which takes a few seconds, so you no longer need to re-bind. A bonded Osmo that drops the link at once while it is still starting up is not counted as a lost pairing. This was confirmed on the bench with one Osmo Action 6 only, and never in flight.</p></div>
@@ -191,7 +192,7 @@
 <h3>The two tiles</h3>
 <div class="tbl"><table>
 <tr><td>Aircraft</td><td class="wrap"><b>ARMED</b> in red, <b>Disarmed</b> in green, or <b>No FC</b> if the flight controller link is down. Under it: the Betaflight variant, the MSP API version, the <b>OSD grid</b> (the canvas size the FC reports) and the GPS fix with the satellite count, or "No GPS on the FC".</td></tr>
-<tr><td>Camera</td><td class="wrap">The camera name, its brand and link state (idle, connecting, bonding, syncing, lost) and, once connected, the signal in dBm with four signal bars. While the link is scanning it just says <b>Scanning</b>, and <b>None</b> if nothing is paired.</td></tr>
+<tr><td>Camera</td><td class="wrap">The camera name, its brand and link state (idle, connecting, bonding, syncing, lost) and, once connected, the signal in dBm with four signal bars. While the link is scanning it just says <b>Scanning</b>, <b>Asleep</b> with the camera's name when a paired GoPro is switched off, and <b>None</b> if nothing is paired.</td></tr>
 </table></div>
 <div class="callout"><span class="tag">What Ready does not mean</span><p>Ready only describes the chain RecLink can see. It does not check your propellers, your flight battery or Betaflight's own arming checks.</p></div>
 </div>
@@ -215,6 +216,7 @@
 <tr><td>No camera paired</td><td class="wrap">Nothing is paired yet. Pair a camera on the Binding tab.</td></tr>
 <tr><td>No camera</td><td class="wrap">A camera is paired but not connected right now. RecLink keeps looking for it.</td></tr>
 <tr><td>Camera lost</td><td class="wrap">The link was up and dropped. RecLink is reconnecting. (red)</td></tr>
+<tr><td>Cinewhoop asleep</td><td class="wrap">The named GoPro is switched off. RecLink leaves it off until a recording is asked for (chapter 8).</td></tr>
 <tr><td>No SD card · SD card full</td><td class="wrap">The camera has no card, or the card is full. (red)</td></tr>
 <tr><td>Camera hot</td><td class="wrap">The camera reports overheating. (red)</td></tr>
 <tr><td>Camera battery 12%</td><td class="wrap">The camera battery is at 15 % or lower.</td></tr>
@@ -287,7 +289,7 @@
 <li><div><b>Find the channel.</b> Press <b>Set AUX</b>, then flip the switch on your transmitter. The label changes to "push button or switch" while it listens. RecLink watches the live channel data, picks whichever channel moves by 200 µs or more, and fills in the AUX field. It gives up after 15 seconds. This needs the flight controller link to be up.</div></li>
 <li><div><b>Choose Trigger type.</b> <b>Switch</b> mirrors the switch: on means recording, off means stop. <b>Button</b> is for a spring-loaded control: each press toggles recording and releasing does nothing.</div></li>
 <li><div><b>Check the threshold.</b> The bar shows the control's live position as an amber line. The default of <b>1700 µs</b> suits most 3-position switches (the top position counts as on). Adjust it by dragging the handle or typing a value from 900 to 2100.</div></li>
-<li><div><b>Press Save settings</b> and try the switch. The Status tab shows "REC" and the logo dot turns red.</div></li>
+<li><div>Try the switch: the setting is already saved. The Status tab shows "REC" and the logo dot turns red.</div></li>
 </ol>
 <div class="callout tip"><span class="tag">Prefer to look at the numbers?</span><p>Network → <b>Scan AUX now</b> lists the live value of every AUX channel. Move your switch and press it again to see which channel changed.</p></div>
 </div>
@@ -308,6 +310,7 @@
   <path class="lnd" d="M604 56 H622" marker-end="url(#a8)"/>
 </svg>
 <p class="cap">Stopping works the same way after a stop delay (default 1.5 s), so the last moments are not clipped.</p></div>
+<div class="callout"><span class="tag">A GoPro you switched off stays off</span><p>A GoPro that is switched off keeps advertising over Bluetooth, and connecting to it would switch it on. So RecLink leaves it asleep: the OSD shows <b>CAM ASLEEP</b> and the Status tab says which camera is asleep. RecLink wakes it only when a recording is asked for (you arm, or flip the record switch or press the button, depending on the mode), when you press <b>Test record</b> on the Status tab, or at power-up if <b>Wake at power-up</b> is ticked for it on the Binding tab. Waking and connecting take about six seconds before the clip starts. This was bench-tested on a HERO12 Black; waking by arming or by the switch, and other GoPro models, have not been tested yet.</p></div>
 <p>The camera is the judge: RecLink starts it, then waits for the camera to report it is recording. If it does not within the verify window, RecLink retries. If every try fails the OSD warning <b>REC FAIL</b> appears. The bridge tracks its own last command, so a camera that fails to report cannot cancel a stop RecLink owes it.</p>
 
 <h3>Timing (advanced mode)</h3>

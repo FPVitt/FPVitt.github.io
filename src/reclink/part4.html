@@ -19,7 +19,7 @@
 <tr><td class="wrap">I cannot see the RECLINK network</td><td class="wrap">The portal only runs while <b>disarmed</b> and with the flight controller link up. Check the drone is disarmed and the LED is not showing two short blinks every 2 seconds (no flight controller link). Hold the board's button for 3 seconds to open it by hand. It also closes after 15 minutes idle, so hold again if it went away.</td></tr>
 <tr><td class="wrap">I joined, but the page will not load</td><td class="wrap">Type <code>http://10.0.0.1</code> in the address bar. Stay connected even if the phone warns about no internet. Turn off mobile data if the phone keeps switching away. Up to three devices can connect at once.</td></tr>
 <tr><td class="wrap">The password is rejected</td><td class="wrap">The factory password is <code>reclinkfpv</code>. If you changed it and lost it, hold the button for 10 seconds to factory reset. That also erases camera pairings.</td></tr>
-<tr><td class="wrap">My changes disappeared</td><td class="wrap">Press <b>Save settings</b>. Changes apply and persist only after saving. The bar says "unsaved changes" until you do.</td></tr>
+<tr><td class="wrap">My changes disappeared</td><td class="wrap">Cam control and OSD save by themselves; on the other tabs press <b>Save settings</b>. Changes apply and persist only after saving. The bar says "unsaved changes" until you do.</td></tr>
 </table></div>
 
 <h2>Flight controller and OSD</h2>
@@ -97,7 +97,7 @@
 <ol class="steps">
 <li><div>Open the <b>Remote ID</b> tab and tick <b>Remote ID receiver</b>.</div></li>
 <li><div>Tap <b>Save settings</b>. A <b>Reboot to apply</b> card appears. Tap <b>Reboot now</b>. Remote ID only reserves its memory when the board starts, so turning it on needs a reboot. Turning it off applies at once.</div></li>
-<li><div>Open the <b>OSD</b> tab and add the <b>Remote ID proximity warning</b> chip (<code>%rp</code>) to a line. If no line holds it, the Remote ID tab and the OSD tab both warn that alerts have nowhere to appear.</div></li>
+<li><div>Open the <b>OSD</b> tab and drag the <b>Remote ID warning</b> token (<code>%rp</code>) onto a line. If no line holds it, the Remote ID tab and the OSD tab both warn that alerts have nowhere to appear.</div></li>
 <li><div>Tap <b>Save settings</b> again.</div></li>
 </ol>
 <div class="cols">
@@ -290,6 +290,7 @@
 <tr><td><code>%bt</code></td><td class="wrap">Camera battery percent</td><td class="wrap">78%</td></tr>
 <tr><td><code>%bi</code></td><td class="wrap">Camera battery as the Betaflight battery symbol, one character</td><td class="wrap">a battery symbol</td></tr>
 <tr><td><code>%cm</code></td><td class="wrap">Camera model, short code (blank until known)</td><td class="wrap">GP11 · GP11M · A6 · A5P · O360</td></tr>
+<tr><td><code>%pn</code></td><td class="wrap">Name of the GoPro preset the camera is on (GoPro only)</td><td class="wrap">POV · INDOOR</td></tr>
 <tr><td><code>%rs</code></td><td class="wrap">Resolution</td><td class="wrap">4K</td></tr>
 <tr><td><code>%fp</code></td><td class="wrap">Frame rate</td><td class="wrap">60</td></tr>
 <tr><td><code>%ln</code></td><td class="wrap">Lens</td><td class="wrap">WIDE</td></tr>
@@ -312,7 +313,7 @@
 <tr><td><code>%pt</code></td><td class="wrap">Protune on or off (GoPro)</td><td class="wrap">ON</td></tr>
 </table></div>
 <p class="sm mut">Any other <code>%</code> code is printed as typed. Normal text passes through unchanged. In digital mode everything is uppercased.</p>
-<p class="sm mut">Lens, aspect ratio, colour profile, bit depth and the eight Protune tokens are GoPro only: a DJI never reports them, and the portal grays them out for a DJI. Six older tokens (<code>%bb</code>, <code>%cn</code>, <code>%gs</code>, <code>%gf</code>, <code>%fb</code>, <code>%sp</code>) were removed in 0.3.3, and RecLink strips them from saved lines when you upgrade. The battery symbol on a digital OSD has not been verified on real goggles yet.</p>
+<p class="sm mut">Lens, aspect ratio, colour profile, bit depth, the preset name and the eight Protune tokens are GoPro only: a DJI never reports them, and the portal grays them out for a DJI. Six older tokens (<code>%bb</code>, <code>%cn</code>, <code>%gs</code>, <code>%gf</code>, <code>%fb</code>, <code>%sp</code>) were removed in 0.3.3, and RecLink strips them from saved lines when you upgrade. The battery symbol on a digital OSD has not been verified on real goggles yet.</p>
 </section>
 
 <section>
@@ -397,5 +398,5 @@
 <tr><td>Portal</td><td class="wrap">RecLink's Wi-Fi network and configuration web page.</td></tr>
 <tr><td>Zone</td><td class="wrap">A slice of a radio switch's travel that selects a set of camera settings.</td></tr>
 </table></div>
-<p class="sm mut" style="margin-top:6mm">RecLink User Guide, firmware 0.3.3 (pre-release). Screenshots show the real configurator with example values. Menu names in Betaflight Configurator and on cameras can differ slightly between versions.</p>
+<p class="sm mut" style="margin-top:6mm">RecLink User Guide, firmware 0.3.4 (pre-release). Screenshots show the real configurator with example values. Menu names in Betaflight Configurator and on cameras can differ slightly between versions.</p>
 </section>

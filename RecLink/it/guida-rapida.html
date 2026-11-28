@@ -36,7 +36,7 @@
 <main id="main" class="content">
 <div class="hero"><p class="eyebrow">Guida rapida</p><h1>RecLink</h1><p class="sub">RecLink collega il tuo flight controller alla tua action cam. La camera registra quando armi e il suo stato compare sull&#x27;OSD. Questa pagina ti porta dalla scatola alla tua prima registrazione.</p><div class="meta"><span>Betaflight 2025.12+</span><span>GoPro HERO 9–13</span><span>DJI Osmo</span><span>ESP32-C3 / S3</span></div></div><div class="intro"><section class="qshead">
 <div class="callout danger"><span class="tag">Firmware pre-release</span>
-<p>Il firmware 0.3.3 è una <b>pre-release e può contenere bug</b>. Usalo a tuo rischio. Esegui ogni passo qui sotto con le <b>eliche rimosse</b> e verifica che tutto funzioni prima di volare.</p></div>
+<p>Il firmware 0.3.4 è una <b>pre-release e può contenere bug</b>. Usalo a tuo rischio. Esegui ogni passo qui sotto con le <b>eliche rimosse</b> e verifica che tutto funzioni prima di volare.</p></div>
 <div class="cols">
 <div class="grow">
 <h3>Ti serve</h3>
@@ -159,7 +159,7 @@
 <li><div>Apri <code>http://10.0.0.1</code> nel browser. Se il telefono dice che non c'è internet, resta collegato.</div></li>
 </ol>
 <div class="callout tip"><span class="tag">Nessuna rete Wi-Fi?</span><p>Il Wi-Fi funziona solo mentre il drone è <b>disarmato</b>. Controlla questo, oppure tieni premuto il pulsante della scheda per 3 secondi per aprirlo.</p></div>
-<div class="callout"><span class="tag">Ricorda di salvare</span><p>Dopo ogni modifica, premi <b>Save settings</b> in fondo alla pagina.</p></div>
+<div class="callout"><span class="tag">Ricorda di salvare</span><p>Le schede Cam control e OSD si salvano da sole. Sulle altre schede, dopo ogni modifica premi <b>Save settings</b> in fondo alla pagina.</p></div>
 </div>
 </div>
 </section><section class="chapter" id="step4">
@@ -199,7 +199,7 @@
 <li><div>Premi <b>Set AUX</b>, poi aziona l'interruttore entro 15 secondi. RecLink sceglie il canale che si è mosso e compila il campo <b>AUX channel</b>. Il flight controller deve essere collegato.</div></li>
 <li><div>Lascia <b>Trigger type</b> su <b>Switch</b>: interruttore acceso significa registra, spento significa ferma. Per un pulsante a molla scegli <b>Button</b>: ogni pressione avvia o ferma.</div></li>
 <li><div>Aziona l'interruttore e guarda la barra. La linea ambra deve superare il valore <b>On above</b> (predefinito <b>1700 µs</b>) con l'interruttore acceso e restare sotto con l'interruttore spento.</div></li>
-<li><div>Premi <b>Save settings</b>. Aziona l'interruttore: la camera parte e la scheda Status mostra <b>REC</b>.</div></li>
+<li><div>Sposta l'interruttore (la scheda Cam control si salva da sola): la camera parte e la scheda Status mostra <b>REC</b>.</div></li>
 </ol>
 <p class="sm mut">Quale posizione dell'interruttore conta come acceso dipende dalla soglia. Un interruttore a 3 posizioni di solito funziona con la posizione alta come acceso.</p>
 </div>
@@ -214,7 +214,7 @@
 <h1 class="ch">Guardalo sull'OSD<a aria-label="link" class="anchor" href="#step6">#</a></h1>
 <div class="cols">
 <div style="width:62mm;flex:none">
-<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="Scheda OSD: cosa mostra il tuo visore." href="../assets/img/osd_preview-6bacf537.webp"><img alt="Scheda OSD: cosa mostra il tuo visore." decoding="async" height="642" loading="lazy" src="../assets/img/osd_preview-6bacf537.webp" width="736"/></a></div><figcaption>Scheda OSD: cosa mostra il tuo visore.</figcaption></figure>
+<figure class="shot" style=""><div class="imgwrap"><a class="zoom" data-caption="Scheda OSD: cosa mostra il tuo visore." href="../assets/img/osd_preview-8aea549f.webp"><img alt="Scheda OSD: cosa mostra il tuo visore." decoding="async" height="525" loading="lazy" src="../assets/img/osd_preview-8aea549f.webp" width="676"/></a></div><figcaption>Scheda OSD: cosa mostra il tuo visore.</figcaption></figure>
 </div>
 <div class="grow">
 <p>RecLink scrive quattro righe di testo negli elementi OSD che hai posizionato al <a class="xref" href="#step2">passo 2</a>.</p>
@@ -265,13 +265,13 @@
 <tr><td class="wrap">Niente sull'OSD</td><td class="wrap">Controlla che Betaflight sia 2025.12 o successivo, che MSP sia attivo su quella UART e che Custom message 1–4 siano posizionati. Controlla i fili: TX a RX, RX a TX.</td></tr>
 <tr><td class="wrap">CAM LOST</td><td class="wrap">Accendi la camera e aspetta. Se non è mai stata abbinata, fai il <a class="xref" href="#step4">passo 4</a>.</td></tr>
 <tr><td class="wrap">Camera non trovata durante l'abbinamento</td><td class="wrap">Metti prima la camera in modalità di abbinamento, poi premi <b>Scan now</b>. Scollegala dagli altri dispositivi.</td></tr>
-<tr><td class="wrap">Le mie modifiche sono sparite</td><td class="wrap">Premi <b>Save settings</b> dopo ogni modifica.</td></tr>
+<tr><td class="wrap">Le mie modifiche sono sparite</td><td class="wrap">Nelle schede Network, System, Remote ID e Clock premi <b>Save settings</b> dopo ogni modifica.</td></tr>
 </table></div>
 <div class="callout tip"><span class="tag">Vuoi saperne di più?</span><p>Zone (impostazioni della camera da un interruttore), tag highlight, sincronizzazione orologio e tutte le opzioni avanzate sono nella <b>Guida utente RecLink</b> completa.</p></div>
 </section>
 </main>
 </div>
-<footer class="site-foot"><div><span>Firmware 0.3.3 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Codice su GitHub</a><a href="https://github.com/FPVitt/RecLink/blob/main/LICENSE" target="_blank" rel="noopener">Software libero · GPL-3.0</a><a href="#top" class="to-top">Torna su</a></div></footer>
+<footer class="site-foot"><div><span>Firmware 0.3.4 (pre-release) · Betaflight 2025.12+</span><a href="https://github.com/FPVitt/RecLink">Codice su GitHub</a><a href="https://github.com/FPVitt/RecLink/blob/main/LICENSE" target="_blank" rel="noopener">Software libero · GPL-3.0</a><a href="#top" class="to-top">Torna su</a></div></footer>
 <script src="../assets/stats.js" defer></script>
 <script src="../assets/site.js" defer></script>
 </body>

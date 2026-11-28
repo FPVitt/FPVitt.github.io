@@ -43,6 +43,7 @@ CAPS = {"2":[100,1,4,6,9,18],"3":[0,1,5,6,8,9,10],"121":[0,2,4,7,8,3],"135":[0,1
         "13":[0,1,2,3,4,7,8,9],"102":[0,1,2,3,4,7,8,9],"145":[0,3,4,5,6,7,8,11,12,13,16,17],"115":[0,2,3,4,5,7],
         "116":[1,2,100],"117":[0,1,2],"118":[0,1,2,3,4,5,6,7,8],"174":[0,1]}
 
+PRESETS = [[0,"Standard"],[1,"Activity"],[2,"Cinematic"],[3,"Ultra Slo-Mo"],[4,"Basic"]]   # 0.3.4: the camera's own preset list
 AUX = [1500,1500,1000,1500] + [1000]*14
 AUX[9] = 1500   # aux6 knob mid
 def status(sc):
@@ -53,8 +54,8 @@ def status(sc):
     if sc == "recording": aux[3+5] = 1900
     dji = sc == "dji"      # the DJI camera is the connected one (firmware 0.3.2+: Apply button on DJI zones)
     cams = [] if sc in ("nocam","pairing") else [
-        {**CAM, "model":CAM["name"], "active":not dji, "connected":ready and not dji, "poll_ds":10},
-        {**CAM2,"model":CAM2["name"],"active":dji,"connected":dji,"poll_ds":10}]
+        {**CAM, "model":CAM["name"], "active":not dji, "connected":ready and not dji, "poll_ds":10, "wake":True},
+        {**CAM2,"model":CAM2["name"],"active":dji,"connected":dji,"poll_ds":10, "wake":False}]
     camera = {"brand":"dji" if dji else "gopro","link":"READY" if ready else ("LOST" if sc=="lost" else "IDLE"),
       "name":CAM["name"] if ready else "", "addr":CAM["addr"], "rssi":-52 if ready else 0,
       "bonded": sc not in ("nocam","pairing"), "last_rx_ms":120, "count":len(cams), "cameras":cams}
@@ -72,7 +73,7 @@ def status(sc):
       "gp_set":{"2":1,"3":5,"121":0,"135":2,"114":1,"145":0,"13":1,"102":8,"115":0,"116":2,"117":1,"118":4,"174":0} if ready else {},
       "zone_apply":{"zone":1,"state":"ok","fail":[]} if ready else {"zone":0,"state":"none","fail":[]},
       "model":"HERO11 Black" if ready else "","caps_gen":1 if ready else 0,"sd_missing":False,"sd_full":False,"hot":False}
-    if ready: cs["preset_id"]=65537        # GoPro status 97 (firmware 0.3.3): the camera's active preset
+    if ready: cs["preset_id"]=1; cs["preset_name"]=V("Activity",True)   # GoPro status 97 + its name from the preset list (0.3.4, %pn)
     if rec: cs["elapsed_s"]=754
     rid_on = STATE.get("rid",False)
     rid = {"enabled":rid_on,"available":True,"no_osd_line":False,"reboot_required":False,"active":rid_on,"inactive_reason":"" if rid_on else "disabled",
@@ -84,7 +85,7 @@ def status(sc):
            "test":{"state":STATE.get("rtest","idle"),"wifi":False,"aborted":False,"secs_left":18 if STATE.get("rtest")=="run" else 0,
                    "ble_frames":214 if STATE.get("rtest")=="done" else 0,"wifi_frames":0,"beacon":0,"nan":0,"aircraft":2 if STATE.get("rtest")=="done" else 0}}
     if rid_on: rid["nearest"]={"dist_m":240,"level":"warn"}
-    return {"fw":"0.3.3","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
+    return {"fw":"0.3.4","reclink_board":STATE.get("board",False),"rid":rid,"uptime_s":412,"flags":["FC_OFFLINE"] if sc=="fcdown" else (["REPAIR_NEEDED"] if sc=="repair" else []),
       "msp":{"connected":sc!="fcdown","api":"1.47","variant":"BTFL","armed":armed,"canvas":"30x16",
              "aux":aux,"gps":{"present":True,"fix":3,"sats":14,"good":True},"fc_utc":1793560000,"last_rx_ms":18,
              "debug":{"rc_period_ms":100,"rc_hz":10.0,"rc_age_ms":42,"rc_channels":18,"status_period_ms":50,"status_hz":20.0,
@@ -112,7 +113,7 @@ class H(BaseHTTPRequestHandler):
         if p=="/mock/rid": q=parse_qs(u.query); STATE["rid"]=q["on"][0]=="1"; STATE["rtest"]=q.get("test",["idle"])[0]; CONFIG["rid"]["enabled"]=STATE["rid"]; CONFIG["osd"]["lines"][3]="SD %sd %rp" if q.get("osd",["0"])[0]=="1" else "SD %sd"; return self._j({"ok":True})
         if p=="/mock/gpmode":     # firmware 0.3.3: GoPro zones "simple" (the zone holds one of the camera's own presets)
             on=parse_qs(u.query)["on"][0]=="1"; CONFIG["preset"]["gp_mode"]=1 if on else 0
-            for b,i,j in zip(CONFIG["preset"]["bands"],(65536,65537,65538),(0,1,2)):
+            for b,i,j in zip(CONFIG["preset"]["bands"],(1,0,2),(0,1,2)):
                 b["id"]=i if on else j
             return self._j({"ok":True})
         if p=="/mock/board": STATE["board"]=parse_qs(u.query)["on"][0]=="1"; return self._j({"ok":True})
@@ -130,7 +131,7 @@ class H(BaseHTTPRequestHandler):
             c["ui_flags"]=(3 if STATE["adv"] else 2) if STATE["sc"]!="nag" else (1 if STATE["adv"] else 0)
             return self._j(c)
         if p=="/api/camera/caps":
-            return self._j({"gen":1,"caps":CAPS} if STATE["sc"] not in ("nocam","lost","pairing") else {"gen":0,"caps":{}})
+            return self._j({"gen":1,"caps":CAPS,"presets":PRESETS} if STATE["sc"] not in ("nocam","lost","pairing") else {"gen":0,"caps":{}})
         if p=="/api/msp/scan": return self._j({"aux":[{"aux":i,"us":AUX[3+i]} for i in range(1,15)]})
         if p=="/api/logs":
             b=b"[00:06:52] msp: link up  API 1.47 BTFL\n[00:06:53] cam: READY HERO11 Black rssi -52\n[00:06:58] ctrl: zone 2 applied ok\n"

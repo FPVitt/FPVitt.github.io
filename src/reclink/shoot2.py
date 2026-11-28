@@ -9,6 +9,7 @@ with sync_playwright() as p:
     ctx.add_init_script("try{localStorage.setItem('camsel','d45e1a7c029b')}catch(e){}")
     pg=ctx.new_page(); pg.goto(B+"/"); pg.wait_for_timeout(900); pg.click('nav#tabs button[data-t="osd"]'); pg.wait_for_timeout(700)
     pg.add_style_tag(content="nav#tabs{position:static!important} footer{position:static!important}")
+    pg.uncheck("#osdsim"); pg.wait_for_timeout(300)            # 0.3.4: the preview starts with "a connected camera" ticked
     pg.locator("#osdscreen").first.screenshot(path="shots/osd_lost.png")
     pg.check("#osdsim"); pg.wait_for_timeout(300)
     pg.locator("#osdscreen").first.screenshot(path="shots/osd_sim.png")
